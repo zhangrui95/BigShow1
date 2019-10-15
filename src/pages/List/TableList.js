@@ -21,13 +21,17 @@ import {
   Steps,
   Radio,
   Table,
+  Pagination,
 } from 'antd';
+import PDF from 'react-pdf-js';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Ellipsis from '@/components/Ellipsis';
 
 import styles from './TableList.less';
 import { peoplelist } from './json1';
+import pdfShow from '@/assets/ledger.pdf';
+
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -82,7 +86,9 @@ class TableList extends PureComponent {
     selectedRows: [],
     formValues: {},
     stepFormValues: {},
-    peoplelist
+    peoplelist,
+    visible: false,
+    page: 1,
   };
 
   columns = [
@@ -241,7 +247,6 @@ class TableList extends PureComponent {
         list = list.filter((item) => item.entryCause.indexOf(fieldsValue.entryCause) > -1)
       }
 
-      console.log('list', list)
       this.setState({
         peoplelist: list
       })
@@ -424,7 +429,13 @@ class TableList extends PureComponent {
         title: '操作',
         render: record => (
           <div>
-            <a onClick={() => this.enter(record)}>台账</a>
+            <a onClick={() => {
+              this.setState({
+                visible: true
+              })
+            }}
+            >台账
+            </a>
             <Divider type="vertical" />
             <a
               onClick={() => {
@@ -453,6 +464,38 @@ class TableList extends PureComponent {
             />
           </div>
         </Card>
+        <Modal
+          title="台账"
+          visible={this.state.visible}
+          width={625}
+          footer={null}
+          onCancel={() => {
+            this.setState({
+              visible: false
+            })
+          }}
+        >
+
+          <PDF
+            style={{ width: '300px' }}
+            file={pdfShow}
+            page={this.state.page}
+          />
+
+          <Pagination
+            current={this.state.page}
+            style={{ textAlign: 'center' }}
+            onChange={(page) => {
+              console.log('page', page)
+              this.setState({
+                page
+              })
+            }}
+            size="small"
+            pageSize={1}
+            total={9}
+          />
+        </Modal>
       </div>
     );
   }

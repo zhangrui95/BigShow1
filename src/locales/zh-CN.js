@@ -87,7 +87,7 @@ export default {
   'menu.list.basiclist': '远程指挥',
   'menu.list.cardlist': '轨迹定位',
   'menu.list.businessList': '业务情况',
-  'menu.list.searchlist': '搜索列表',
+  'menu.list.searchlist': '告警统计',
   'menu.list.searchlist.articles': '搜索列表（文章）',
   'menu.list.searchlist.projects': '搜索列表（项目）',
   'menu.list.searchlist.applications': '搜索列表（应用）',

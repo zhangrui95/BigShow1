@@ -49,3 +49,5 @@ export const peoplelist = [
     policename: '方均、李霞',
   },
 ];
+
+export const peoplelists = [];
