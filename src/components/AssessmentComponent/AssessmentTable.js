@@ -124,119 +124,6 @@ const dataOfKh = {
   error: null,
 };
 
-const data = {
-  list: [
-    {
-      key: '1',
-      bacs_mc: '盘锦办案区',
-      jg_mc: '盘锦市公安局',
-      bacs_fzr: '张三',
-      bacs_zt: '在用',
-      fs: '99',
-      kprq: '2019-10-16',
-    },
-    {
-      key: '2',
-      bacs_mc: '辽阳办案区',
-      jg_mc: '辽阳市公安局',
-      bacs_fzr: '李四',
-      bacs_zt: '在用',
-      fs: '95',
-      kprq: '2019-10-16',
-    },
-    {
-      key: '3',
-      bacs_mc: '铁岭办案区',
-      jg_mc: '铁岭市公安局',
-      bacs_fzr: '于洋',
-      bacs_zt: '在用',
-      fs: '94',
-      kprq: '2019-10-15',
-    },
-    {
-      key: '4',
-      bacs_mc: '丹东办案区',
-      jg_mc: '东东市公安局',
-      bacs_fzr: '李四与',
-      bacs_zt: '在用',
-      fs: '94',
-      kprq: '2019-10-16',
-    },
-    {
-      key: '5',
-      bacs_mc: '抚顺办案区',
-      jg_mc: '抚顺市公安局',
-      bacs_fzr: '李玉玉',
-      bacs_zt: '在用',
-      fs: '93',
-      kprq: '2019-10-15',
-    },
-    {
-      key: '6',
-      bacs_mc: '朝阳办案区',
-      jg_mc: '朝阳市公安局',
-      bacs_fzr: '王五',
-      bacs_zt: '在用',
-      fs: '93',
-      kprq: '2019-10-15',
-    },
-    {
-      key: '7',
-      bacs_mc: '本溪办案区',
-      jg_mc: '本溪市公安局',
-      bacs_fzr: '李图图',
-      bacs_zt: '在用',
-      fs: '92',
-      kprq: '2019-10-14',
-    },
-    {
-      key: '8',
-      bacs_mc: '葫芦岛办案区',
-      jg_mc: '葫芦岛市公安局',
-      bacs_fzr: '张无忌',
-      bacs_zt: '在用',
-      fs: '92',
-      kprq: '2019-10-14',
-    },
-    {
-      key: '9',
-      bacs_mc: '营口办案区',
-      jg_mc: '营口市公安局',
-      bacs_fzr: '张吉吉',
-      bacs_zt: '在用',
-      fs: '92',
-      kprq: '2019-10-14',
-    },
-    {
-      key: '10',
-      bacs_mc: '大连办案区',
-      jg_mc: '大连市公安局',
-      bacs_fzr: '吴灿灿',
-      bacs_zt: '在用',
-      fs: '91',
-      kprq: '2019-10-13',
-    },
-    {
-      key: '11',
-      bacs_mc: '锦州办案区',
-      jg_mc: '锦州市公安局',
-      bacs_fzr: '冯宇',
-      bacs_zt: '在用',
-      fs: '90',
-      kprq: '2019-10-13',
-    },
-    {
-      key: '12',
-      bacs_mc: '葫芦岛办案区',
-      jg_mc: '葫芦岛市公安局',
-      bacs_fzr: '吴年',
-      bacs_zt: '在用',
-      fs: '90',
-      kprq: '2019-10-10',
-    },
-  ],
-};
-
 class RenderTable extends PureComponent {
   constructor(props, context) {
     super(props);
@@ -250,7 +137,137 @@ class RenderTable extends PureComponent {
       kpList: [],
       kpxmType: '0',
       kpjlType: '',
+      data: {
+        list: [
+          {
+            key: '2',
+            bacs_mc: '辽阳办案区',
+            jg_mc: '辽阳市公安局',
+            bacs_fzr: '李四',
+            bacs_zt: '在用',
+            fs: '100',
+            kprq: '2019-10-16',
+          },
+          {
+            key: '1',
+            bacs_mc: '盘锦办案区',
+            jg_mc: '盘锦市公安局',
+            bacs_fzr: '张三',
+            bacs_zt: '在用',
+            fs: '92',
+            kprq: '2019-10-16',
+          },
+          {
+            key: '3',
+            bacs_mc: '铁岭办案区',
+            jg_mc: '铁岭市公安局',
+            bacs_fzr: '于洋',
+            bacs_zt: '在用',
+            fs: '94',
+            kprq: '2019-10-15',
+          },
+          {
+            key: '4',
+            bacs_mc: '丹东办案区',
+            jg_mc: '东东市公安局',
+            bacs_fzr: '李四与',
+            bacs_zt: '在用',
+            fs: '94',
+            kprq: '2019-10-16',
+          },
+          {
+            key: '5',
+            bacs_mc: '抚顺办案区',
+            jg_mc: '抚顺市公安局',
+            bacs_fzr: '李玉玉',
+            bacs_zt: '在用',
+            fs: '93',
+            kprq: '2019-10-15',
+          },
+          {
+            key: '6',
+            bacs_mc: '朝阳办案区',
+            jg_mc: '朝阳市公安局',
+            bacs_fzr: '王五',
+            bacs_zt: '在用',
+            fs: '93',
+            kprq: '2019-10-15',
+          },
+          {
+            key: '7',
+            bacs_mc: '本溪办案区',
+            jg_mc: '本溪市公安局',
+            bacs_fzr: '李图图',
+            bacs_zt: '在用',
+            fs: '92',
+            kprq: '2019-10-14',
+          },
+          {
+            key: '8',
+            bacs_mc: '葫芦岛办案区',
+            jg_mc: '葫芦岛市公安局',
+            bacs_fzr: '张无忌',
+            bacs_zt: '在用',
+            fs: '92',
+            kprq: '2019-10-14',
+          },
+          {
+            key: '9',
+            bacs_mc: '营口办案区',
+            jg_mc: '营口市公安局',
+            bacs_fzr: '张吉吉',
+            bacs_zt: '在用',
+            fs: '92',
+            kprq: '2019-10-14',
+          },
+          {
+            key: '10',
+            bacs_mc: '大连办案区',
+            jg_mc: '大连市公安局',
+            bacs_fzr: '吴灿灿',
+            bacs_zt: '在用',
+            fs: '91',
+            kprq: '2019-10-13',
+          },
+          {
+            key: '11',
+            bacs_mc: '锦州办案区',
+            jg_mc: '锦州市公安局',
+            bacs_fzr: '冯宇',
+            bacs_zt: '在用',
+            fs: '90',
+            kprq: '2019-10-13',
+          },
+          {
+            key: '12',
+            bacs_mc: '葫芦岛办案区',
+            jg_mc: '葫芦岛市公安局',
+            bacs_fzr: '吴年',
+            bacs_zt: '在用',
+            fs: '90',
+            kprq: '2019-10-10',
+          },
+        ],
+      },
+      num: 100,
     };
+  }
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (this.props.msg !== nextProps.msg) {
+      this.state.data &&
+        this.state.data.list &&
+        this.state.data.list.splice(0, 1, {
+          bacs_mc: '辽宁省办案区',
+          jg_mc: '辽宁省公安局',
+          bacs_fzr: '李四',
+          bacs_zt: '在用',
+          fs: '98',
+          kprq: nextProps.info && nextProps.info.time ? nextProps.info.time : '2019-10-17',
+        });
+      this.setState({
+        data: this.state.data,
+      });
+    }
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -285,6 +302,7 @@ class RenderTable extends PureComponent {
     this.setState({
       allList: dataOfKpPz.list,
     });
+    dataOfKh.data.total_score = record.fs;
     this.setState({
       detail: dataOfKh.data,
     });
@@ -412,11 +430,7 @@ class RenderTable extends PureComponent {
           if (text) {
             let arry = text.split(',');
             const num = arry.length - 1;
-            return (
-              <Ellipsis tooltip lines={2}>
-                {arry[num]}
-              </Ellipsis>
-            );
+            return <div>{arry[num]}</div>;
           }
         },
       },
@@ -513,10 +527,10 @@ class RenderTable extends PureComponent {
                       title={
                         <div>
                           <div className={styles.zf}>总分</div>
-                          <div className={styles.fs}>{92}</div>
+                          <div className={styles.fs}>{detail.total_score}</div>
                         </div>
                       }
-                      percent={92}
+                      percent={detail.total_score}
                     />
                   ) : (
                     ''
@@ -649,7 +663,7 @@ class RenderTable extends PureComponent {
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={data && data.list ? data.list : []}
+          dataSource={this.state.data && this.state.data.list ? this.state.data.list : []}
           columns={columns}
           // pagination={paginationProps}
           // onChange={this.handleTableChange}

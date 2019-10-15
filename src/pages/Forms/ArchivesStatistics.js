@@ -20,6 +20,7 @@ import {
   message,
   Cascader,
 } from 'antd';
+import { connect as mqttConnect } from 'mqtt';
 import moment from 'moment/moment';
 import styles from './InformationQuery.less';
 import AssessmentTable from '../../components/AssessmentComponent/AssessmentTable';
@@ -44,26 +45,147 @@ let currentValue;
 }))
 @Form.create()
 class ArchivesStatistics extends PureComponent {
-  state = {
-    jjly: '',
-    jjdw: '',
-    cjdw: '',
-    formValues: {},
-    activeKey: '0',
-    arrayDetail: [],
-    sfsa: '0',
-    sfcj: '',
-    showDataView: true, // 控制显示图表或者列表（true显示图表）
-    typeButtons: 'day', // 图表展示类别（week,month）
-    is_tz: '0',
-    selectedDateVal: null, // 手动选择的日期
-    selectedDeptVal: '', // 手动选择机构
-    treeDefaultExpandedKeys: [], // 办案单位树默认展开keys
-    caseTypeTree: [], // 警情类别树
+  constructor(props) {
+    super(props);
+    this.state = {
+      jjly: '',
+      jjdw: '',
+      cjdw: '',
+      formValues: {},
+      activeKey: '0',
+      arrayDetail: [],
+      sfsa: '0',
+      sfcj: '',
+      showDataView: true, // 控制显示图表或者列表（true显示图表）
+      typeButtons: 'day', // 图表展示类别（week,month）
+      is_tz: '0',
+      selectedDateVal: null, // 手动选择的日期
+      selectedDeptVal: '', // 手动选择机构
+      treeDefaultExpandedKeys: [], // 办案单位树默认展开keys
+      caseTypeTree: [], // 警情类别树
+      msg: false,
+    };
+    this.client = mqttConnect(window.configUrl.mqttUrl);
+    this.client.on('message', this.message);
+  }
+
+  componentDidMount() {
+    // 获取当前机器IP
+    this.props.dispatch({
+      type: 'global/fetchCurrentIP',
+      payload: {},
+      callback: data => {
+        const ip = (data && data.result && data.result.ip) || '';
+        this.setState({
+          ip,
+        });
+      },
+    });
+
+    // 根据ip自动获取到办案区
+    this.props.dispatch({
+      type: 'global/fetchBaqInfo',
+      payload: {},
+      callback: currentInfo => {
+        // 存储办案区编码以及办案区名称，名称用作头部展示
+        this.setState(
+          {
+            handleareaName: currentInfo[0].handlearea_name,
+            handleareaNum: currentInfo[0].handlearea_num,
+          },
+          () => {
+            // 获取到办案区的LED服务的id
+            this.getServiceId();
+
+            // 获取办案区当前未离去人数
+            this.props.dispatch({
+              type: 'global/fetchStatisticsNotList',
+              payload: {
+                handleareaNum: this.state.handleareaNum,
+                isLeave: 0,
+              },
+              callback: response => {
+                const peopleCount =
+                  response && response.data && response.data.count ? response.data.count : 0;
+                this.setState({
+                  peopleCount,
+                });
+              },
+            });
+          }
+        );
+      },
+    });
+  }
+
+  // 根据办案区id获取当前办案区LED服务id
+  getServiceId = () => {
+    this.props.dispatch({
+      type: 'global/fetchServiceByHaIdType',
+      payload: {
+        haId: this.state.handleareaNum,
+        serviceType: ['601027'],
+      },
+      callback: response => {
+        // 根据serviceId 获取配置
+        if (response.length) {
+          const { serviceId } = response[0];
+          const configPublishTopic = `service/${serviceId}/configuration/request`;
+          const configSubscribeTopic = `service/${serviceId}/configuration/response`;
+          this.setState({
+            configSubscribeTopic: `service/${serviceId}/configuration/response`,
+          });
+          // 订阅配置获取后，发送配置获取
+          this.client.subscribe(configSubscribeTopic, err => {
+            if (!err) {
+              this.client.publish(configPublishTopic, JSON.stringify({}));
+            }
+          });
+        }
+      },
+    });
   };
+  // 接收mqt消息使用
+  message = (topic, res) => {
+    const info = JSON.parse(res.toString());
+    const {
+      ip,
+      configSubscribeTopic,
+      handleareaNum,
+      enabledEvents,
+      warnList,
+      TTSServiceStatus,
+    } = this.state;
+    // 反馈主题为led配置获取主题
+    if (topic === configSubscribeTopic && handleareaNum === info.baqId) {
+      // 获取到LED 时间屏配置
+      const { eventLED } = info;
+      if (eventLED && eventLED.length) {
+        // 获取到与当前主机相同的IP的配置
+        const currentIPconfig = eventLED.filter(item => item.ip === ip);
 
-  componentDidMount() {}
-
+        if (currentIPconfig && currentIPconfig.length) {
+          // 获取到当前机器配置的所有告警类型
+          const { enabledEvents } = currentIPconfig[0];
+          // 存储权限的告警类型
+          this.setState({
+            enabledEvents,
+          });
+          if (enabledEvents && enabledEvents.length) {
+            for (let i = 0; i < enabledEvents.length; i++) {
+              this.client.subscribe(`baq/${handleareaNum}/+/${enabledEvents[i]}`);
+            }
+          }
+        }
+      }
+    } else if (enabledEvents.includes(info.event)) {
+      console.log('info>', info);
+      this.setState({
+        info: info,
+        msg: true,
+      });
+    }
+  };
   onChange = activeKey => {
     this.setState({
       activeKey,
@@ -487,6 +609,8 @@ class ArchivesStatistics extends PureComponent {
           getPolice={params => this.getPolice(params)}
           location={this.props.location}
           formValues={this.state.formValues}
+          {...this.props}
+          {...this.state}
         />
       </div>
     );
@@ -537,6 +661,7 @@ class ArchivesStatistics extends PureComponent {
                 jjdw={jjdw}
                 cjdw={cjdw}
                 {...this.props}
+                {...this.state}
               />
               <div style={showDataView ? { display: 'block' } : { display: 'none' }}>
                 <div className={styles.tableListForm}>{this.renderForm()}</div>
