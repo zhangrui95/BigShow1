@@ -77,9 +77,35 @@ export default [
             component: './Forms/CaseStatistic',
           },
           {
-            path: '/form/archives-statistics',
-            name: 'archivesstatistics',
+            path: '/form/archivesstatistics',
+            name: 'archivesstatisticsform',
             component: './Forms/ArchivesStatistics',
+            // routes: [
+            //   {
+            //     path: '/form/archivesstatistics',
+            //     redirect: './form/archivesstatistics/archivesstatisticsindex1',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex1',
+            //     name: 'archivesstatisticsindex1',
+            //     component: './Forms/ArchivesStatisticsIndex1',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex2',
+            //     name: 'archivesstatisticsindex2',
+            //     component: './Forms/ArchivesStatisticsIndex2',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex3',
+            //     name: 'archivesstatisticsindex3',
+            //     component: './Forms/ArchivesStatisticsIndex3',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex4',
+            //     name: 'archivesstatisticsindex4',
+            //     component: './Forms/ArchivesStatisticsIndex4',
+            //   },
+            // ],
           },
           // {
           //   path: '/form/step-form',
