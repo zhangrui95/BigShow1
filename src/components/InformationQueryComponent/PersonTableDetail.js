@@ -47,7 +47,7 @@ const book = [
 const thing = [{ name: '刀', num: 1, dw: '把', wgy: '陈某', bamj: '丽人' }];
 
 const data = {
-  name: '张冬梅',
+  name: '刘玉莲',
   children: [
     {
       name: '刘玉莲为赌博提供便利条件',
