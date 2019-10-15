@@ -1,45 +1,28 @@
+// 卷宗-数据统计 by zhangying
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider } from 'antd';
+import { Card, Badge, Table, Divider, Row, Col } from 'antd';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './BasicProfile.less';
-
+import {
+  G2,
+  Chart,
+  Geom,
+  Axis,
+  Tooltip,
+  Coord,
+  Label,
+  Legend,
+  View,
+  Guide,
+  Shape,
+  Facet,
+  Util,
+} from 'bizcharts';
+import { Pie } from '../../components/Charts';
+const { Line } = Guide;
 const { Description } = DescriptionList;
-
-const progressColumns = [
-  {
-    title: '时间',
-    dataIndex: 'time',
-    key: 'time',
-  },
-  {
-    title: '当前进度',
-    dataIndex: 'rate',
-    key: 'rate',
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
-    render: text =>
-      text === 'success' ? (
-        <Badge status="success" text="成功" />
-      ) : (
-        <Badge status="processing" text="进行中" />
-      ),
-  },
-  {
-    title: '操作员ID',
-    dataIndex: 'operator',
-    key: 'operator',
-  },
-  {
-    title: '耗时',
-    dataIndex: 'cost',
-    key: 'cost',
-  },
-];
 
 @connect(({ profile, loading }) => ({
   profile,
@@ -54,130 +37,238 @@ class BasicProfile extends Component {
   }
 
   render() {
-    const { profile, loading } = this.props;
-    const { basicGoods, basicProgress } = profile;
-    let goodsData = [];
-    if (basicGoods.length) {
-      let num = 0;
-      let amount = 0;
-      basicGoods.forEach(item => {
-        num += Number(item.num);
-        amount += Number(item.amount);
-      });
-      goodsData = basicGoods.concat({
-        id: '总计',
-        num,
-        amount,
-      });
-    }
-    const renderContent = (value, row, index) => {
-      const obj = {
-        children: value,
-        props: {},
-      };
-      if (index === basicGoods.length) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
+    //  折线图的数据
+    const data = [
+      {
+        month: '1月',
+        city: '出柜',
+        revenue: 5,
+      },
+      {
+        month: '1月',
+        city: '入柜',
+        revenue: 10,
+      },
+      {
+        month: '2月',
+        city: '出柜',
+        revenue: 6,
+      },
+      {
+        month: '2月',
+        city: '入柜',
+        revenue: 14,
+      },
+      {
+        month: '3月',
+        city: '出柜',
+        revenue: 9,
+      },
+      {
+        month: '3月',
+        city: '入柜',
+        revenue: 5,
+      },
+      {
+        month: '4月',
+        city: '出柜',
+        revenue: 5,
+      },
+      {
+        month: '4月',
+        city: '入柜',
+        revenue: 8,
+      },
+      {
+        month: '5月',
+        city: '出柜',
+        revenue: 10,
+      },
+      {
+        month: '5月',
+        city: '入柜',
+        revenue: 19,
+      },
+      {
+        month: '6月',
+        city: '出柜',
+        revenue: 2,
+      },
+      {
+        month: '6月',
+        city: '入柜',
+        revenue: 12,
+      },
+      {
+        month: '7月',
+        city: '出柜',
+        revenue: 20,
+      },
+      {
+        month: '7月',
+        city: '入柜',
+        revenue: 17,
+      },
+      {
+        month: '8月',
+        city: '出柜',
+        revenue: 9,
+      },
+      {
+        month: '8月',
+        city: '入柜',
+        revenue: 16,
+      },
+      {
+        month: '9月',
+        city: '出柜',
+        revenue: 15,
+      },
+      {
+        month: '9月',
+        city: '入柜',
+        revenue: 14,
+      },
+      {
+        month: '10月',
+        city: '出柜',
+        revenue: 13,
+      },
+      {
+        month: '10月',
+        city: '入柜',
+        revenue: 10,
+      },
+      {
+        month: '11月',
+        city: '出柜',
+        revenue: 6,
+      },
+      {
+        month: '11月',
+        city: '入柜',
+        revenue: 6,
+      },
+      {
+        month: '12月',
+        city: '出柜',
+        revenue: 9,
+      },
+      {
+        month: '12月',
+        city: '入柜',
+        revenue: 22,
+      },
+    ];
+    const cols = {
+      month: {
+        range: [0, 1],
+      },
     };
-    const goodsColumns = [
+    // 卷宗柜使用情况 饼状图
+    const dataPie1 = [
       {
-        title: '商品编号',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, row, index) => {
-          if (index < basicGoods.length) {
-            return <a href="">{text}</a>;
-          }
-          return {
-            children: <span style={{ fontWeight: 600 }}>总计</span>,
-            props: {
-              colSpan: 4,
-            },
-          };
-        },
+        x: '使用中',
+        y: 40,
       },
       {
-        title: '商品名称',
-        dataIndex: 'name',
-        key: 'name',
-        render: renderContent,
+        x: '空闲',
+        y: 21,
+      },
+    ];
+    const dataPie2 = [
+      {
+        x: '已使用卷柜',
+        y: 40,
       },
       {
-        title: '商品条码',
-        dataIndex: 'barcode',
-        key: 'barcode',
-        render: renderContent,
+        x: '未使用卷柜',
+        y: 21,
       },
       {
-        title: '单价',
-        dataIndex: 'price',
-        key: 'price',
-        align: 'right',
-        render: renderContent,
-      },
-      {
-        title: '数量（件）',
-        dataIndex: 'num',
-        key: 'num',
-        align: 'right',
-        render: (text, row, index) => {
-          if (index < basicGoods.length) {
-            return text;
-          }
-          return <span style={{ fontWeight: 600 }}>{text}</span>;
-        },
-      },
-      {
-        title: '金额',
-        dataIndex: 'amount',
-        key: 'amount',
-        align: 'right',
-        render: (text, row, index) => {
-          if (index < basicGoods.length) {
-            return text;
-          }
-          return <span style={{ fontWeight: 600 }}>{text}</span>;
-        },
+        x: '卷柜总数',
+        y: 61,
       },
     ];
     return (
-      <PageHeaderWrapper title="基础详情页">
-        <Card bordered={false}>
-          <DescriptionList size="large" title="退款申请" style={{ marginBottom: 32 }}>
-            <Description term="取货单号">1000000000</Description>
-            <Description term="状态">已取货</Description>
-            <Description term="销售单号">1234123421</Description>
-            <Description term="子订单">3214321432</Description>
-          </DescriptionList>
-          <Divider style={{ marginBottom: 32 }} />
-          <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }}>
-            <Description term="用户姓名">付小小</Description>
-            <Description term="联系电话">18100000000</Description>
-            <Description term="常用快递">菜鸟仓储</Description>
-            <Description term="取货地址">浙江省杭州市西湖区万塘路18号</Description>
-            <Description term="备注">无</Description>
-          </DescriptionList>
-          <Divider style={{ marginBottom: 32 }} />
-          <div className={styles.title}>退货商品</div>
-          <Table
-            style={{ marginBottom: 24 }}
-            pagination={false}
-            loading={loading}
-            dataSource={goodsData}
-            columns={goodsColumns}
-            rowKey="id"
-          />
-          <div className={styles.title}>退货进度</div>
-          <Table
-            style={{ marginBottom: 16 }}
-            pagination={false}
-            loading={loading}
-            dataSource={basicProgress}
-            columns={progressColumns}
-          />
-        </Card>
-      </PageHeaderWrapper>
+      <div>
+        <Row>
+          <Card title={'卷宗出入柜趋势图'}>
+            <Chart height={300} data={data} scale={cols} forceFit>
+              <Legend />
+              <Axis name="month" />
+              <Axis
+                name="revenue"
+                label={{
+                  formatter: val => `${val}本`,
+                }}
+              />
+              <Tooltip
+                crosshairs={{
+                  type: 'y',
+                }}
+              />
+              <Geom type="line" position="month*revenue" size={2} color={'city'} />
+              <Geom
+                type="point"
+                position="month*revenue"
+                size={4}
+                shape={'circle'}
+                color={'city'}
+                style={{
+                  stroke: '#fff',
+                  lineWidth: 1,
+                }}
+              />
+            </Chart>
+          </Card>
+          <Row
+            gutter={{ md: 24, lg: 24, xl: 24 }}
+            type="flex"
+            justify="space-around"
+            style={{ marginTop: 24 }}
+          >
+            <Col span={12}>
+              <Card title={'卷宗柜使用与空闲情况'}>
+                <Pie
+                  hasLegend
+                  title={this.props.title}
+                  subTitle={this.props.title}
+                  total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
+                  data={dataPie1}
+                  // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
+                  height={200}
+                  colors={
+                    this.props.pieType == 'EQ'
+                      ? ['#3AA0FF', '#36CBCB', '#F2637B', '#975FE4']
+                      : ['#3AA0FF', '#36CBCB', '#F2637B']
+                  }
+                />
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Card title={'卷宗柜使用情况'}>
+                <Row style={{ height: 200 }}>
+                  <Pie
+                    hasLegend
+                    title={this.props.title}
+                    subTitle={this.props.title}
+                    // total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
+                    data={dataPie2}
+                    // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
+                    height={200}
+                    colors={
+                      this.props.pieType == 'EQ'
+                        ? ['#3AA0FF', '#36CBCB', '#F2637B', '#975FE4']
+                        : ['#3AA0FF', '#36CBCB', '#F2637B']
+                    }
+                  />
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </Row>
+      </div>
     );
   }
 }
