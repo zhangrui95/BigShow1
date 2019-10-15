@@ -73,6 +73,7 @@ export default {
   'menu.dashboard.workplace': '工作台',
   'menu.form': '案管',
   'menu.form.basicform': '基础表单',
+  'menu.form.home': '首页可视化',
   'menu.form.stepform': '分步表单',
   'menu.form.stepform.info': '分步表单（填写转账信息）',
   'menu.form.stepform.confirm': '分步表单（确认转账信息）',

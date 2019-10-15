@@ -10,6 +10,10 @@ export default [
       { path: '/user/register-result', component: './User/RegisterResult' },
     ],
   },
+  {
+    path: '/home',
+    component: '../layouts/SetupShow',
+  },
   // app
   {
     path: '/',
@@ -47,6 +51,11 @@ export default [
         icon: 'form',
         name: 'form',
         routes: [
+          {
+            path: '/form/home',
+            name: 'home',
+            component: './Forms/Home',
+          },
           {
             path: '/form/basic-form',
             name: 'basicform',
