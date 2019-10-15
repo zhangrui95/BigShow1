@@ -114,6 +114,12 @@ export default [
         name: 'list',
         routes: [
           {
+            path: '/list/UsageSituation',
+            name: 'usageSituation',
+            component: './List/UsageSituation',
+
+          },
+          {
             path: '/list/table-list',
             name: 'searchtable',
             component: './List/TableList',
