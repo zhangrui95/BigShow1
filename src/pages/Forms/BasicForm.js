@@ -1,247 +1,268 @@
+/*
+* 音视频管理
+* author：jhm
+* 20191018
+* */
+
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
 import {
+  Row,
+  Col,
   Form,
-  Input,
-  DatePicker,
   Select,
+  TreeSelect,
+  Input,
   Button,
-  Card,
-  InputNumber,
+  DatePicker,
+  Tabs,
   Radio,
-  Icon,
-  Tooltip,
+  message,
+  Cascader,
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './style.less';
+import RenderTable from '../../components/AudioManage/RenderTable';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-
-@connect(({ loading }) => ({
-  submitting: loading.effects['form/submitRegularForm'],
+const TabPane = Tabs.TabPane;
+const TreeNode = TreeSelect.TreeNode;
+const RadioGroup = Radio.Group;
+let timeout;
+let currentValue;
+@connect(({ policeData, loading, common }) => ({
+  policeData,
+  loading,
+  common,
+  // loading: loading.models.alarmManagement,
 }))
 @Form.create()
 class BasicForms extends PureComponent {
-  handleSubmit = e => {
-    const { dispatch, form } = this.props;
-    e.preventDefault();
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        dispatch({
-          type: 'form/submitRegularForm',
-          payload: values,
-        });
-      }
-    });
-  };
+  state = {};
 
-  render() {
-    const { submitting } = this.props;
+  componentDidMount() {}
+
+  renderForm() {
     const {
-      form: { getFieldDecorator, getFieldValue },
+      form: { getFieldDecorator },
     } = this.props;
-
     const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
-      },
+      labelCol: { xs: { span: 24 }, md: { span: 8 }, xl: { span: 6 }, xxl: { span: 4 } },
+      wrapperCol: { xs: { span: 24 }, md: { span: 16 }, xl: { span: 18 }, xxl: { span: 20 } },
     };
-
-    const submitFormLayout = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
-      },
-    };
-
+    const rowLayout = { md: 8, xl: 16, xxl: 24 };
+    const colLayout = { sm: 24, md: 12, xl: 8 };
     return (
-      <PageHeaderWrapper
-        title={<FormattedMessage id="app.forms.basic.title" />}
-        content={<FormattedMessage id="app.forms.basic.description" />}
-      >
-        <Card bordered={false}>
-          <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
-              {getFieldDecorator('title', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'validation.title.required' }),
-                  },
-                ],
-              })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+      <Form onSubmit={this.handleSearch}>
+        <Row gutter={rowLayout}>
+          <Col {...colLayout}>
+            <FormItem label="接警来源" {...formItemLayout}>
+              {getFieldDecorator('jjly', {
+                initialValue: this.state.jjly,
+              })(
+                <Select placeholder="请选择接警来源" style={{ width: '100%' }}>
+                  <Option value="">全部</Option>
+                  {/*{involvedType !== undefined ? this.Option() : ''}*/}
+                  {/*{sourceOfAlarmDictOptions}*/}
+                </Select>
+              )}
             </FormItem>
-            <FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
-              {getFieldDecorator('date', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'validation.date.required' }),
-                  },
-                ],
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="管辖单位" {...formItemLayout}>
+              {getFieldDecorator('jjdw', {})(
+                <TreeSelect
+                  showSearch
+                  style={{ width: '100%' }}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  placeholder="请输入管辖单位"
+                  allowClear
+                  key="jjdwSelect"
+                  treeDefaultExpandedKeys={this.state.treeDefaultExpandedKeys}
+                  treeNodeFilterProp="title"
+                >
+                  {/*{depTree && depTree.length > 0 ? this.renderloop(depTree) : null}*/}
+                </TreeSelect>
+              )}
+            </FormItem>
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="接警人" {...formItemLayout}>
+              {getFieldDecorator('jjr', {
+                // initialValue: this.state.caseType,
+                rules: [{ max: 32, message: '最多输入32个字！' }],
+              })(
+                <Select
+                  mode="combobox"
+                  defaultActiveFirstOption={false}
+                  optionLabelProp="title"
+                  showArrow={false}
+                  filterOption={false}
+                  placeholder="请输入接警人"
+                  onChange={value => this.handleAllPoliceOptionChange(value, false)}
+                  onFocus={value => this.handleAllPoliceOptionChange(value, false)}
+                >
+                  {/*{allPoliceOptions}*/}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={rowLayout}>
+          <Col {...colLayout}>
+            <FormItem label="接警时间" {...formItemLayout}>
+              {getFieldDecorator('jjsj', {
+                // initialValue: this.state.jjsj,
               })(
                 <RangePicker
+                  disabledDate={this.disabledDate}
                   style={{ width: '100%' }}
-                  placeholder={[
-                    formatMessage({ id: 'form.date.placeholder.start' }),
-                    formatMessage({ id: 'form.date.placeholder.end' }),
-                  ]}
+                  showTime={{ format: 'HH:mm:ss' }}
+                  format="YYYY-MM-DD HH:mm:ss"
                 />
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={<FormattedMessage id="form.goal.label" />}>
-              {getFieldDecorator('goal', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'validation.goal.required' }),
-                  },
-                ],
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="处警单位" {...formItemLayout}>
+              {getFieldDecorator('cjdw', {
+                // initialValue: this.state.cjdw,
               })(
-                <TextArea
-                  style={{ minHeight: 32 }}
-                  placeholder={formatMessage({ id: 'form.goal.placeholder' })}
-                  rows={4}
-                />
+                <TreeSelect
+                  showSearch
+                  style={{ width: '100%' }}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  placeholder="请输入处警单位"
+                  allowClear
+                  key="cjdwSelect"
+                  treeDefaultExpandedKeys={this.state.treeDefaultExpandedKeys}
+                  treeNodeFilterProp="title"
+                >
+                  {/*{depTree && depTree.length > 0 ? this.renderloop(depTree) : null}*/}
+                </TreeSelect>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={<FormattedMessage id="form.standard.label" />}>
-              {getFieldDecorator('standard', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'validation.standard.required' }),
-                  },
-                ],
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="处警人" {...formItemLayout}>
+              {getFieldDecorator('cjr', {
+                // initialValue: this.state.gzry,
+                rules: [{ max: 32, message: '最多输入32个字！' }],
               })(
-                <TextArea
-                  style={{ minHeight: 32 }}
-                  placeholder={formatMessage({ id: 'form.standard.placeholder' })}
-                  rows={4}
-                />
+                <Select
+                  mode="combobox"
+                  defaultActiveFirstOption={false}
+                  optionLabelProp="title"
+                  showArrow={false}
+                  filterOption={false}
+                  placeholder="请输入处警人"
+                  onChange={value => this.handleAllPoliceOptionChange(value, true)}
+                  onFocus={value => this.handleAllPoliceOptionChange(value, true)}
+                >
+                  {/*{cjrPoliceOptions}*/}
+                </Select>
               )}
             </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={
-                <span>
-                  <FormattedMessage id="form.client.label" />
-                  <em className={styles.optional}>
-                    <FormattedMessage id="form.optional" />
-                    <Tooltip title={<FormattedMessage id="form.client.label.tooltip" />}>
-                      <Icon type="info-circle-o" style={{ marginRight: 4 }} />
-                    </Tooltip>
-                  </em>
-                </span>
-              }
-            >
-              {getFieldDecorator('client')(
-                <Input placeholder={formatMessage({ id: 'form.client.placeholder' })} />
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={
-                <span>
-                  <FormattedMessage id="form.invites.label" />
-                  <em className={styles.optional}>
-                    <FormattedMessage id="form.optional" />
-                  </em>
-                </span>
-              }
-            >
-              {getFieldDecorator('invites')(
-                <Input placeholder={formatMessage({ id: 'form.invites.placeholder' })} />
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={
-                <span>
-                  <FormattedMessage id="form.weight.label" />
-                  <em className={styles.optional}>
-                    <FormattedMessage id="form.optional" />
-                  </em>
-                </span>
-              }
-            >
-              {getFieldDecorator('weight')(
-                <InputNumber
-                  placeholder={formatMessage({ id: 'form.weight.placeholder' })}
-                  min={0}
-                  max={100}
-                />
-              )}
-              <span className="ant-form-text">%</span>
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={<FormattedMessage id="form.public.label" />}
-              help={<FormattedMessage id="form.public.label.help" />}
-            >
-              <div>
-                {getFieldDecorator('public', {
-                  initialValue: '1',
-                })(
-                  <Radio.Group>
-                    <Radio value="1">
-                      <FormattedMessage id="form.public.radio.public" />
-                    </Radio>
-                    <Radio value="2">
-                      <FormattedMessage id="form.public.radio.partially-public" />
-                    </Radio>
-                    <Radio value="3">
-                      <FormattedMessage id="form.public.radio.private" />
-                    </Radio>
-                  </Radio.Group>
-                )}
-                <FormItem style={{ marginBottom: 0 }}>
-                  {getFieldDecorator('publicUsers')(
-                    <Select
-                      mode="multiple"
-                      placeholder={formatMessage({ id: 'form.publicUsers.placeholder' })}
-                      style={{
-                        margin: '8px 0',
-                        display: getFieldValue('public') === '2' ? 'block' : 'none',
-                      }}
-                    >
-                      <Option value="1">
-                        <FormattedMessage id="form.publicUsers.option.A" />
-                      </Option>
-                      <Option value="2">
-                        <FormattedMessage id="form.publicUsers.option.B" />
-                      </Option>
-                      <Option value="3">
-                        <FormattedMessage id="form.publicUsers.option.C" />
-                      </Option>
-                    </Select>
-                  )}
-                </FormItem>
-              </div>
-            </FormItem>
-            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-              <Button type="primary" htmlType="submit" loading={submitting}>
-                <FormattedMessage id="form.submit" />
+          </Col>
+        </Row>
+        {/*<Row gutter={rowLayout}>*/}
+        {/*<Col {...colLayout}>*/}
+        {/*<FormItem label="报警类别" {...formItemLayout}>*/}
+        {/*{getFieldDecorator('jqlb', {})(*/}
+        {/*<Cascader*/}
+        {/*options={caseTypeTree}*/}
+        {/*placeholder="请选择报警类别"*/}
+        {/*changeOnSelect={true}*/}
+        {/*showSearch={*/}
+        {/*{*/}
+        {/*filter: (inputValue, path) => {*/}
+        {/*return (path.some(items => (items.searchValue).indexOf(inputValue) > -1));*/}
+        {/*},*/}
+        {/*limit: 5,*/}
+        {/*}*/}
+        {/*}*/}
+        {/*/>,*/}
+        {/*)}*/}
+        {/*</FormItem>*/}
+        {/*</Col>*/}
+        {/*<Col {...colLayout}>*/}
+        {/*<FormItem label="是否受案" {...formItemLayout}>*/}
+        {/*{getFieldDecorator('sfsa', {*/}
+        {/*initialValue: this.state.sfsa,*/}
+        {/*})(*/}
+        {/*<Radio.Group onChange={this.onRadioChange}>*/}
+        {/*<Radio value=''>全部</Radio>*/}
+        {/*<Radio value='1'>是</Radio>*/}
+        {/*<Radio value='0'>否</Radio>*/}
+        {/*</Radio.Group>,*/}
+        {/*)}*/}
+        {/*</FormItem>*/}
+        {/*</Col>*/}
+        {/*<Col {...colLayout}>*/}
+        {/*<FormItem label="是否处警" {...formItemLayout}>*/}
+        {/*{getFieldDecorator('sfcj', {*/}
+        {/*initialValue: this.state.sfcj,*/}
+        {/*})(*/}
+        {/*<Radio.Group onChange={this.onRadioChange1}>*/}
+        {/*<Radio value=''>全部</Radio>*/}
+        {/*<Radio value='1'>是</Radio>*/}
+        {/*<Radio value='0'>否</Radio>*/}
+        {/*</Radio.Group>,*/}
+        {/*)}*/}
+        {/*</FormItem>*/}
+        {/*</Col>*/}
+
+        {/*</Row>*/}
+        <Row gutter={rowLayout}>
+          {/*<Col {...colLayout}>*/}
+          {/*<FormItem label="处理状态" {...formItemLayout}>*/}
+          {/*{getFieldDecorator('clzt', {})(*/}
+          {/*<Select placeholder="请选择处理状态" style={{ width: '100%' }}>*/}
+          {/*<Option value="">全部</Option>*/}
+          {/*{handleStatusDictOptions}*/}
+          {/*</Select>,*/}
+          {/*)}*/}
+          {/*</FormItem>*/}
+          {/*</Col>*/}
+          <Col>
+            <span style={{ float: 'right', marginBottom: 24 }}>
+              {/*<Button style={{ color: '#2095FF', borderColor: '#2095FF' }} onClick={this.exportData}>导出表格</Button>*/}
+              <Button style={{ marginLeft: 8 }} type="primary" htmlType="submit">
+                查询
               </Button>
-              <Button style={{ marginLeft: 8 }}>
-                <FormattedMessage id="form.save" />
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
               </Button>
-            </FormItem>
-          </Form>
-        </Card>
-      </PageHeaderWrapper>
+            </span>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
+  renderTable() {
+    return (
+      <div>
+        <RenderTable
+          // data={police}
+          onChange={this.handleTableChange}
+          // dispatch={this.props.dispatch}
+          // newDetail={this.newDetail}
+          // getPolice={(params) => this.getPolice(params)}
+          // location={this.props.location}
+          // formValues={this.state.formValues}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <div>{this.renderForm()}</div>
+        <div>{this.renderTable()}</div>
+      </div>
     );
   }
 }
-
 export default BasicForms;

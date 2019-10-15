@@ -1,78 +1,38 @@
 import React, { Component } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
-import { Input } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { Input, Card, Carousel } from 'antd';
+import { Bar } from '@/components/Charts';
 
 @connect()
 class SearchList extends Component {
-  handleTabChange = key => {
-    const { match } = this.props;
-    switch (key) {
-      case 'articles':
-        router.push(`${match.url}/articles`);
-        break;
-      case 'applications':
-        router.push(`${match.url}/applications`);
-        break;
-      case 'projects':
-        router.push(`${match.url}/projects`);
-        break;
-      default:
-        break;
-    }
-  };
-
   handleFormSubmit = value => {
     // eslint-disable-next-line
     console.log(value);
   };
 
   render() {
-    const tabList = [
-      {
-        key: 'articles',
-        tab: '文章',
-      },
-      {
-        key: 'projects',
-        tab: '项目',
-      },
-      {
-        key: 'applications',
-        tab: '应用',
-      },
-    ];
-
-    const mainSearch = (
-      <div style={{ textAlign: 'center' }}>
-        <Input.Search
-          placeholder="请输入"
-          enterButton="搜索"
-          size="large"
-          onSearch={this.handleFormSubmit}
-          style={{ width: 522 }}
-        />
-      </div>
-    );
-
-    const { match, children, location } = this.props;
-
+    const salesData = [];
+    for (let i = 0; i < 12; i += 1) {
+      salesData.push({
+        x: `${i + 1}月`,
+        y: Math.floor(Math.random() * 1000) + 200,
+      });
+    }
     return (
-      <PageHeaderWrapper
-        title="搜索列表"
-        content={mainSearch}
-        tabList={tabList}
-        tabActiveKey={location.pathname.replace(`${match.path}/`, '')}
-        onTabChange={this.handleTabChange}
-      >
-        {children}
-        {/* <Switch>
-          {routes.map(item => (
-            <Route key={item.key} path={item.path} component={item.component} exact={item.exact} />
-          ))}
-        </Switch> */}
-      </PageHeaderWrapper>
+      <Card>
+        <Bar height={200} title="销售额趋势" data={salesData} />
+        <div>
+          <Carousel dotPosition="top" autoplay>
+            <div>
+              <img src={require('@/assets/notice1.jpg')} alt="" style={{ width: '300px' }} />
+            </div>
+            <div>
+              <img src={require('@/assets/notice2.jpg')} alt="" style={{ width: '300px' }} />
+            </div>
+          </Carousel>
+        </div>
+      </Card>
     );
   }
 }
