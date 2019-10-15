@@ -76,64 +76,36 @@ export default [
             name: 'casestatistic',
             component: './Forms/CaseStatistic',
           },
-
-          // {
-          //   path: '/list/search',
-          //   name: 'searchlist',
-          //   component: './List/List',
-          //   routes: [
-          //     {
-          //       path: '/list/search',
-          //       redirect: '/list/search/articles',
-          //     },
-          //     {
-          //       path: '/list/search/articles',
-          //       name: 'articles',
-          //       component: './List/Articles',
-          //     },
-          //     {
-          //       path: '/list/search/projects',
-          //       name: 'projects',
-          //       component: './List/Projects',
-          //     },
-          //     {
-          //       path: '/list/search/applications',
-          //       name: 'applications',
-          //       component: './List/Applications',
-          //     },
-          //   ],
-          // },
-
           {
             path: '/form/archivesstatistics',
             name: 'archivesstatisticsform',
-            // component: './Forms/ArchivesStatistics',
-            routes: [
-              {
-                path: '/form/archivesstatistics',
-                redirect: './form/archivesstatistics/archivesstatisticsindex1',
-              },
-              {
-                path: '/form/archivesstatistics/archivesstatisticsindex1',
-                name: 'archivesstatisticsindex1',
-                component: './Forms/ArchivesStatisticsIndex1',
-              },
-              {
-                path: '/form/archivesstatistics/archivesstatisticsindex2',
-                name: 'archivesstatisticsindex2',
-                component: './Forms/ArchivesStatisticsIndex2',
-              },
-              {
-                path: '/form/archivesstatistics/archivesstatisticsindex3',
-                name: 'archivesstatisticsindex3',
-                component: './Forms/ArchivesStatisticsIndex3',
-              },
-              {
-                path: '/form/archivesstatistics/archivesstatisticsindex4',
-                name: 'archivesstatisticsindex4',
-                component: './Forms/ArchivesStatisticsIndex4',
-              },
-            ],
+            component: './Forms/ArchivesStatistics',
+            // routes: [
+            //   {
+            //     path: '/form/archivesstatistics',
+            //     redirect: './form/archivesstatistics/archivesstatisticsindex1',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex1',
+            //     name: 'archivesstatisticsindex1',
+            //     component: './Forms/ArchivesStatisticsIndex1',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex2',
+            //     name: 'archivesstatisticsindex2',
+            //     component: './Forms/ArchivesStatisticsIndex2',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex3',
+            //     name: 'archivesstatisticsindex3',
+            //     component: './Forms/ArchivesStatisticsIndex3',
+            //   },
+            //   {
+            //     path: '/form/archivesstatistics/archivesstatisticsindex4',
+            //     name: 'archivesstatisticsindex4',
+            //     component: './Forms/ArchivesStatisticsIndex4',
+            //   },
+            // ],
           },
           // {
           //   path: '/form/step-form',

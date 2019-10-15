@@ -265,21 +265,13 @@ class RenderTable extends PureComponent {
     return (
       <div className={styles.standardTable}>
         <Table
-          // size={'middle'}
-          // rowKey={record => record.key}
+          size={'middle'}
+          rowKey={record => record.key}
           dataSource={data.list}
           columns={columns}
           // pagination={paginationProps}
           // onChange={this.handleTableChange}
-
           // style={{ backgroundColor: '#fff' }}
-          // pagination={{
-          //   pageSize: 10,
-          //   showTotal: (total, range) => <div style={{ position: 'absolute', left: '12px' }}>共 {data.page.totalResult} 条记录 第 {(Math.ceil(data.page.totalResult / 10))} 页</div>,
-          //   onChange: (page) => {
-          //     this.setState({ ssWoodCurrent: page });
-          //   },
-          // }}
         />
       </div>
     );

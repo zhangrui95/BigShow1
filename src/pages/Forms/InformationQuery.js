@@ -55,8 +55,6 @@ class InformationQuery extends PureComponent {
     sfcj: '',
     showDataView: true, // 控制显示图表或者列表（true显示图表）
     typeButtons: 'day', // 图表展示类别（week,month）
-    allPolice: [],
-    cjrPolice: [],
     is_tz: '0',
     selectedDateVal: null, // 手动选择的日期
     selectedDeptVal: '', // 手动选择机构
@@ -271,38 +269,7 @@ class InformationQuery extends PureComponent {
   handleSearch = e => {
     if (e) e.preventDefault();
     const values = this.props.form.getFieldsValue();
-    const jjTime = values.jjsj;
-    const tbTime = values.tbsj;
-    const formValues = {
-      bar: values.bar || '',
-      cjdw: values.cjdw || '',
-      cjr: values.cjr || '',
-      jjdw: values.jjdw || '',
-      jjly_dm: values.jjly || '',
-      jjr: values.jjr || '',
-      is_sa: values.sfsa || '',
-      is_cj: values.sfcj || '',
-      jqzt_dm: values.clzt || '',
-      jqlb: values.jqlb ? values.jqlb[values.jqlb.length - 1] : '',
-      jqlbdj: values.jqlb ? values.jqlb.length : '',
-      jjsj_ks: jjTime && jjTime.length > 0 ? jjTime[0].format('YYYY-MM-DD HH:mm:ss') : '',
-      jjsj_js: jjTime && jjTime.length > 0 ? jjTime[1].format('YYYY-MM-DD HH:mm:ss') : '',
-      tbsj_ks: tbTime && tbTime.length > 0 ? tbTime[0].format('YYYY-MM-DD HH:mm:ss') : '',
-      tbsj_js: tbTime && tbTime.length > 0 ? tbTime[1].format('YYYY-MM-DD HH:mm:ss') : '',
-      is_tz: this.state.is_tz,
-    };
-    this.setState({
-      formValues,
-    });
-    const params = {
-      currentPage: 1,
-      showCount: tableList,
-      pd: {
-        ...formValues,
-      },
-    };
-    this.getPolice(params);
-    return false;
+    console.log('values', values);
   };
   // 重置
   handleFormReset = () => {
@@ -468,32 +435,7 @@ class InformationQuery extends PureComponent {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    // const { form: { getFieldDecorator }, common: { sourceOfAlarmDict, depTree, handleStatusDict } } = this.props;
-    // const allPoliceOptions = this.state.allPolice.map(d => <Option key={`${d.idcard},${d.pcard}`}
-    //                                                                value={`${d.idcard},${d.pcard}$$`}
-    //                                                                title={d.name}>{`${d.name} ${d.pcard}`}</Option>);
-    // const cjrPoliceOptions = this.state.cjrPolice.map(d => <Option key={`${d.idcard},${d.pcard}`}
-    //                                                                value={`${d.idcard},${d.pcard}$$`}
-    //                                                                title={d.name}>{`${d.name} ${d.pcard}`}</Option>);
     const { caseTypeTree } = this.state;
-    // let sourceOfAlarmDictOptions = [];
-    // if (sourceOfAlarmDict.length > 0) {
-    //   for (let i = 0; i < sourceOfAlarmDict.length; i++) {
-    //     const item = sourceOfAlarmDict[i];
-    //     sourceOfAlarmDictOptions.push(
-    //       <Option key={item.id} value={item.code}>{item.name}</Option>,
-    //     );
-    //   }
-    // }
-    // const handleStatusDictOptions = [];
-    // if (handleStatusDict && handleStatusDict.length > 0) {
-    //   for (let i = 0; i < handleStatusDict.length; i++) {
-    //     const item = handleStatusDict[i];
-    //     handleStatusDictOptions.push(
-    //       <Option key={item.id} value={item.code}>{item.name}</Option>,
-    //     );
-    //   }
-    // }
     const formItemLayout = {
       labelCol: { xs: { span: 24 }, md: { span: 8 }, xl: { span: 6 }, xxl: { span: 4 } },
       wrapperCol: { xs: { span: 24 }, md: { span: 16 }, xl: { span: 18 }, xxl: { span: 20 } },
@@ -505,166 +447,73 @@ class InformationQuery extends PureComponent {
         <Row gutter={rowLayout}>
           <Col {...colLayout}>
             <FormItem label="涉案人员" {...formItemLayout}>
-              {getFieldDecorator('jjly', {
-                initialValue: this.state.jjly,
-              })(
-                <Select placeholder="请选择接警来源" style={{ width: '100%' }}>
-                  <Option value="">全部</Option>
-                  {/*{involvedType !== undefined ? this.Option() : ''}*/}
-                  {/*{sourceOfAlarmDictOptions}*/}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col {...colLayout}>
-            <FormItem label="管辖单位" {...formItemLayout}>
-              {getFieldDecorator('jjdw', {})(
-                <TreeSelect
-                  showSearch
-                  style={{ width: '100%' }}
-                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  placeholder="请输入管辖单位"
-                  allowClear
-                  key="jjdwSelect"
-                  treeDefaultExpandedKeys={this.state.treeDefaultExpandedKeys}
-                  treeNodeFilterProp="title"
-                >
-                  {/*{depTree && depTree.length > 0 ? this.renderloop(depTree) : null}*/}
-                </TreeSelect>
-              )}
-            </FormItem>
-          </Col>
-          <Col {...colLayout}>
-            <FormItem label="接警人" {...formItemLayout}>
-              {getFieldDecorator('jjr', {
+              {getFieldDecorator('sary', {
                 // initialValue: this.state.caseType,
                 rules: [{ max: 32, message: '最多输入32个字！' }],
-              })(
-                <Select
-                  mode="combobox"
-                  defaultActiveFirstOption={false}
-                  optionLabelProp="title"
-                  showArrow={false}
-                  filterOption={false}
-                  placeholder="请输入接警人"
-                  onChange={value => this.handleAllPoliceOptionChange(value, false)}
-                  onFocus={value => this.handleAllPoliceOptionChange(value, false)}
-                >
-                  {/*{allPoliceOptions}*/}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={rowLayout}>
-          <Col {...colLayout}>
-            <FormItem label="接警时间" {...formItemLayout}>
-              {getFieldDecorator('jjsj', {
-                // initialValue: this.state.jjsj,
-              })(
-                <RangePicker
-                  disabledDate={this.disabledDate}
-                  style={{ width: '100%' }}
-                  showTime={{ format: 'HH:mm:ss' }}
-                  format="YYYY-MM-DD HH:mm:ss"
-                />
-              )}
+              })(<Input placeholder="请输入涉案人员" />)}
             </FormItem>
           </Col>
           <Col {...colLayout}>
-            <FormItem label="处警单位" {...formItemLayout}>
-              {getFieldDecorator('cjdw', {
-                // initialValue: this.state.cjdw,
-              })(
-                <TreeSelect
-                  showSearch
-                  style={{ width: '100%' }}
-                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  placeholder="请输入处警单位"
-                  allowClear
-                  key="cjdwSelect"
-                  treeDefaultExpandedKeys={this.state.treeDefaultExpandedKeys}
-                  treeNodeFilterProp="title"
-                >
-                  {/*{depTree && depTree.length > 0 ? this.renderloop(depTree) : null}*/}
-                </TreeSelect>
-              )}
-            </FormItem>
-          </Col>
-          <Col {...colLayout}>
-            <FormItem label="处警人" {...formItemLayout}>
-              {getFieldDecorator('cjr', {
-                // initialValue: this.state.gzry,
-                rules: [{ max: 32, message: '最多输入32个字！' }],
-              })(
-                <Select
-                  mode="combobox"
-                  defaultActiveFirstOption={false}
-                  optionLabelProp="title"
-                  showArrow={false}
-                  filterOption={false}
-                  placeholder="请输入处警人"
-                  onChange={value => this.handleAllPoliceOptionChange(value, true)}
-                  onFocus={value => this.handleAllPoliceOptionChange(value, true)}
-                >
-                  {/*{cjrPoliceOptions}*/}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={rowLayout}>
-          <Col {...colLayout}>
-            <FormItem label="报警类别" {...formItemLayout}>
-              {getFieldDecorator('jqlb', {})(
-                <Cascader
-                  options={caseTypeTree}
-                  placeholder="请选择报警类别"
-                  changeOnSelect="true"
-                  showSearch={{
-                    filter: (inputValue, path) => {
-                      return path.some(items => items.searchValue.indexOf(inputValue) > -1);
-                    },
-                    limit: 5,
-                  }}
-                />
-              )}
-            </FormItem>
-          </Col>
-          <Col {...colLayout}>
-            <FormItem label="是否受案" {...formItemLayout}>
-              {getFieldDecorator('sfsa', {
-                initialValue: this.state.sfsa,
-              })(
-                <Radio.Group onChange={this.onRadioChange}>
-                  <Radio value="">全部</Radio>
-                  <Radio value="1">是</Radio>
-                  <Radio value="0">否</Radio>
-                </Radio.Group>
-              )}
-            </FormItem>
-          </Col>
-          <Col {...colLayout}>
-            <FormItem label="是否处警" {...formItemLayout}>
-              {getFieldDecorator('sfcj', {
-                initialValue: this.state.sfcj,
-              })(
-                <Radio.Group onChange={this.onRadioChange1}>
-                  <Radio value="">全部</Radio>
-                  <Radio value="1">是</Radio>
-                  <Radio value="0">否</Radio>
-                </Radio.Group>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={rowLayout}>
-          <Col {...colLayout}>
-            <FormItem label="处理状态" {...formItemLayout}>
-              {getFieldDecorator('clzt', {})(
-                <Select placeholder="请选择处理状态" style={{ width: '100%' }}>
+            <FormItem label="人员性别" {...formItemLayout}>
+              {getFieldDecorator('ryxb', {})(
+                <Select placeholder="请选择人员性别" style={{ width: '100%' }}>
                   <Option value="">全部</Option>
-                  {/*{handleStatusDictOptions}*/}
+                  <Option value="男">男</Option>
+                  <Option value="女">女</Option>
+                  <Option value="未知的性别">未知的性别</Option>
+                  <Option value="未说明的性别">未说明的性别</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="人员类型" {...formItemLayout}>
+              {getFieldDecorator('rylx', {})(
+                <Select placeholder="请选择人员类型" style={{ width: '100%' }}>
+                  <Option value="">全部</Option>
+                  {/*{involvedTypeOptions}*/}
+                  <Option value="犯罪嫌疑人">犯罪嫌疑人</Option>
+                  <Option value="违法行为人">违法行为人</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={rowLayout}>
+          <Col {...colLayout}>
+            <FormItem label="证件号码" {...formItemLayout}>
+              {getFieldDecorator('zjhm', {
+                // initialValue: this.state.caseType,
+                rules: [{ max: 128, message: '最多输入128个字！' }],
+              })(<Input placeholder="请输入涉案人证件号" />)}
+            </FormItem>
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="案件名称" {...formItemLayout}>
+              {getFieldDecorator('ajmc', {
+                // initialValue: this.state.caseType,
+                rules: [{ max: 128, message: '最多输入128个字！' }],
+              })(<Input placeholder="请输入案件名称" />)}
+            </FormItem>
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="案件编号" {...formItemLayout}>
+              {getFieldDecorator('ajbh', {
+                // initialValue: this.state.caseType,
+                rules: [
+                  { pattern: /^[A-Za-z0-9]+$/, message: '请输入正确的案件编号！' },
+                  { max: 32, message: '最多输入32个字！' },
+                ],
+              })(<Input placeholder="请输入案件编号" />)}
+            </FormItem>
+          </Col>
+          <Col {...colLayout}>
+            <FormItem label="强制措施" {...formItemLayout}>
+              {getFieldDecorator('qzcs', {})(
+                <Select placeholder="请选择强制措施" style={{ width: '100%' }}>
+                  <Option value="">全部</Option>
+                  <Option value="刑事拘留">刑事拘留</Option>
+                  {/*{enforcementTypeDictGroup}*/}
                 </Select>
               )}
             </FormItem>
