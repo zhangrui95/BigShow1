@@ -281,7 +281,7 @@ class BasicList extends PureComponent {
                 poster="video/cover.png"
                 data-setup="{}"
               >
-                <source src={require('../../assets/baqVideo.mp4')} type="video/mp4" />
+                <source src={require('../../assets/video1.mp4')} type="video/mp4" />
               </video>
             </Col>
             <Col span={12}>
@@ -295,7 +295,7 @@ class BasicList extends PureComponent {
                 poster="video/cover.png"
                 data-setup="{}"
               >
-                <source src={require('../../assets/baqVideo.mp4')} type="video/mp4" />
+                <source src={require('../../assets/video1.mp4')} type="video/mp4" />
               </video>
             </Col>
             <Col span={12}>
@@ -309,7 +309,7 @@ class BasicList extends PureComponent {
                 poster="video/cover.png"
                 data-setup="{}"
               >
-                <source src={require('../../assets/baqVideo.mp4')} type="video/mp4" />
+                <source src={require('../../assets/video1.mp4')} type="video/mp4" />
               </video></Col>
           </Row>
         </div>
