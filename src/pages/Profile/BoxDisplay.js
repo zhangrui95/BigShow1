@@ -145,7 +145,7 @@ export default class BoxDisplay extends PureComponent {
       box_hight: height,
       jurisdictionName: userName,
       dossiercount: dossiercount,
-      jurisdictionName:jurisdictionName,
+      jurisdictionName: jurisdictionName,
     } = data;
     //name：柜号，width宽，height高，userName使用人
     let type = data.box_type === '105601' ? 0 : data.box_type === '105602' ? 1 : ''; //柜子类型105601:箱子105602:显示屏
@@ -174,7 +174,11 @@ export default class BoxDisplay extends PureComponent {
                         } */}
             <span className={styles.userDetails}> {dossiercount}卷</span>
             <span className={styles.userDetails2}> {jurisdictionName}</span>
-            {/* <Icon className={styles.check} type="check" /> */}
+            {dossiercount != 0 ? (
+              <span className={styles.userDetails3}> 已使用</span>
+            ) : (
+              <span className={styles.userDetails3}> 未使用</span>
+            )}
           </div>
         );
       } else {
@@ -194,6 +198,11 @@ export default class BoxDisplay extends PureComponent {
                         } */}
             <span className={styles.userDetails}> {dossiercount}卷</span>
             <span className={styles.userDetails2}> {jurisdictionName}</span>
+            {dossiercount != 0 ? (
+              <span className={styles.userDetails3}> 已使用</span>
+            ) : (
+              <span className={styles.userDetails3}> 未使用</span>
+            )}
           </div>
         );
       }
