@@ -52,7 +52,6 @@ class BusinessList extends PureComponent {
     labelCol: { span: 7 },
     wrapperCol: { span: 13 },
   };
-
   componentDidMount() {
 
   }
@@ -73,7 +72,6 @@ class BusinessList extends PureComponent {
     this.setState({
       tableData: list
     })
-
   }
   render() {
     // const chartData = []; 
