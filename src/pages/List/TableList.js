@@ -20,11 +20,14 @@ import {
   Divider,
   Steps,
   Radio,
+  Table,
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Ellipsis from '@/components/Ellipsis';
 
 import styles from './TableList.less';
+import { peoplelist } from './json1';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -497,21 +500,21 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="规则名称">
+            <FormItem label="涉案人姓名">
               {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
+            <FormItem label="办案民警">
+              {getFieldDecorator('policeName')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
+            <FormItem label="案由">
+              {getFieldDecorator('cause')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+          <Col md={24} sm={24} style={{ textAlign: 'right' }}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -519,9 +522,6 @@ class TableList extends PureComponent {
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
                 重置
               </Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
             </span>
           </Col>
         </Row>
@@ -529,83 +529,10 @@ class TableList extends PureComponent {
     );
   }
 
-  renderAdvancedForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="规则名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="调用次数">
-              {getFieldDecorator('number')(<InputNumber style={{ width: '100%' }} />)}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="更新日期">
-              {getFieldDecorator('date')(
-                <DatePicker style={{ width: '100%' }} placeholder="请输入更新日期" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status3')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status4')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">
-              查询
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              重置
-            </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </div>
-        </div>
-      </Form>
-    );
-  }
-
   renderForm() {
-    const { expandForm } = this.state;
-    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    // const { expandForm } = this.state;
+    return this.renderSimpleForm();
+    // return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
   render() {
@@ -614,13 +541,6 @@ class TableList extends PureComponent {
       loading,
     } = this.props;
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
-    const menu = (
-      <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-        <Menu.Item key="remove">删除</Menu.Item>
-        <Menu.Item key="approval">批量审批</Menu.Item>
-      </Menu>
-    );
-
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
@@ -629,33 +549,108 @@ class TableList extends PureComponent {
       handleUpdateModalVisible: this.handleUpdateModalVisible,
       handleUpdate: this.handleUpdate,
     };
+
+    const columns = [
+      {
+        title: '序号',
+        dataIndex: 'xh',
+        key: 'xh',
+      },
+      {
+        title: '涉案人员',
+        dataIndex: 'name',
+        key: 'name',
+        render: text => (
+          <Ellipsis tooltip length={7}>
+            {text}
+          </Ellipsis>
+        ),
+      },
+      {
+        title: '性别',
+        dataIndex: 'sex',
+        key: 'sex',
+      },
+      {
+        title: '案由',
+        dataIndex: 'entryCause',
+        key: 'entryCause',
+        render: text => (
+          <Ellipsis tooltip length={10}>
+            {text}
+          </Ellipsis>
+        ),
+      },
+      {
+        title: '办案民警',
+        dataIndex: 'policename',
+        key: 'policename',
+        xh: 'policename ',
+      },
+      {
+        title: '办案部门',
+        dataIndex: 'babm',
+        key: 'babm',
+        xh: 'babm',
+        //    sorter: true,
+        render: text => (
+          <Ellipsis tooltip length={10}>
+            {text}
+          </Ellipsis>
+        ),
+      },
+      {
+        title: '所属单位',
+        dataIndex: 'bardw',
+        key: 'bardw',
+        xh: 'bardw',
+        //    sorter: true,
+        render: text => (
+          <Ellipsis tooltip length={10}>
+            {text}
+          </Ellipsis>
+        ),
+      },
+      {
+        title: '入区时间',
+        dataIndex: 'optCreateTime',
+        key: 'optCreateTime',
+      },
+      {
+        title: '离区时间',
+        dataIndex: 'time',
+        key: 'time',
+      },
+      {
+        title: '操作',
+        render: record => (
+          <div>
+            <a onClick={() => this.enter(record)}>台账</a>
+            <Divider type="vertical" />
+            <a
+              onClick={() => {
+                this.caseRelat(true, record);
+              }}
+            >
+              视频
+            </a>
+          </div>
+        ),
+      },
+    ];
     return (
       <PageHeaderWrapper title="查询表格">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderForm()}</div>
-            <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建
-              </Button>
-              {selectedRows.length > 0 && (
-                <span>
-                  <Button>批量操作</Button>
-                  <Dropdown overlay={menu}>
-                    <Button>
-                      更多操作 <Icon type="down" />
-                    </Button>
-                  </Dropdown>
-                </span>
-              )}
-            </div>
-            <StandardTable
-              selectedRows={selectedRows}
+            {/* <div className={styles.tableListForm}>{this.renderForm()}</div> */}
+            <Table
+              size="middle"
               loading={loading}
-              data={data}
-              columns={this.columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
+              rowKey={record => record.xh}
+              dataSource={peoplelist}
+              columns={columns}
+              // pagination={false}
+              // onChange={this.handleTableChange}
             />
           </div>
         </Card>
