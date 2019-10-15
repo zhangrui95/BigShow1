@@ -22,6 +22,7 @@ import hebi from '../mapData/hebi';
 import erduosi from '../mapData/erduosi';
 import guiLin from '../mapData/gui_lin';
 import liaoning from '../mapData/liaoning';
+import tooltip from 'echarts/lib/component/tooltip';
 let myChart;
 let MapData;
 let cityName;
@@ -77,6 +78,7 @@ export default class ChinaMap extends PureComponent {
   };
 
   componentDidMount() {
+    myChart = echarts.init(document.getElementById('ChinaMap'));
     this.showEchart(MapData);
     this.getMapData(this.props.selectDate[0], this.props.selectDate[1], MapData);
     window.addEventListener('resize', myChart.resize);
@@ -145,7 +147,7 @@ export default class ChinaMap extends PureComponent {
         //     seriesIndex: 0,
         //     dataIndex: count,
         // });
-        that.props.setAreaCode(arry[count].code);
+        that.props.setAreaCode(arry[count]&&arry[count].code ? arry[count].code : '');
         count++;
       }
     }, this.props.mapLoopTime * 1000);
@@ -170,17 +172,22 @@ export default class ChinaMap extends PureComponent {
   };
   // 获取地图数据
   getMapData = (startTime, endTime, dataMap) => {
-    console.log('getMapData');
-    let data = [];
+    let data = [
+      { org: '210100', count:209 },
+      { org: '210200', count:1896},
+      { org: '210300', count:2064 },
+      { org: '210400', count:98},
+      { org: '210500', count:832 },
+    ];
     let arry = [];
     for (let i in dataMap.features) {
       let obj = null;
-
       arry.push({
         name: dataMap.features[i].properties.name,
-        value: this.getCityValueByCode(dataMap.features[i].id, data),
-        code: dataMap.features[i].id,
-        cp: dataMap.features[i].properties.cp,
+        value: this.getCityValueByCode(dataMap.features[i].id ? dataMap.features[i].id : Math.floor(Math.random()*(9999 - 1) + 1), data),
+        code: dataMap.features[i]&&dataMap.features[i].id ? dataMap.features[i].id : Math.floor(Math.random()*(9999 - 1) + 1),
+        click: dataMap.features[i]&&dataMap.features[i].id ? true : false,
+        cp: dataMap.features[i]&&dataMap.features[i].properties.cp ? dataMap.features[i].properties.cp : '',
         ...obj,
       });
     }
@@ -203,15 +210,11 @@ export default class ChinaMap extends PureComponent {
       visualMap: {
         left: 'right',
         inRange: {
-          // color: [
-          //     '#313695',
-          //     '#4575b4',
-          //     '#74add1',
-          //     '#fdae61',
-          //     '#f46d43',
-          //     '#d73027',
-          //     '#a50026',
-          // ],
+          color: [
+              '#7ed155',
+              '#fd7921',
+              '#d70400',
+          ],
         },
         min: arry[arry.length - 1].value,
         max: arry[0].value, // 文本，默认为数值文本
@@ -258,7 +261,9 @@ export default class ChinaMap extends PureComponent {
   // 根据城市编码获取值
   getCityValueByCode = (code, data) => {
     for (let i = 0; i < data.length; i++) {
-      if (code === data[i].org) return data[i].count;
+      if (code === data[i].org){
+        return data[i].count;
+      }
     }
     return 0;
   };
@@ -319,8 +324,8 @@ export default class ChinaMap extends PureComponent {
   };
 
   showEchart = data => {
+    myChart.clear();
     echarts.registerMap('MapData', data);
-    myChart = echarts.init(document.getElementById('ChinaMap'));
     const option = {
       // tooltip:{},
       legend: {
@@ -433,35 +438,14 @@ export default class ChinaMap extends PureComponent {
           },
           data: [],
         },
-        // {
-        //     name: 'Top 3',
-        //     type: 'effectScatter',
-        //     coordinateSystem: 'geo',
-        //     showEffectOn: 'render',
-        //     rippleEffect: {
-        //         brushType: 'fill',
-        //     },
-        //     tooltip: {
-        //         formatter: function (params) {
-        //             return params.seriesName + '<br />' + params.data.name + ':' + params.data.value[2]
-        //         },
-        //     },
-        //     hoverAnimation: true,
-        //     itemStyle: {
-        //         normal: {
-        //             color: '#FF0066',
-        //             shadowBlur: 10,
-        //             shadowColor: '#333',
-        //         },
-        //     },
-        //     zlevel: 1,
-        // },
       ],
     };
     myChart.setOption(option);
     let that = this;
+    myChart.off('click');
     myChart.on('click', function(params) {
-      if (params.data && params.data.code) {
+      that.props.setAreaCode(params.data.code);
+      if (params.data && params.data.click) {
         let myData = require('../mapData/' + params.data.code);
         that.showEchart(myData);
         that.getMapData(that.props.selectDate[0], that.props.selectDate[1], myData);

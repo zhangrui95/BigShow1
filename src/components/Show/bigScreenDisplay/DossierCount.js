@@ -8,46 +8,34 @@ import React, { PureComponent } from 'react';
 import echarts from 'echarts/lib/echarts';
 import bar from 'echarts/lib/chart/bar';
 import title from 'echarts/lib/component/title';
+import tooltip from 'echarts/lib/component/tooltip';
 
 let myChart;
 
 export default class DossierCount extends PureComponent {
   componentDidMount() {
-    const { selectDate, org, orgCode, orglist } = this.props;
     this.showEchart();
-    this.getDossierCount('', '', org, orgCode, orglist);
+    this.getDossierCount();
     window.addEventListener('resize', myChart.resize);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (
-        nextProps.selectDate !== null &&
-        (this.props.selectDate !== nextProps.selectDate ||
-          this.props.orgCode !== nextProps.orgCode ||
-          this.props.org !== nextProps.org ||
-          this.props.orglist !== nextProps.orglist)
-      ) {
-        this.getDossierCount(
-          nextProps.selectDate[0],
-          nextProps.selectDate[1],
-          nextProps.org,
-          nextProps.orgCode,
-          nextProps.orglist
-        );
+      if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
+        this.getDossierCount();
       }
     }
   }
 
   // 获取卷宗数量
-  getDossierCount = (startTime, endTime, org, orgCode, orglist) => {
+  getDossierCount = () => {
     let num = 0;
     const xData = [];
     const barData1 = [];
     const barData2 = [];
     const dataList = [
-      { name: '询问室', count1: '7', count2: '5' },
-      { name: '讯问室', count1: '3', count2: '9' },
+      { name: '询问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
+      { name: '讯问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
     ];
 
     for (let i = 0; i < dataList.length; i++) {

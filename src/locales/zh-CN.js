@@ -72,7 +72,6 @@ export default {
   'menu.dashboard.monitor': '监控页',
   'menu.dashboard.workplace': '工作台',
   'menu.form': '案管',
-  'menu.form.basicform': '基础表单',
   'menu.form.home': '首页可视化',
   'menu.form.basicform': '音视频管理',
   'menu.form.informationquery': '综合信息查询',

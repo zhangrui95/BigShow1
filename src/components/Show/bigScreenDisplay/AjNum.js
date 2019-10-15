@@ -8,6 +8,7 @@ import React, { PureComponent } from 'react';
 import echarts from 'echarts/lib/echarts';
 import bar from 'echarts/lib/chart/bar';
 import title from 'echarts/lib/component/title';
+import tooltip from 'echarts/lib/component/tooltip';
 
 let myChart;
 const colors = ['#ff3386', '#00b7e0', '#6880ff', '#5393d3', '#6d81d8', '#896ddc', '#9d60df'];
@@ -22,30 +23,18 @@ export default class AjNum extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (
-        nextProps.selectDate !== null &&
-        (this.props.selectDate !== nextProps.selectDate ||
-          this.props.orgCode !== nextProps.orgCode ||
-          this.props.org !== nextProps.org ||
-          this.props.orglist !== nextProps.orglist)
-      ) {
-        this.getAjCount(
-          nextProps.selectDate[0],
-          nextProps.selectDate[1],
-          nextProps.org,
-          nextProps.orgCode,
-          nextProps.orglist
-        );
+      if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
+        this.getAjCount();
       }
     }
   }
 
   // 获取警情来源数据
-  getAjCount = (startTime, endTime, org, orgCode, orglist) => {
+  getAjCount = () => {
     let data = {
       list: [
-        { name: '入柜', count: '17', jjly_dm: '001' },
-        { name: '出柜', count: '28', jjly_dm: '002' },
+        { name: '入柜', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
+        { name: '出柜', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
       ],
     };
     const xData = [];
