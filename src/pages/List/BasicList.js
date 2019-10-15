@@ -263,7 +263,7 @@ class BasicList extends PureComponent {
                 controls
                 preload="auto"
                 width='100%'
-                height="50%"
+                height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
               >
@@ -277,11 +277,11 @@ class BasicList extends PureComponent {
                 controls
                 preload="auto"
                 width='100%'
-                height="50%"
+                height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
               >
-                <source src={require('../../assets/video1.mp4')} type="video/mp4" />
+                <source src={require('../../assets/video2.mp4')} type="video/mp4" />
               </video>
             </Col>
             <Col span={12}>
@@ -291,11 +291,11 @@ class BasicList extends PureComponent {
                 controls
                 preload="auto"
                 width='100%'
-                height="50%"
+                height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
               >
-                <source src={require('../../assets/video1.mp4')} type="video/mp4" />
+                <source src={require('../../assets/video3.mp4')} type="video/mp4" />
               </video>
             </Col>
             <Col span={12}>
@@ -305,7 +305,7 @@ class BasicList extends PureComponent {
                 controls
                 preload="auto"
                 width='100%'
-                height="50%"
+                height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
               >
