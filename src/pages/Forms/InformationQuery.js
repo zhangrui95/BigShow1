@@ -36,6 +36,129 @@ const RadioGroup = Radio.Group;
 let timeout;
 let currentValue;
 
+const personData = [
+  {
+    key: '1',
+    sary: '张冬梅',
+    ryxb: '女',
+    zjhm: '232302198502021471',
+    rylx: '犯罪嫌疑人',
+    ajmc: '开设赌场案1',
+    ajbh: 'A4106550302502019040011',
+    qzcs: '刑事拘留',
+  },
+  {
+    key: '2',
+    sary: '李冬梅',
+    ryxb: '男',
+    zjhm: '232302198502021472',
+    rylx: '违法行为人',
+    ajmc: '开设赌场案2',
+    ajbh: 'A4106550302502019040012',
+    qzcs: '行政拘留',
+  },
+  {
+    key: '3',
+    sary: '王冬梅',
+    ryxb: '女',
+    zjhm: '232302198502021473',
+    rylx: '犯罪嫌疑人',
+    ajmc: '开设赌场案3',
+    ajbh: 'A4106550302502019040013',
+    qzcs: '延长居留',
+  },
+  {
+    key: '4',
+    sary: '赵冬梅',
+    ryxb: '男',
+    zjhm: '232302198502021474',
+    rylx: '违法行为人',
+    ajmc: '开设赌场案4',
+    ajbh: 'A4106550302502019040014',
+    qzcs: '刑事拘留',
+  },
+  {
+    key: '5',
+    sary: '马冬梅',
+    ryxb: '女',
+    zjhm: '232302198502021475',
+    rylx: '犯罪嫌疑人',
+    ajmc: '开设赌场案5',
+    ajbh: 'A4106550302502019040015',
+    qzcs: '行政拘留',
+  },
+  {
+    key: '6',
+    sary: '乌冬梅',
+    ryxb: '男',
+    zjhm: '232302198502021476',
+    rylx: '违法行为人',
+    ajmc: '开设赌场案6',
+    ajbh: 'A4106550302502019040016',
+    qzcs: '延长居留',
+  },
+  {
+    key: '7',
+    sary: '谢冬梅',
+    ryxb: '女',
+    zjhm: '232302198502021477',
+    rylx: '犯罪嫌疑人',
+    ajmc: '开设赌场案7',
+    ajbh: 'A4106550302502019040017',
+    qzcs: '刑事拘留',
+  },
+  {
+    key: '8',
+    sary: '魏冬梅',
+    ryxb: '男',
+    zjhm: '232302198502021478',
+    rylx: '违法行为人',
+    ajmc: '开设赌场案8',
+    ajbh: 'A4106550302502019040018',
+    qzcs: '行政拘留',
+  },
+  {
+    key: '9',
+    sary: '高冬梅',
+    ryxb: '女',
+    zjhm: '232302198502021479',
+    rylx: '犯罪嫌疑人',
+    ajmc: '开设赌场案9',
+    ajbh: 'A4106550302502019040019',
+    qzcs: '延长居留',
+  },
+  {
+    key: '10',
+    sary: '徐冬梅',
+    ryxb: '男',
+    zjhm: '232302198502021110',
+    rylx: '违法行为人',
+    ajmc: '开设赌场案10',
+    ajbh: 'A4106550302502019040010',
+    qzcs: '刑事拘留',
+  },
+  {
+    key: '11',
+    sary: '孙冬梅',
+    ryxb: '女',
+    zjhm: '232302198502021411',
+    rylx: '犯罪嫌疑人',
+    ajmc: '开设赌场案11',
+    ajbh: 'A4106550302502019040021',
+    qzcs: '行政拘留',
+  },
+  {
+    key: '12',
+    sary: '刘冬梅',
+    ryxb: '男',
+    zjhm: '232302198502021412',
+    rylx: '违法行为人',
+    ajmc: '开设赌场案12',
+    ajbh: 'A4106550302502019040022',
+    qzcs: '延长居留',
+  },
+];
+
 // @connect(({ policeData, loading, common }) => ({
 //   policeData,
 //   loading,
@@ -48,6 +171,7 @@ class InformationQuery extends PureComponent {
     activeKey: '0',
     arrayDetail: [],
     showDataView: true, // 控制显示图表或者列表（true显示图表）
+    personData: personData,
   };
 
   componentDidMount() {}
@@ -120,13 +244,42 @@ class InformationQuery extends PureComponent {
   // 查询
   handleSearch = e => {
     if (e) e.preventDefault();
-    const values = this.props.form.getFieldsValue();
-    console.log('values', values);
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      let list = personData;
+      if (fieldsValue.sary) {
+        list = list.filter(item => item.sary.indexOf(fieldsValue.sary) > -1);
+      }
+      if (fieldsValue.ryxb) {
+        list = list.filter(item => item.ryxb.indexOf(fieldsValue.ryxb) > -1);
+      }
+      if (fieldsValue.rylx) {
+        list = list.filter(item => item.rylx.indexOf(fieldsValue.rylx) > -1);
+      }
+      if (fieldsValue.zjhm) {
+        list = list.filter(item => item.zjhm.indexOf(fieldsValue.zjhm) > -1);
+      }
+      if (fieldsValue.ajmc) {
+        list = list.filter(item => item.ajmc.indexOf(fieldsValue.ajmc) > -1);
+      }
+      if (fieldsValue.ajbh) {
+        list = list.filter(item => item.ajbh.indexOf(fieldsValue.ajbh) > -1);
+      }
+      if (fieldsValue.qzcs) {
+        list = list.filter(item => item.qzcs.indexOf(fieldsValue.qzcs) > -1);
+      }
+      this.setState({
+        personData: list,
+      });
+    });
   };
 
   // 重置
   handleFormReset = () => {
     this.props.form.resetFields();
+    this.setState({
+      personData,
+    });
   };
 
   // 改变显示图表或列表
@@ -250,12 +403,13 @@ class InformationQuery extends PureComponent {
   }
 
   renderTable() {
+    const { personData } = this.state;
     // const { policeData: { police, loading } } = this.props;
     return (
       <div>
         <PersonTable
           // loading={loading}
-          // data={police}
+          data={personData}
           // onChange={this.handleTableChange}
           // dispatch={this.props.dispatch}
           newDetail={this.newDetail}

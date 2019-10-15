@@ -67,11 +67,6 @@ export default [
             component: './Forms/InformationQuery',
           },
           {
-            path: '/form/dynamic-show',
-            name: 'dynamicshow',
-            component: './Forms/DynamicShow',
-          },
-          {
             path: '/form/case-statistic',
             name: 'casestatistic',
             component: './Forms/CaseStatistic',
@@ -238,9 +233,9 @@ export default [
             component: './MiddlePlatform/DictManage',
           },
           {
-              path: '/middlePlatform/deviceStatus',
-              name: 'deviceStatus',
-              component: './MiddlePlatform/DeviceStatus',
+            path: '/middlePlatform/deviceStatus',
+            name: 'deviceStatus',
+            component: './MiddlePlatform/DeviceStatus',
           },
         ],
       },

@@ -8,33 +8,6 @@ import { Table } from 'antd';
 import styles from './RenderTable.less';
 import Ellipsis from '../Ellipsis';
 
-const data = [
-  {
-    key: '1',
-    firstName: 'John',
-    lastName: 'Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    firstName: 'Jim',
-    lastName: 'Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    firstName: 'Joe',
-    lastName: 'Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-
 class RenderTable extends PureComponent {
   constructor(props) {
     super(props);
@@ -47,10 +20,10 @@ class RenderTable extends PureComponent {
     const columns = [
       {
         title: '案件编号',
-        dataIndex: 'jqlbmc',
+        dataIndex: 'ajbh',
         render: text => {
           return (
-            <Ellipsis tooltip length="7">
+            <Ellipsis tooltip length="24">
               {text}
             </Ellipsis>
           );
@@ -58,15 +31,12 @@ class RenderTable extends PureComponent {
       },
       {
         title: '案件名称',
-        dataIndex: 'jjdw',
-        width: '15%',
+        dataIndex: 'ajmc',
         render: text => {
           if (text) {
-            let arry = text.split(',');
-            const num = arry.length - 1;
             return (
-              <Ellipsis tooltip lines={2}>
-                {arry[num]}
+              <Ellipsis tooltip length={15}>
+                {text}
               </Ellipsis>
             );
           }
@@ -74,102 +44,69 @@ class RenderTable extends PureComponent {
       },
       {
         title: '嫌疑人姓名',
-        dataIndex: 'jjr',
+        dataIndex: 'xyrxm',
         render: text => {
           if (text) {
             let arry = text.split(',');
             const num = arry.length - 1;
             return (
-              <Ellipsis tooltip length="7">
-                {arry[num]}
+              <Ellipsis tooltip length="12">
+                {text}
               </Ellipsis>
             );
           }
         },
       },
       {
-        title: '接警时间',
-        dataIndex: 'jjsj',
-        width: 100,
-        // render: (text) => {
-        //     return (
-        //         <Ellipsis tooltip length='12'>{text}</Ellipsis>
-        //     )
-        // }
-      },
-      {
-        title: '接警内容',
-        dataIndex: 'jjnr',
-        width: '20%',
+        title: '办案单位',
+        dataIndex: 'badw',
         render: text => {
           return (
-            <Ellipsis tooltip lines={4}>
+            <Ellipsis tooltip length="18">
               {text}
             </Ellipsis>
           );
         },
       },
       {
-        title: '处警单位',
-        dataIndex: 'cjdw',
-        width: '15%',
+        title: '办案人',
+        dataIndex: 'bar',
+        render: text => {
+          return (
+            <Ellipsis tooltip length={10}>
+              {text}
+            </Ellipsis>
+          );
+        },
+      },
+      {
+        title: '案件类别',
+        dataIndex: 'ajlb',
         render: text => {
           if (text) {
-            let arry = text.split(',');
-            const num = arry.length - 1;
             return (
-              <Ellipsis tooltip lines={2}>
-                {arry[num]}
+              <Ellipsis tooltip length={8}>
+                {text}
               </Ellipsis>
             );
           }
         },
       },
       {
-        title: '处警人',
-        dataIndex: 'cjr',
-        render: text => {
-          if (text) {
-            let arry = text.split(',');
-            const num = arry.length - 1;
-            return (
-              <Ellipsis tooltip length="7">
-                {arry[num]}
-              </Ellipsis>
-            );
-          }
-        },
-      },
-      {
-        title: '是否处警',
-        dataIndex: 'is_cj',
-        width: 50,
+        title: '音视频信息',
+        dataIndex: 'ypxx',
       },
     ];
 
-    const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      current: data.page ? data.page.currentPage : '',
-      total: data.page ? data.page.totalResult : '',
-      pageSize: data.page ? data.page.showCount : '',
-      showTotal: (total, range) => (
-        <span className={styles.pagination}>{`共 ${
-          data.page ? data.page.totalResult : 0
-        } 条记录 第 ${data.page ? data.page.currentPage : 1} / ${
-          data.page ? data.page.totalPage : 1
-        } 页`}</span>
-      ),
-    };
     return (
       <div className={styles.standardTable}>
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={data}
+          dataSource={this.props.data}
           columns={columns}
-          pagination={paginationProps}
-          onChange={this.handleTableChange}
+          // pagination={paginationProps}
+          // onChange={this.handleTableChange}
         />
       </div>
     );
