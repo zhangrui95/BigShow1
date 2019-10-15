@@ -4,7 +4,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
   Form, Input, Button, Row, Col, Radio, Card, Dropdown, Menu, Icon, Modal,
-  message, Select, Table, Tag, Tooltip, Timeline
+  message, Select, Table, Tag, Tooltip, Timeline,
+  Upload,
 } from 'antd';
 import styles from './AdvancedProfile.less';
 import { routerRedux } from 'dva/router';
@@ -60,7 +61,23 @@ export default class DetailPage extends PureComponent {
         </div>
       )
     }
-
+    const props = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange (info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
     for (let i = 0; i < relevanceInfo.length; i++) {
       stap1.push(
         <div>
@@ -94,24 +111,35 @@ export default class DetailPage extends PureComponent {
               {
                 relevanceInfo[i].application_reason ? <Col md={6} span={24}>操作原因：{relevanceInfo[i].application_reason}</Col> : ''
               }
-              {
+              {/* {
                 relevanceInfo[i].dossier_current_custody_details && relevanceInfo[i].dossier_current_custody_details.cabinet_id ?
                   relevanceInfo[i].dossier_current_custody_details.cabinet_id == '106202002' ?
                     <Col md={6} span={24}>存储位置：{`${relevanceInfo[i].dossier_current_custody_details.kfmc}/${relevanceInfo[i].dossier_current_custody_details.qymc}/${relevanceInfo[i].dossier_current_custody_details.kwmc}/${relevanceInfo[i].dossier_current_custody_details.gmc}/${relevanceInfo[i].dossier_current_custody_details.mjjmc}/${relevanceInfo[i].dossier_current_custody_details.mmc}`}</Col> :
                     <Col md={6} span={24}>存储位置：{`${relevanceInfo[i].dossier_current_custody_details.kfmc}/${relevanceInfo[i].dossier_current_custody_details.qymc}/${relevanceInfo[i].dossier_current_custody_details.kwmc}/${relevanceInfo[i].dossier_current_custody_details.gmc}`}</Col> : ''
+              } */}
+              {
+                relevanceInfo[i].dossier_custody_categorymc === '申请入柜' || relevanceInfo[i].dossier_custody_categorymc === '申请借阅' || relevanceInfo[i].dossier_custody_categorymc === '申请归还' ?
+                  <Upload {...props} key={i}>
+                    <Button type="primary">
+                      上传文书
+                    </Button>
+                  </Upload>
+                  : ''
               }
+
             </Row>
           </Timeline.Item>
         </div>
       )
     }
+
     return (
       <Row>
         <Card title="卷宗信息" className={styles.card}>
           <JzInfo JzInfo={data} />
         </Card>
         <Card title="轨迹信息" className={styles.card}>
-          <div style={{ maxHeight: 380, overflow: 'auto', overflow: 'auto' }}>
+          <div style={{ maxHeight: 400, overflow: 'auto', overflow: 'auto' }}>
             <Timeline style={{ marginTop: 20, marginLeft: 20 }}>{stap1}</Timeline>
           </div>
         </Card>
