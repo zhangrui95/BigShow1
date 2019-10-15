@@ -1,4 +1,4 @@
-import { queryNotices } from '@/services/api';
+import { queryNotices,getCurrentIP,getBaqInfo,getServiceByHaIdType } from '@/services/api';
 
 export default {
   namespace: 'global',
@@ -30,6 +30,25 @@ export default {
         type: 'user/changeNotifyCount',
         payload: count,
       });
+    },
+    //获取当前IP
+    *fetchCurrentIP({ payload, callback }, { call }) {
+      const response = yield call(getCurrentIP, payload);
+      if (callback && response) {
+        callback(response);
+      }
+    },
+    *fetchBaqInfo({ payload, callback }, { call }) {
+      const response = yield call(getBaqInfo, payload);
+      if (callback && response && response.data && response.data.list && response.data.list.length) {
+        callback(response.data.list)
+      }
+    },
+    *fetchServiceByHaIdType({ payload, callback }, { call }) {
+      const response = yield call(getServiceByHaIdType, payload);
+      if (callback && response) {
+        callback(response.data);
+      }
     },
   },
 

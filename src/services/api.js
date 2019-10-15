@@ -124,3 +124,23 @@ export async function queryNotices() {
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
+
+export async function getCurrentIP(param) {
+  return request(`${window.configUrl.securityCenterUrl}/login/getIP`, {
+    method: 'POST',
+    body: param,
+  });
+}
+// 获取当前办案区信息
+export async function getBaqInfo(params) {
+  return request(`${window.configUrl.maintainCenterUrl}/getHandleByIp`, {
+    method: 'POST',
+    body: params,
+  });
+}
+export async function getServiceByHaIdType(params) {
+  return request(`${window.configUrl.maintainCenterUrl}/getServiceByHaIdType`, {
+    method: 'POST',
+    body: params,
+  });
+}

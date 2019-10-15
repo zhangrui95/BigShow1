@@ -250,6 +250,7 @@ class InformationQueryCase extends PureComponent {
           // onChange={this.handleTableChange}
           // dispatch={this.props.dispatch}
           newDetail={this.newDetail}
+          {...this.props}
           // getPolice={params => this.getPolice(params)}
           // location={this.props.location}
           // formValues={this.state.formValues}
