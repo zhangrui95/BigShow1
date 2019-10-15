@@ -110,7 +110,7 @@ class BusinessList extends PureComponent {
         xh: 'ajbh',
       },
       {
-        title: '涉案人姓名',
+        title: '嫌疑人姓名',
         dataIndex: 'name',
         xh: 'name',
         render: (text) => {
