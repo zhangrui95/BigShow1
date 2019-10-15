@@ -9,143 +9,6 @@ import styles from './CaseTable.less';
 import Ellipsis from '../Ellipsis';
 import CaseTableDetail from './CaseTableDetail';
 
-const data = {
-  list: [
-    {
-      key: '11',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '21',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '31',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '41',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '51',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '61',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '71',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '81',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '91',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '101',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '111',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-    {
-      key: '121',
-      ajbh: 'A4106550302502019040013',
-      ajmc: '开设赌场案',
-      sarq: '2019-05-05',
-      badw: '公安局国保大队',
-      ajzt: '受理',
-      bar: '文凯',
-      ajlb: '八类案件',
-      qssj: '2015-01-01',
-    },
-  ],
-};
-
 class RenderTable extends PureComponent {
   constructor(props) {
     super(props);
@@ -171,7 +34,7 @@ class RenderTable extends PureComponent {
         dataIndex: 'ajbh',
         render: text => {
           return (
-            <Ellipsis tooltip length="7">
+            <Ellipsis tooltip length="24">
               {text}
             </Ellipsis>
           );
@@ -243,8 +106,8 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '受案日期',
-        dataIndex: 'sarq',
+        title: '受理日期',
+        dataIndex: 'slrq',
         render: text => {
           if (text) {
             let arry = text.split(',');
@@ -276,7 +139,7 @@ class RenderTable extends PureComponent {
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={data.list}
+          dataSource={this.props.data}
           columns={columns}
         />
       </div>

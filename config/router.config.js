@@ -73,11 +73,6 @@ export default [
             component: './Forms/InformationQuery',
           },
           {
-            path: '/form/dynamic-show',
-            name: 'dynamicshow',
-            component: './Forms/DynamicShow',
-          },
-          {
             path: '/form/case-statistic',
             name: 'casestatistic',
             component: './Forms/CaseStatistic',

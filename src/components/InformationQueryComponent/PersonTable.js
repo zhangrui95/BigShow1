@@ -9,131 +9,6 @@ import styles from './PersonTable.less';
 import Ellipsis from '../Ellipsis';
 import PersonTableDetail from './PersonTableDetail';
 
-const data = {
-  list: [
-    {
-      key: '1',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '2',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '3',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '4',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '5',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '6',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '7',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '8',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '9',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '10',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '11',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '12',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-  ],
-};
-
 class PersonTable extends PureComponent {
   constructor(props) {
     super(props);
@@ -263,7 +138,7 @@ class PersonTable extends PureComponent {
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={data.list}
+          dataSource={this.props.data}
           columns={columns}
         />
       </div>

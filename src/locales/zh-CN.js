@@ -75,7 +75,6 @@ export default {
   'menu.form.home': '首页可视化',
   'menu.form.basicform': '音视频管理',
   'menu.form.informationquery': '综合信息查询',
-  'menu.form.dynamicshow': '违规动态展示',
   'menu.form.casestatistic': '案件统计',
   'menu.form.archivesstatistics': '办案场所考核',
   // 'menu.form.archivesstatisticsform.archivesstatisticsindex1': '档案统计1',

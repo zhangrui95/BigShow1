@@ -20,7 +20,9 @@ import {
   message,
   Cascader,
 } from 'antd';
-import RenderTable from '../../components/AudioManage/RenderTable';
+import BasicFromTable from '../../components/AudioManage/RenderTable';
+import styles from './BasicForm.less';
+import { peoplelist } from '../List/json1';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -30,6 +32,40 @@ const TreeNode = TreeSelect.TreeNode;
 const RadioGroup = Radio.Group;
 let timeout;
 let currentValue;
+
+const data = [
+  {
+    key: '1',
+    ajbh: 'A2323021547965412589631',
+    ajmc: '抢劫案',
+    xyrxm: '张工',
+    badw: '第一派出所',
+    bar: '李铭',
+    ajlb: '侵财案件',
+    ypxx: 'aa.mp3',
+  },
+  {
+    key: '2',
+    ajbh: 'A2323021547965412589632',
+    ajmc: '赌博案',
+    xyrxm: '李煜',
+    badw: '第二派出所',
+    bar: '王肥肥',
+    ajlb: '两抢一盗',
+    ypxx: 'abb.mp3',
+  },
+  {
+    key: '3',
+    ajbh: 'A2323021547965412589633',
+    ajmc: '盗窃案',
+    xyrxm: '张云',
+    badw: '第三派出所',
+    bar: '赵要',
+    ajlb: '八类案件',
+    ypxx: 'cc.mp3',
+  },
+];
+
 @connect(({ policeData, loading, common }) => ({
   policeData,
   loading,
@@ -38,9 +74,48 @@ let currentValue;
 }))
 @Form.create()
 class BasicForms extends PureComponent {
-  state = {};
+  state = {
+    data: data,
+  };
 
   componentDidMount() {}
+
+  handleSearch = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      let list = data;
+      if (fieldsValue.ajbh) {
+        list = list.filter(item => item.ajbh.indexOf(fieldsValue.ajbh) > -1);
+      }
+      if (fieldsValue.ajmc) {
+        list = list.filter(item => item.ajmc.indexOf(fieldsValue.ajmc) > -1);
+      }
+      if (fieldsValue.xyrxm) {
+        list = list.filter(item => item.xyrxm.indexOf(fieldsValue.xyrxm) > -1);
+      }
+      if (fieldsValue.badw) {
+        list = list.filter(item => item.badw.indexOf(fieldsValue.badw) > -1);
+      }
+      if (fieldsValue.bar) {
+        list = list.filter(item => item.bar.indexOf(fieldsValue.bar) > -1);
+      }
+      if (fieldsValue.ajlb) {
+        list = list.filter(item => item.ajlb.indexOf(fieldsValue.ajlb) > -1);
+      }
+      this.setState({
+        data: list,
+      });
+    });
+  };
+
+  handleFormReset = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      data,
+    });
+  };
 
   renderForm() {
     const {
@@ -56,174 +131,55 @@ class BasicForms extends PureComponent {
       <Form onSubmit={this.handleSearch}>
         <Row gutter={rowLayout}>
           <Col {...colLayout}>
-            <FormItem label="接警来源" {...formItemLayout}>
-              {getFieldDecorator('jjly', {
-                initialValue: this.state.jjly,
-              })(
-                <Select placeholder="请选择接警来源" style={{ width: '100%' }}>
-                  <Option value="">全部</Option>
-                  {/*{involvedType !== undefined ? this.Option() : ''}*/}
-                  {/*{sourceOfAlarmDictOptions}*/}
-                </Select>
-              )}
+            <FormItem label="案件编号" {...formItemLayout}>
+              {getFieldDecorator('ajbh', {})(<Input placeholder="请输入案件编号" />)}
             </FormItem>
           </Col>
           <Col {...colLayout}>
-            <FormItem label="管辖单位" {...formItemLayout}>
-              {getFieldDecorator('jjdw', {})(
-                <TreeSelect
-                  showSearch
-                  style={{ width: '100%' }}
-                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  placeholder="请输入管辖单位"
-                  allowClear
-                  key="jjdwSelect"
-                  treeDefaultExpandedKeys={this.state.treeDefaultExpandedKeys}
-                  treeNodeFilterProp="title"
-                >
-                  {/*{depTree && depTree.length > 0 ? this.renderloop(depTree) : null}*/}
-                </TreeSelect>
-              )}
+            <FormItem label="案件名称" {...formItemLayout}>
+              {getFieldDecorator('ajmc', {})(<Input placeholder="请输入案件名称" />)}
             </FormItem>
           </Col>
           <Col {...colLayout}>
-            <FormItem label="接警人" {...formItemLayout}>
-              {getFieldDecorator('jjr', {
+            <FormItem label="嫌疑人姓名" {...formItemLayout}>
+              {getFieldDecorator('xyrxm', {
                 // initialValue: this.state.caseType,
                 rules: [{ max: 32, message: '最多输入32个字！' }],
-              })(
-                <Select
-                  mode="combobox"
-                  defaultActiveFirstOption={false}
-                  optionLabelProp="title"
-                  showArrow={false}
-                  filterOption={false}
-                  placeholder="请输入接警人"
-                  onChange={value => this.handleAllPoliceOptionChange(value, false)}
-                  onFocus={value => this.handleAllPoliceOptionChange(value, false)}
-                >
-                  {/*{allPoliceOptions}*/}
-                </Select>
-              )}
+              })(<Input placeholder="请输入嫌疑人姓名" />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={rowLayout}>
           <Col {...colLayout}>
-            <FormItem label="接警时间" {...formItemLayout}>
-              {getFieldDecorator('jjsj', {
+            <FormItem label="办案单位" {...formItemLayout}>
+              {getFieldDecorator('badw', {
                 // initialValue: this.state.jjsj,
-              })(
-                <RangePicker
-                  disabledDate={this.disabledDate}
-                  style={{ width: '100%' }}
-                  showTime={{ format: 'HH:mm:ss' }}
-                  format="YYYY-MM-DD HH:mm:ss"
-                />
-              )}
+              })(<Input placeholder="请输入办案单位" />)}
             </FormItem>
           </Col>
           <Col {...colLayout}>
-            <FormItem label="处警单位" {...formItemLayout}>
-              {getFieldDecorator('cjdw', {
+            <FormItem label="办案人" {...formItemLayout}>
+              {getFieldDecorator('bar', {
                 // initialValue: this.state.cjdw,
-              })(
-                <TreeSelect
-                  showSearch
-                  style={{ width: '100%' }}
-                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  placeholder="请输入处警单位"
-                  allowClear
-                  key="cjdwSelect"
-                  treeDefaultExpandedKeys={this.state.treeDefaultExpandedKeys}
-                  treeNodeFilterProp="title"
-                >
-                  {/*{depTree && depTree.length > 0 ? this.renderloop(depTree) : null}*/}
-                </TreeSelect>
-              )}
+              })(<Input placeholder="请输入办案人" />)}
             </FormItem>
           </Col>
           <Col {...colLayout}>
-            <FormItem label="处警人" {...formItemLayout}>
-              {getFieldDecorator('cjr', {
-                // initialValue: this.state.gzry,
-                rules: [{ max: 32, message: '最多输入32个字！' }],
+            <FormItem label="案件类别" {...formItemLayout}>
+              {getFieldDecorator('ajlb', {
+                // initialValue: this.state.caseAllType,
               })(
-                <Select
-                  mode="combobox"
-                  defaultActiveFirstOption={false}
-                  optionLabelProp="title"
-                  showArrow={false}
-                  filterOption={false}
-                  placeholder="请输入处警人"
-                  onChange={value => this.handleAllPoliceOptionChange(value, true)}
-                  onFocus={value => this.handleAllPoliceOptionChange(value, true)}
-                >
-                  {/*{cjrPoliceOptions}*/}
+                <Select placeholder="请选择案件类别" style={{ width: '100%' }}>
+                  <Option value="">全部</Option>
+                  <Option value="八类案件">八类案件</Option>
+                  <Option value="两抢一盗">两抢一盗</Option>
+                  <Option value="侵财案件">侵财案件</Option>
                 </Select>
               )}
             </FormItem>
           </Col>
         </Row>
-        {/*<Row gutter={rowLayout}>*/}
-        {/*<Col {...colLayout}>*/}
-        {/*<FormItem label="报警类别" {...formItemLayout}>*/}
-        {/*{getFieldDecorator('jqlb', {})(*/}
-        {/*<Cascader*/}
-        {/*options={caseTypeTree}*/}
-        {/*placeholder="请选择报警类别"*/}
-        {/*changeOnSelect={true}*/}
-        {/*showSearch={*/}
-        {/*{*/}
-        {/*filter: (inputValue, path) => {*/}
-        {/*return (path.some(items => (items.searchValue).indexOf(inputValue) > -1));*/}
-        {/*},*/}
-        {/*limit: 5,*/}
-        {/*}*/}
-        {/*}*/}
-        {/*/>,*/}
-        {/*)}*/}
-        {/*</FormItem>*/}
-        {/*</Col>*/}
-        {/*<Col {...colLayout}>*/}
-        {/*<FormItem label="是否受案" {...formItemLayout}>*/}
-        {/*{getFieldDecorator('sfsa', {*/}
-        {/*initialValue: this.state.sfsa,*/}
-        {/*})(*/}
-        {/*<Radio.Group onChange={this.onRadioChange}>*/}
-        {/*<Radio value=''>全部</Radio>*/}
-        {/*<Radio value='1'>是</Radio>*/}
-        {/*<Radio value='0'>否</Radio>*/}
-        {/*</Radio.Group>,*/}
-        {/*)}*/}
-        {/*</FormItem>*/}
-        {/*</Col>*/}
-        {/*<Col {...colLayout}>*/}
-        {/*<FormItem label="是否处警" {...formItemLayout}>*/}
-        {/*{getFieldDecorator('sfcj', {*/}
-        {/*initialValue: this.state.sfcj,*/}
-        {/*})(*/}
-        {/*<Radio.Group onChange={this.onRadioChange1}>*/}
-        {/*<Radio value=''>全部</Radio>*/}
-        {/*<Radio value='1'>是</Radio>*/}
-        {/*<Radio value='0'>否</Radio>*/}
-        {/*</Radio.Group>,*/}
-        {/*)}*/}
-        {/*</FormItem>*/}
-        {/*</Col>*/}
-
-        {/*</Row>*/}
         <Row gutter={rowLayout}>
-          {/*<Col {...colLayout}>*/}
-          {/*<FormItem label="处理状态" {...formItemLayout}>*/}
-          {/*{getFieldDecorator('clzt', {})(*/}
-          {/*<Select placeholder="请选择处理状态" style={{ width: '100%' }}>*/}
-          {/*<Option value="">全部</Option>*/}
-          {/*{handleStatusDictOptions}*/}
-          {/*</Select>,*/}
-          {/*)}*/}
-          {/*</FormItem>*/}
-          {/*</Col>*/}
           <Col>
             <span style={{ float: 'right', marginBottom: 24 }}>
               {/*<Button style={{ color: '#2095FF', borderColor: '#2095FF' }} onClick={this.exportData}>导出表格</Button>*/}
@@ -241,10 +197,11 @@ class BasicForms extends PureComponent {
   }
 
   renderTable() {
+    const { data } = this.state;
     return (
       <div>
-        <RenderTable
-          // data={police}
+        <BasicFromTable
+          data={data}
           onChange={this.handleTableChange}
           // dispatch={this.props.dispatch}
           // newDetail={this.newDetail}
@@ -259,8 +216,8 @@ class BasicForms extends PureComponent {
   render() {
     return (
       <div>
-        <div>{this.renderForm()}</div>
-        <div>{this.renderTable()}</div>
+        <div className={styles.tableListForm}>{this.renderForm()}</div>
+        <div className={styles.tableListOperator}>{this.renderTable()}</div>
       </div>
     );
   }
