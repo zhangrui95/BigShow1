@@ -3,29 +3,27 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { Input, Card, Carousel, Tooltip, Icon, Row, Col, List } from 'antd';
 import { ChartCard } from '@/components/Charts';
-import Trend from '@/components/Trend'
+import Trend from '@/components/Trend';
 
 @connect()
 class UsageSituation extends Component {
-
   handleFormSubmit = value => {
     // eslint-disable-next-line
     console.log(value);
   };
 
   render() {
-
     const data = [
       {
         title: 'Title 1',
         name: '张三',
-        room: '讯问室1'
+        room: '讯问室1',
       },
       {
         title: 'Title 2',
         name: '李四',
-        room: '讯问室2'
-      }
+        room: '讯问室2',
+      },
     ];
     return (
       <div>
@@ -64,7 +62,7 @@ class UsageSituation extends Component {
               <List
                 grid={{
                   gutter: 8,
-                  column: 6
+                  column: 6,
                 }}
                 dataSource={data}
                 renderItem={item => (
@@ -86,7 +84,7 @@ class UsageSituation extends Component {
               <List
                 grid={{
                   gutter: 8,
-                  column: 6
+                  column: 6,
                 }}
                 dataSource={data}
                 renderItem={item => (
@@ -109,7 +107,7 @@ class UsageSituation extends Component {
           <List
             grid={{
               gutter: 8,
-              column: 12
+              column: 12,
             }}
             dataSource={data}
             renderItem={item => (

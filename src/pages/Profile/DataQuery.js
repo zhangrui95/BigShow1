@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
-import { connect ,} from 'dva';
+import { connect } from 'dva';
 import { routerRedux, Route, Switch, Link } from 'dva/router';
 import {
   Row,
@@ -36,7 +36,7 @@ class DataQuery extends Component {
   state = {};
 
   // 查询表单
-  renderSimpleForm () {
+  renderSimpleForm() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -139,13 +139,13 @@ class DataQuery extends Component {
       </Form>
     );
   }
-  handleDetail = (record) => {
+  handleDetail = record => {
     this.props.dispatch(
       routerRedux.push({
         pathname: '/profile/detail',
         query: {
           data: record,
-          type: record.dossier_custody_categorymc == '入库' ? 1 : 2
+          type: record.dossier_custody_categorymc == '入库' ? 1 : 2,
         },
       })
     );
@@ -184,8 +184,8 @@ class DataQuery extends Component {
               <a onClick={() => this.handleDetail(record)}>{val.slice(0, 10) + '……'}</a>
             </Tooltip>
           ) : (
-              <a onClick={() => this.handleDetail(record)}>{val}</a>
-            );
+            <a onClick={() => this.handleDetail(record)}>{val}</a>
+          );
         },
       },
       {
@@ -232,7 +232,7 @@ class DataQuery extends Component {
       showQuickJumper: true,
       showTotal: (total, range) =>
         `共 ${page ? page.totalResult : 0} 条记录 第 ${page ? page.currentPage : 1} / ${
-        page ? page.totalPage : 1
+          page ? page.totalPage : 1
         } 页`,
       onChange: this.handleStandardTableChange,
     };
@@ -248,7 +248,7 @@ class DataQuery extends Component {
       </Row>
     );
   };
-  render () {
+  render() {
     return (
       <div>
         {this.renderSimpleForm()}
