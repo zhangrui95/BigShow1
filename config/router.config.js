@@ -237,6 +237,11 @@ export default [
             name: 'dictManage',
             component: './MiddlePlatform/DictManage',
           },
+          {
+              path: '/middlePlatform/deviceStatus',
+              name: 'deviceStatus',
+              component: './MiddlePlatform/DeviceStatus',
+          },
         ],
       },
       {

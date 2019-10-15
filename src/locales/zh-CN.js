@@ -112,6 +112,7 @@ export default {
   'menu.middlePlatform': '中台',
   'menu.middlePlatform.depManage': '机构管理',
   'menu.middlePlatform.dictManage': '字典管理',
+  'menu.middlePlatform.deviceStatus': '设备状态管理',
   'menu.account': '个人页',
   'menu.account.center': '个人中心',
   'menu.account.settings': '个人设置',
