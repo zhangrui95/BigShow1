@@ -86,6 +86,7 @@ export default {
   'menu.list.searchtable': '台账管理',
   'menu.list.basiclist': '远程指挥',
   'menu.list.cardlist': '轨迹定位',
+  'menu.list.businessList': '业务情况',
   'menu.list.searchlist': '搜索列表',
   'menu.list.searchlist.articles': '搜索列表（文章）',
   'menu.list.searchlist.projects': '搜索列表（项目）',

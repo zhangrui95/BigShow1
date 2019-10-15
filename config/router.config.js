@@ -129,6 +129,11 @@ export default [
             component: './List/CardList',
           },
           {
+            path: '/list/businessList',
+            name: 'businessList',
+            component: './List/BusinessList',
+          },
+          {
             path: '/list/search',
             name: 'searchlist',
             component: './List/List',
