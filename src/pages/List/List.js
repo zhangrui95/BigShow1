@@ -6,7 +6,6 @@ import { Bar } from '@/components/Charts';
 
 @connect()
 class SearchList extends Component {
-
   handleFormSubmit = value => {
     // eslint-disable-next-line
     console.log(value);
@@ -24,7 +23,7 @@ class SearchList extends Component {
       <Card>
         <Bar height={200} title="销售额趋势" data={salesData} />
         <div>
-          <Carousel dotPosition='top' autoplay>
+          <Carousel dotPosition="top" autoplay>
             <div>
               <img src={require('@/assets/notice1.jpg')} alt="" style={{ width: '300px' }} />
             </div>

@@ -32,7 +32,6 @@ import styles from './TableList.less';
 import { peoplelist } from './json1';
 import pdfShow from '@/assets/ledger.pdf';
 
-
 const FormItem = Form.Item;
 const { Step } = Steps;
 const { TextArea } = Input;
@@ -233,25 +232,22 @@ class TableList extends PureComponent {
   handleSearch = e => {
     e.preventDefault();
 
-
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) return;
       let list = peoplelist;
       if (fieldsValue.name) {
-        list = peoplelist.filter((item) => item.name.indexOf(fieldsValue.name) > -1);
+        list = peoplelist.filter(item => item.name.indexOf(fieldsValue.name) > -1);
       }
       if (fieldsValue.policename) {
-        list = list.filter((item) => item.policename.indexOf(fieldsValue.policename) > -1)
+        list = list.filter(item => item.policename.indexOf(fieldsValue.policename) > -1);
       }
       if (fieldsValue.entryCause) {
-        list = list.filter((item) => item.entryCause.indexOf(fieldsValue.entryCause) > -1)
+        list = list.filter(item => item.entryCause.indexOf(fieldsValue.entryCause) > -1);
       }
 
       this.setState({
-        peoplelist: list
-      })
-
-
+        peoplelist: list,
+      });
     });
   };
 
@@ -429,12 +425,14 @@ class TableList extends PureComponent {
         title: '操作',
         render: record => (
           <div>
-            <a onClick={() => {
-              this.setState({
-                visible: true
-              })
-            }}
-            >台账
+            <a
+              onClick={() => {
+                this.setState({
+                  visible: true,
+                });
+              }}
+            >
+              台账
             </a>
             <Divider type="vertical" />
             <a
@@ -459,8 +457,8 @@ class TableList extends PureComponent {
               rowKey={record => record.xh}
               dataSource={this.state.peoplelist}
               columns={columns}
-            // pagination={false}
-            // onChange={this.handleTableChange}
+              // pagination={false}
+              // onChange={this.handleTableChange}
             />
           </div>
         </Card>
@@ -471,25 +469,20 @@ class TableList extends PureComponent {
           footer={null}
           onCancel={() => {
             this.setState({
-              visible: false
-            })
+              visible: false,
+            });
           }}
         >
-
-          <PDF
-            style={{ width: '300px' }}
-            file={pdfShow}
-            page={this.state.page}
-          />
+          <PDF style={{ width: '300px' }} file={pdfShow} page={this.state.page} />
 
           <Pagination
             current={this.state.page}
             style={{ textAlign: 'center' }}
-            onChange={(page) => {
-              console.log('page', page)
+            onChange={page => {
+              console.log('page', page);
               this.setState({
-                page
-              })
+                page,
+              });
             }}
             size="small"
             pageSize={1}

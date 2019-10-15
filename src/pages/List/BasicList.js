@@ -256,13 +256,13 @@ class BasicList extends PureComponent {
       <div>
         <div>
           <Row gutter={24}>
-            <Col span={12} style={{marginBottom:'12px'}}>
+            <Col span={12} style={{ marginBottom: '12px' }}>
               <video
                 id="my-video"
                 // class="video-js"
                 controls
                 preload="auto"
-                width='100%'
+                width="100%"
                 height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
@@ -270,13 +270,13 @@ class BasicList extends PureComponent {
                 <source src={require('../../assets/video1.mp4')} type="video/mp4" />
               </video>
             </Col>
-            <Col span={12}  style={{marginBottom:'12px'}}>
+            <Col span={12} style={{ marginBottom: '12px' }}>
               <video
                 id="my-video"
                 // class="video-js"
                 controls
                 preload="auto"
-                width='100%'
+                width="100%"
                 height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
@@ -290,7 +290,7 @@ class BasicList extends PureComponent {
                 // class="video-js"
                 controls
                 preload="auto"
-                width='100%'
+                width="100%"
                 height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
@@ -304,13 +304,14 @@ class BasicList extends PureComponent {
                 // class="video-js"
                 controls
                 preload="auto"
-                width='100%'
+                width="100%"
                 height="40%"
                 poster="video/cover.png"
                 data-setup="{}"
               >
                 <source src={require('../../assets/video1.mp4')} type="video/mp4" />
-              </video></Col>
+              </video>
+            </Col>
           </Row>
         </div>
       </div>

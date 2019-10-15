@@ -10,6 +10,10 @@ export default [
       { path: '/user/register-result', component: './User/RegisterResult' },
     ],
   },
+  {
+    path: '/home',
+    component: '../layouts/SetupShow',
+  },
   // app
   {
     path: '/',
@@ -47,6 +51,11 @@ export default [
         icon: 'form',
         name: 'form',
         routes: [
+          {
+            path: '/form/home',
+            name: 'home',
+            component: './Forms/Home',
+          },
           {
             path: '/form/basic-form',
             name: 'basicform',
@@ -168,6 +177,11 @@ export default [
         name: 'list',
         routes: [
           {
+            path: '/list/UsageSituation',
+            name: 'usageSituation',
+            component: './List/UsageSituation',
+          },
+          {
             path: '/list/table-list',
             name: 'searchtable',
             component: './List/TableList',
@@ -188,10 +202,14 @@ export default [
             component: './List/BusinessList',
           },
           {
+            path: '/list/abnormalList',
+            name: 'abnormalList',
+            component: './List/AbnormalList',
+          },
+          {
             path: '/list/search',
             name: 'searchlist',
             component: './List/List',
-
           },
         ],
       },
