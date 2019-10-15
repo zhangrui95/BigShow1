@@ -199,7 +199,7 @@ class ArkQuery extends Component {
               <BoxDisplay
                 key={1}
                 cabinet={cabinetData}
-                scale={0.8}
+                scale={1}
                 selectType={1}
                 setBoxInfo={this.setBoxInfo}
                 examplesFomtColor={'#000'}

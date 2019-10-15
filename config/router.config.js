@@ -178,11 +178,11 @@ export default [
             name: 'abnormalList',
             component: './List/AbnormalList',
           },
-          {
-            path: '/list/search',
-            name: 'searchlist',
-            component: './List/List',
-          },
+          // {
+          //   path: '/list/search',
+          //   name: 'searchlist',
+          //   component: './List/List',
+          // },
         ],
       },
       {
@@ -236,6 +236,11 @@ export default [
             path: '/middlePlatform/dictManage',
             name: 'dictManage',
             component: './MiddlePlatform/DictManage',
+          },
+          {
+              path: '/middlePlatform/deviceStatus',
+              name: 'deviceStatus',
+              component: './MiddlePlatform/DeviceStatus',
           },
         ],
       },

@@ -8,6 +8,7 @@ import React, { PureComponent } from 'react';
 import echarts from 'echarts/lib/echarts';
 import bar from 'echarts/lib/chart/bar';
 import title from 'echarts/lib/component/title';
+import tooltip from 'echarts/lib/component/tooltip';
 
 let myChart;
 const colors = ['#ff3386', '#00b7e0', '#6880ff', '#5393d3', '#6d81d8', '#896ddc', '#9d60df'];
@@ -22,32 +23,20 @@ export default class PoliceSituationFrom extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (
-        nextProps.selectDate !== null &&
-        (this.props.selectDate !== nextProps.selectDate ||
-          this.props.orgCode !== nextProps.orgCode ||
-          this.props.org !== nextProps.org ||
-          this.props.orglist !== nextProps.orglist)
-      ) {
-        this.getPoliceSituationFrom(
-          nextProps.selectDate[0],
-          nextProps.selectDate[1],
-          nextProps.org,
-          nextProps.orgCode,
-          nextProps.orglist
-        );
+      if (this.props.currentDateType !== nextProps.currentDateType || this.props.org !== nextProps.org){
+        this.getPoliceSituationFrom();
       }
     }
   }
 
   // 获取警情来源数据
-  getPoliceSituationFrom = (startTime, endTime, org, orgCode, orglist) => {
+  getPoliceSituationFrom = () => {
     let data = {
       list: [
-        { name: '办案区', count: '17', jjly_dm: '001' },
-        { name: '卷宗', count: '28', jjly_dm: '002' },
-        { name: '涉案物品', count: '14', jjly_dm: '003' },
-        { name: '警情', count: '31', jjly_dm: '004' },
+        { name: '办案区', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
+        { name: '卷宗', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
+        { name: '涉案物品', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '003' },
+        { name: '警情', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '004' },
       ],
     };
     const xData = [];

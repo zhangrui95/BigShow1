@@ -21,7 +21,7 @@ import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './AdvancedProfile.less';
-import { anJuanLeiXing, chaXunJieGuo } from './test';
+import { anJuanLeiXing, chaXunJieGuo, getChaXunJieGuo } from './test';
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -33,7 +33,109 @@ const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 }))
 @Form.create()
 class DataQuery extends Component {
-  state = {};
+  state = {
+    cardList: getChaXunJieGuo().result.list,
+    page: getChaXunJieGuo().result.page,
+  };
+
+  handleSearch = e => {
+    e.preventDefault();
+    const { form } = this.props;
+
+    //原有的六条默认数据
+    let { loading } = this.props;
+    let { cardList, page } = this.state;
+
+    form.validateFields((err, fieldsValue) => {
+      //组织参数
+      if (err) return;
+      console.log('--------------fieldsValue', fieldsValue);
+
+      //选择的参数
+      let dossier_category =
+        fieldsValue.dossier_category != undefined ? fieldsValue.dossier_category : null;
+      let dossier_custody_category =
+        fieldsValue.dossier_custody_category != undefined
+          ? fieldsValue.dossier_custody_category
+          : null;
+      let case_unit = fieldsValue.case_unit != undefined ? fieldsValue.case_unit : null;
+      let time_begin =
+        fieldsValue.dossier_founder_time != undefined
+          ? fieldsValue.dossier_founder_time[0].format('YYYY-MM-DD')
+          : null; //	起始时间
+      let time_end =
+        fieldsValue.dossier_founder_time != undefined
+          ? fieldsValue.dossier_founder_time[1].format('YYYY-MM-DD')
+          : null; //	结束时间
+
+      //过滤案卷类型
+      if (dossier_category) {
+        for (let i = 0; i < cardList.length; i++) {
+          let item = cardList[i];
+          if (item.dossier_categorymc != dossier_category) {
+            cardList.splice(i, 1);
+            i = 0;
+          }
+        }
+      }
+
+      //过滤存储状态
+      if (dossier_custody_category && dossier_custody_category != '全部') {
+        for (let i = 0; i < cardList.length; i++) {
+          let item = cardList[i];
+          if (item.dossier_custody_categorymc != dossier_custody_category) {
+            cardList.splice(i, 1);
+            i = 0;
+          }
+        }
+      }
+
+      //过滤办案机构
+      if (case_unit) {
+        for (let i = 0; i < cardList.length; i++) {
+          let item = cardList[i];
+          if (item.case_unit.indexOf(case_unit) == -1) {
+            cardList.splice(i, 1);
+            i = 0;
+          }
+        }
+      }
+
+      //过滤时间
+      if (time_begin && time_end) {
+        for (let i = 0; i < cardList.length; i++) {
+          let item = cardList[i];
+          let tempData = item.dossier_founder_time;
+          if (tempData <= time_begin || tempData >= time_end + 1) {
+            cardList.splice(i, 1);
+            i = 0;
+          }
+        }
+      }
+
+      this.setState({
+        cardList: cardList,
+        page: {
+          showCount: 6,
+          totalPage: 1,
+          totalResult: cardList.length,
+          currentPage: 1,
+          currentResult: 0,
+          entityOrField: true,
+          pageStr: '',
+        },
+      });
+    });
+  };
+
+  handleFormReset = () => {
+    const { form } = this.props;
+    form.resetFields();
+    this.setState({
+      cardList: getChaXunJieGuo().result.list,
+      page: getChaXunJieGuo().result.page,
+    });
+  };
 
   // 查询表单
   renderSimpleForm() {
@@ -55,7 +157,7 @@ class DataQuery extends Component {
       for (let i = 0; i < dossierCategory.length; i++) {
         let item = dossierCategory[i];
         dossierCategoryOption.push(
-          <Option value={item.code} key={item.id}>
+          <Option value={item.name} key={item.id}>
             {item.name}
           </Option>
         );
@@ -72,7 +174,7 @@ class DataQuery extends Component {
           <Col xl={6} lg={6} md={6} sm={24}>
             <FormItem
               // {...formItemLayout}
-              label="卷宗类型"
+              label="案卷类型"
             >
               {getFieldDecorator('dossier_category', {
                 rules: [],
@@ -93,11 +195,11 @@ class DataQuery extends Component {
                 rules: [],
               })(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value={null}>全部</Option>
-                  <Option value={'1'} key={1}>
+                  <Option value={'全部'}>全部</Option>
+                  <Option value={'入库'} key={1}>
                     入库
                   </Option>
-                  <Option value={'2'} key={2}>
+                  <Option value={'出库'} key={2}>
                     出库
                   </Option>
                 </Select>
@@ -117,11 +219,11 @@ class DataQuery extends Component {
           <Col xl={6} lg={6} md={6} sm={6}>
             <FormItem
               // {...formItemLayout}
-              label="立卷时间"
+              label="时间"
             >
-              {getFieldDecorator('dossier_founder_time', {
-                rules: [{}],
-              })(<RangePicker placeholder={['开始时间', '结束时间']} />)}
+              {getFieldDecorator('dossier_founder_time')(
+                <RangePicker placeholder={['开始时间', '结束时间']} />
+              )}
             </FormItem>
           </Col>
         </Row>
@@ -150,10 +252,10 @@ class DataQuery extends Component {
       })
     );
   };
+
   listShow = () => {
     let { loading } = this.props;
-    let cardList = chaXunJieGuo.result.list;
-    let page = chaXunJieGuo.result.page;
+    let { cardList, page } = this.state;
 
     const columns = [
       {
@@ -189,7 +291,7 @@ class DataQuery extends Component {
         },
       },
       {
-        title: '卷宗类别',
+        title: '案卷类型',
         dataIndex: 'dossier_categorymc',
         key: '4',
       },
@@ -199,7 +301,7 @@ class DataQuery extends Component {
         key: '5',
       },
       {
-        title: '立卷时间',
+        title: '时间',
         dataIndex: 'dossier_founder_time',
         key: '6',
       },

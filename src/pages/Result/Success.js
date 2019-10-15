@@ -1,144 +1,92 @@
-import React, { Fragment } from 'react';
+// 违法监督
+import React, { Fragment ,Component} from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Button, Row, Col, Icon, Steps, Card } from 'antd';
+import { Button, Row, Col, Icon, Steps, Card, Table, Tooltip,Tag } from 'antd';
 import Result from '@/components/Result';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
+import { gaoJingGuanLi, } from './test';
 const { Step } = Steps;
 
-const desc1 = (
-  <div
-    style={{
-      fontSize: 12,
-      color: 'rgba(0, 0, 0, 0.45)',
-      position: 'relative',
-      left: 42,
-      textAlign: 'left',
-    }}
-  >
-    <div style={{ margin: '8px 0 4px' }}>
-      <FormattedMessage id="app.result.success.step1-operator" defaultMessage="Qu Lili" />
-      <Icon style={{ marginLeft: 8 }} type="dingding-o" />
-    </div>
-    <div>2016-12-12 12:32</div>
-  </div>
-);
+export default class Success extends Component {
 
-const desc2 = (
-  <div style={{ fontSize: 12, position: 'relative', left: 42, textAlign: 'left' }}>
-    <div style={{ margin: '8px 0 4px' }}>
-      <FormattedMessage id="app.result.success.step2-operator" defaultMessage="Zhou Maomao" />
-      <Icon type="dingding-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
-    </div>
-    <div>
-      <a href="">
-        <FormattedMessage id="app.result.success.step2-extra" defaultMessage="Urge" />
-      </a>
-    </div>
-  </div>
-);
+  listShow = () => {
+    let { loading } = this.props;
+    let cardList = gaoJingGuanLi.list;
+    let page = gaoJingGuanLi.page;
 
-const extra = (
-  <Fragment>
-    <div
-      style={{
-        fontSize: 16,
-        color: 'rgba(0, 0, 0, 0.85)',
-        fontWeight: '500',
-        marginBottom: 20,
-      }}
-    >
-      <FormattedMessage id="app.result.success.operate-title" defaultMessage="Project Name" />
-    </div>
-    <Row style={{ marginBottom: 16 }}>
-      <Col xs={24} sm={12} md={12} lg={12} xl={6}>
-        <span style={{ color: 'rgba(0, 0, 0, 0.85)' }}>
-          <FormattedMessage id="app.result.success.operate-id" defaultMessage="Project ID：" />
-        </span>
-        23421
-      </Col>
-      <Col xs={24} sm={12} md={12} lg={12} xl={6}>
-        <span style={{ color: 'rgba(0, 0, 0, 0.85)' }}>
-          <FormattedMessage id="app.result.success.principal" defaultMessage="Principal：" />
-        </span>
-        <FormattedMessage id="app.result.success.step1-operator" defaultMessage="Qu Lili" />
-      </Col>
-      <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-        <span style={{ color: 'rgba(0, 0, 0, 0.85)' }}>
-          <FormattedMessage
-            id="app.result.success.operate-time"
-            defaultMessage="Effective time："
-          />
-        </span>
-        2016-12-12 ~ 2017-12-12
-      </Col>
-    </Row>
-    <Steps style={{ marginLeft: -42, width: 'calc(100% + 84px)' }} progressDot current={1}>
-      <Step
-        title={
-          <span style={{ fontSize: 14 }}>
-            <FormattedMessage id="app.result.success.step1-title" defaultMessage="Create project" />
-          </span>
-        }
-        description={desc1}
-      />
-      <Step
-        title={
-          <span style={{ fontSize: 14 }}>
-            <FormattedMessage
-              id="app.result.success.step2-title"
-              defaultMessage="Departmental preliminary review"
-            />
-          </span>
-        }
-        description={desc2}
-      />
-      <Step
-        title={
-          <span style={{ fontSize: 14 }}>
-            <FormattedMessage
-              id="app.result.success.step3-title"
-              defaultMessage="Financial review"
-            />
-          </span>
-        }
-      />
-      <Step
-        title={
-          <span style={{ fontSize: 14 }}>
-            <FormattedMessage id="app.result.success.step4-title" defaultMessage="Finish" />
-          </span>
-        }
-      />
-    </Steps>
-  </Fragment>
-);
+    const columns = [
+      {
+        title: '序号',
+        dataIndex: 'xh',
+        key: '1',
+      },
+      {
+        title: '违规类型',
+        dataIndex: 'alarm_typemc',
+        key: '2',
+        render: (val, record) => {
+          return (<Tag color="red">{val}</Tag>);
 
-const actions = (
-  <Fragment>
-    <Button type="primary">
-      <FormattedMessage id="app.result.success.btn-return" defaultMessage="Back to list" />
-    </Button>
-    <Button>
-      <FormattedMessage id="app.result.success.btn-project" defaultMessage="View project" />
-    </Button>
-    <Button>
-      <FormattedMessage id="app.result.success.btn-print" defaultMessage="Print" />
-    </Button>
-  </Fragment>
-);
+        },
+      },
+      {
+        title: '卷宗名称',
+        dataIndex: 'dossier_name',
+        key: '3',
+      },
+      {
+        title: '卷宗类别',
+        dataIndex: 'dossier_categorymc',
+        key: '4',
+      },
+      {
+        title: '办案民警',
+        dataIndex: 'casepolice',
+        key: '5',
+      },
 
-export default () => (
-  <PageHeaderWrapper>
-    <Card bordered={false}>
-      <Result
-        type="success"
-        title={formatMessage({ id: 'app.result.success.title' })}
-        description={formatMessage({ id: 'app.result.success.description' })}
-        extra={extra}
-        actions={actions}
-        style={{ marginTop: 48, marginBottom: 16 }}
-      />
-    </Card>
-  </PageHeaderWrapper>
-);
+      {
+        title: '所属案件',
+        dataIndex: 'case_name',
+        key: '7',
+      },
+      {
+        title: '违规时间',
+        dataIndex: 'alarm_time',
+        key: '10',
+      },
+    ];
+
+    const paginationProps = {
+      current: page ? page.currentPage : 1,
+      total: page ? page.totalResult : 0,
+      pageSize: page ? page.showCount : 0,
+      showQuickJumper: true,
+      showTotal: (total, range) =>
+        `共 ${page ? page.totalResult : 0} 条记录 第 ${page ? page.currentPage : 1} / ${
+        page ? page.totalPage : 1
+        } 页`,
+      onChange: this.handleStandardTableChange,
+    };
+
+    return (
+      <Row>
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={cardList}
+          pagination={paginationProps}
+        />
+      </Row>
+    );
+  };
+  render () {
+    return (
+      <div>
+        <Card title={'违规监督列表'}>
+          {this.listShow()}
+        </Card>
+      </div>
+    );
+  }
+}
