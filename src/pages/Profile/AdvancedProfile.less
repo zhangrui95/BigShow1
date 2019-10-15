@@ -52,3 +52,72 @@
     left: 8px;
   }
 }
+.searchForm {
+  line-height: 39px;
+  margin-bottom: 8px;
+  margin-top: 16px;
+  :global {
+    .ant-form-item {
+      margin-bottom: 24px;
+      margin-right: 0;
+      display: flex;
+      > .ant-form-item-label {
+        width: auto;
+        line-height: 32px;
+        padding-right: 8px;
+      }
+      .ant-form-item-control {
+        line-height: 32px;
+      }
+    }
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+  }
+}
+// 卷宗详情
+.JzInfoDiv{
+  margin-bottom: 18px;
+  // color: #000;
+  .JzInfoRight{
+      text-align: right
+  }
+}
+.card {
+  margin-bottom: 0px;
+  // color:blue;
+  :global{
+      // .ant-card-head-title{
+      //     //color:blue;
+      //     //padding:0px
+      // }
+      .ant-card {
+          line-height: 3;
+          color: rgba(0, 0, 0, 0.9);
+      }
+      .ant-card-head{
+          background: #EBF5FF;
+          border-bottom: 0px;
+      }
+      .ant-card-body{
+          padding: 18px 18px;
+      }
+      .ant-tag {
+          color: white
+      }
+      .ant-tag a:hover {
+          color:white
+      }
+      button {
+          font-size: 14;
+          color:white;
+      }
+      div.ant-timeline-item-tail { 
+          border-left: 2px solid #3266FF;
+          height:46px;
+      }
+      .ant-card-head-title {
+          color:#1890FF;
+      }
+  }
+} 
