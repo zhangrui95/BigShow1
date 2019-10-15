@@ -1,5 +1,5 @@
 /*
-* 综合信息查询(嫌疑人)
+* 综合信息查询（案件）
 * author：jhm
 * 20191018
 * */
@@ -21,10 +21,8 @@ import {
   Cascader,
 } from 'antd';
 import moment from 'moment/moment';
-import styles from './InformationQuery.less';
-import PersonTable from '../../components/InformationQueryComponent/PersonTable';
-import InformationQueryCase from '../../components/InformationQueryComponent/InformationQueryCase';
-// import DataViewButtonArea from '../../components/Common/DataViewButtonArea';
+import styles from './InformationQueryCase.less';
+import PersonTable from './CaseTable';
 import { exportListDataMaxDays, getQueryString, tableList } from '../../utils/utils';
 
 const FormItem = Form.Item;
@@ -53,7 +51,6 @@ class InformationQuery extends PureComponent {
     arrayDetail: [],
     sfsa: '0',
     sfcj: '',
-    showDataView: true, // 控制显示图表或者列表（true显示图表）
     typeButtons: 'day', // 图表展示类别（week,month）
     allPolice: [],
     cjrPolice: [],
@@ -375,15 +372,6 @@ class InformationQuery extends PureComponent {
       message.warning(`请选择需要导出的数据日期，日期间隔需小于${exportListDataMaxDays}天`);
     }
   };
-  // 改变显示图表或列表
-  changeListPageHeader = () => {
-    const { showDataView } = this.state;
-    this.setState({
-      showDataView: !showDataView,
-      // typeButtons: 'day',
-    });
-    // if(showDataView) this.handleFormReset();
-  };
   // 设置手动选择日期
   setSelectedDate = val => {
     this.setState({
@@ -427,7 +415,6 @@ class InformationQuery extends PureComponent {
         sfcj: '',
         allPolice: [],
         cjrPolice: [],
-        showDataView: false,
       },
       () => {
         this.props.form.setFieldsValue({
@@ -465,10 +452,10 @@ class InformationQuery extends PureComponent {
   };
 
   renderForm() {
+    // const { form: { getFieldDecorator }, common: { sourceOfAlarmDict, depTree, handleStatusDict } } = this.props;
     const {
       form: { getFieldDecorator },
     } = this.props;
-    // const { form: { getFieldDecorator }, common: { sourceOfAlarmDict, depTree, handleStatusDict } } = this.props;
     // const allPoliceOptions = this.state.allPolice.map(d => <Option key={`${d.idcard},${d.pcard}`}
     //                                                                value={`${d.idcard},${d.pcard}$$`}
     //                                                                title={d.name}>{`${d.name} ${d.pcard}`}</Option>);
@@ -504,7 +491,7 @@ class InformationQuery extends PureComponent {
       <Form onSubmit={this.handleSearch}>
         <Row gutter={rowLayout}>
           <Col {...colLayout}>
-            <FormItem label="涉案人员" {...formItemLayout}>
+            <FormItem label="接警来源" {...formItemLayout}>
               {getFieldDecorator('jjly', {
                 initialValue: this.state.jjly,
               })(
@@ -705,9 +692,9 @@ class InformationQuery extends PureComponent {
 
   render() {
     // const { policeData: { police, loading }, common: { depTree } } = this.props;
-    const { arrayDetail } = this.state;
+    const { showDataView } = this.props;
     const {
-      showDataView,
+      arrayDetail,
       typeButtons,
       selectedDeptVal,
       selectedDateVal,
@@ -715,73 +702,19 @@ class InformationQuery extends PureComponent {
       cjdw,
       treeDefaultExpandedKeys,
     } = this.state;
-    // const orgcodeVal = selectedDeptVal !== '' ? JSON.parse(selectedDeptVal).id : '';
+    const orgcodeVal = selectedDeptVal !== '' ? JSON.parse(selectedDeptVal).id : '';
     return (
       <div
         className={
           this.props.location.query && this.props.location.query.id ? styles.onlyDetail : ''
         }
       >
-        <Tabs
-          hideAdd
-          onChange={this.onChange}
-          activeKey={this.state.activeKey}
-          type="editable-card"
-          onEdit={this.onEdit}
-          tabBarStyle={{ margin: 0 }}
-          // className={this.props.location.query&&this.props.location.query.id ? styles.onlyDetail:''}
-        >
-          <TabPane tab="综合信息查询数据" key="0" closable={false}>
-            <div className={styles.listPageWrap}>
-              <div className={styles.listPageHeader}>
-                {showDataView ? (
-                  <a className={styles.listPageHeaderCurrent}>
-                    <span>●</span>
-                    嫌疑人列表
-                  </a>
-                ) : (
-                  <a onClick={this.changeListPageHeader}>嫌疑人列表</a>
-                )}
-                <span>|</span>
-                {showDataView ? (
-                  <a onClick={this.changeListPageHeader}>案件列表</a>
-                ) : (
-                  <a className={styles.listPageHeaderCurrent}>
-                    <span>●</span>
-                    案件列表
-                  </a>
-                )}
-              </div>
-              <InformationQueryCase
-                showDataView={showDataView}
-                searchType={typeButtons}
-                changeToListPage={this.changeToListPage}
-                // orgcode={orgcodeVal}
-                selectedDateVal={selectedDateVal}
-                jjdw={jjdw}
-                cjdw={cjdw}
-                {...this.props}
-              />
-              <div style={showDataView ? { display: 'block' } : { display: 'none' }}>
-                <div className={styles.tableListForm}>{this.renderForm()}</div>
-                <div className={styles.tableListOperator}>{this.renderTable()}</div>
-              </div>
-            </div>
-          </TabPane>
-          {arrayDetail.map((pane, idx) => (
-            <TabPane
-              tab={pane.title}
-              key={pane.key}
-              closable={
-                this.props.location.query && this.props.location.query.id && idx === 0
-                  ? false
-                  : true
-              }
-            >
-              {pane.content}
-            </TabPane>
-          ))}
-        </Tabs>
+        <div className={styles.listPageWrap}>
+          <div style={showDataView ? { display: 'none' } : { display: 'block' }}>
+            <div className={styles.tableListForm}>{this.renderForm()}</div>
+            <div className={styles.tableListOperator}>{this.renderTable()}</div>
+          </div>
+        </div>
       </div>
     );
   }
