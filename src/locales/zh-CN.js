@@ -109,7 +109,7 @@ export default {
   'menu.exception.not-find': '404',
   'menu.exception.server-error': '500',
   'menu.exception.trigger': '触发错误',
-  'menu.middlePlatform': '中台',
+  'menu.middlePlatform': '系统',
   'menu.middlePlatform.depManage': '机构管理',
   'menu.middlePlatform.dictManage': '字典管理',
   'menu.middlePlatform.deviceStatus': '设备状态管理',
