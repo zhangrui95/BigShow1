@@ -170,6 +170,22 @@ export default [
         ],
       },
       {
+        name: 'middlePlatform',
+        path: '/middlePlatform',
+        routes: [
+          {
+            path: '/middlePlatform/depManage',
+            name: 'depManage',
+            component: './MiddlePlatform/DepManage',
+          },
+          {
+            path: '/middlePlatform/dictManage',
+            name: 'dictManage',
+            component: './MiddlePlatform/DictManage',
+          },
+        ],
+      },
+      {
         name: 'exception',
         icon: 'warning',
         path: '/exception',
