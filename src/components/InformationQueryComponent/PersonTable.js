@@ -20,7 +20,7 @@ class PersonTable extends PureComponent {
   PersonDetail = record => {
     const divs = (
       <div>
-        <PersonTableDetail key={record.key} {...this.props} />
+        <PersonTableDetail record={record} key={record.key} {...this.props} />
       </div>
     );
     const AddNewDetail = { title: '嫌疑人详情', content: divs, key: 'persontable' + record.key };

@@ -47,7 +47,7 @@ let currentValue;
 class ArchivesStatistics extends PureComponent {
   constructor(props) {
     super(props);
-    this. state = {
+    this.state = {
       jjly: '',
       jjdw: '',
       cjdw: '',
@@ -63,7 +63,7 @@ class ArchivesStatistics extends PureComponent {
       selectedDeptVal: '', // 手动选择机构
       treeDefaultExpandedKeys: [], // 办案单位树默认展开keys
       caseTypeTree: [], // 警情类别树
-      msg:false,
+      msg: false,
     };
     this.client = mqttConnect(window.configUrl.mqttUrl);
     this.client.on('message', this.message);
@@ -179,11 +179,11 @@ class ArchivesStatistics extends PureComponent {
         }
       }
     } else if (enabledEvents.includes(info.event)) {
-      console.log('info>',info)
+      console.log('info>', info);
       this.setState({
-        info:info,
-        msg:true,
-      })
+        info: info,
+        msg: true,
+      });
     }
   };
   onChange = activeKey => {
@@ -662,7 +662,6 @@ class ArchivesStatistics extends PureComponent {
                 cjdw={cjdw}
                 {...this.props}
                 {...this.state}
-
               />
               <div style={showDataView ? { display: 'block' } : { display: 'none' }}>
                 <div className={styles.tableListForm}>{this.renderForm()}</div>

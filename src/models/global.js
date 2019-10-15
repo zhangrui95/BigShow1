@@ -1,4 +1,4 @@
-import { queryNotices,getCurrentIP,getBaqInfo,getServiceByHaIdType } from '@/services/api';
+import { queryNotices, getCurrentIP, getBaqInfo, getServiceByHaIdType } from '@/services/api';
 
 export default {
   namespace: 'global',
@@ -40,8 +40,14 @@ export default {
     },
     *fetchBaqInfo({ payload, callback }, { call }) {
       const response = yield call(getBaqInfo, payload);
-      if (callback && response && response.data && response.data.list && response.data.list.length) {
-        callback(response.data.list)
+      if (
+        callback &&
+        response &&
+        response.data &&
+        response.data.list &&
+        response.data.list.length
+      ) {
+        callback(response.data.list);
       }
     },
     *fetchServiceByHaIdType({ payload, callback }, { call }) {

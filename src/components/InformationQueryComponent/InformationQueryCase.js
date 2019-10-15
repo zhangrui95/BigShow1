@@ -6,33 +6,13 @@
 
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Form,
-  Select,
-  TreeSelect,
-  Input,
-  Button,
-  DatePicker,
-  Tabs,
-  Radio,
-  message,
-  Cascader,
-} from 'antd';
-import moment from 'moment/moment';
+import { Row, Col, Form, Select, Input, Button, DatePicker } from 'antd';
 import styles from './InformationQueryCase.less';
 import CaseTable from './CaseTable';
-import { exportListDataMaxDays, getQueryString, tableList } from '../../utils/utils';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-const TabPane = Tabs.TabPane;
-const TreeNode = TreeSelect.TreeNode;
-const RadioGroup = Radio.Group;
-let timeout;
-let currentValue;
 
 const Casedata = [
   {
@@ -45,9 +25,18 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    sary: '张冬梅',
+    age: 30,
+    sex: '女',
+    zjhm: '232302198545652545',
+    qzcs: '拘留',
+    phone: '18520123654',
   },
   {
     key: '21',
+    sary: '李双',
     ajbh: 'A4106550302502019040012',
     ajmc: '开设赌场案2',
     slrq: '2019-05-02',
@@ -56,20 +45,36 @@ const Casedata = [
     bar: '文芬',
     ajlb: '两抢一盗',
     qssj: '2015-01-02',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '31',
+    sary: '王冬来',
     ajbh: 'A4106550302502019040013',
     ajmc: '开设赌场案3',
     slrq: '2019-05-03',
     badw: '公安局国保大队3',
     ajzt: '立案',
     bar: '文峰',
-    ajlb: '芹菜案件',
+    ajlb: '侵财案件',
     qssj: '2015-01-03',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 32,
+    sex: '男',
+    zjhm: '232302198545652543',
+    qzcs: '逮捕',
+    phone: '18520123621',
   },
   {
     key: '41',
+    sary: '赵东风',
     ajbh: 'A4106550302502019040014',
     ajmc: '开设赌场案4',
     slrq: '2019-05-04',
@@ -78,9 +83,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 33,
+    sex: '女',
+    zjhm: '232302198545652542',
+    qzcs: '逮捕',
+    phone: '18520123623',
   },
   {
     key: '51',
+    sary: '马风',
     ajbh: 'A4106550302502019040015',
     ajmc: '开设赌场案5',
     slrq: '2019-05-05',
@@ -89,9 +102,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '61',
+    sary: '李丽',
     ajbh: 'A4106550302502019040016',
     ajmc: '开设赌场案6',
     slrq: '2019-05-06',
@@ -100,9 +121,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '71',
+    sary: '谢文东',
     ajbh: 'A4106550302502019040017',
     ajmc: '开设赌场案7',
     slrq: '2019-05-07',
@@ -111,9 +140,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '81',
+    sary: '魏奇',
     ajbh: 'A4106550302502019040018',
     ajmc: '开设赌场案8',
     slrq: '2019-05-08',
@@ -122,9 +159,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '91',
+    sary: '高汉',
     ajbh: 'A4106550302502019040019',
     ajmc: '开设赌场案9',
     slrq: '2019-05-09',
@@ -133,9 +178,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '101',
+    sary: '徐玉',
     ajbh: 'A4106550302502019040020',
     ajmc: '开设赌场案10',
     slrq: '2019-05-10',
@@ -144,9 +197,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '111',
+    sary: '孙明',
     ajbh: 'A4106550302502019040021',
     ajmc: '开设赌场案11',
     slrq: '2019-05-11',
@@ -155,9 +216,17 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
   {
     key: '121',
+    sary: '刘嗨',
     ajbh: 'A4106550302502019040022',
     ajmc: '开设赌场案12',
     slrq: '2019-05-12',
@@ -166,15 +235,16 @@ const Casedata = [
     bar: '文凯',
     ajlb: '八类案件',
     qssj: '2015-01-01',
+    address: '筒子楼',
+    jyaq: '无',
+    age: 31,
+    sex: '男',
+    zjhm: '232302198545652541',
+    qzcs: '逮捕',
+    phone: '18520123624',
   },
 ];
 
-// @connect(({ policeData, loading, common }) => ({
-//   policeData,
-//   loading,
-//   common,
-// loading: loading.models.alarmManagement,
-// }))
 @Form.create()
 class InformationQueryCase extends PureComponent {
   state = {
@@ -306,7 +376,6 @@ class InformationQueryCase extends PureComponent {
           <Col {...colLayout}>
             <FormItem label="案件编号" {...formItemLayout}>
               {getFieldDecorator('ajbh', {
-                // initialValue: this.state.caseType,
                 rules: [
                   { pattern: /^[A-Za-z0-9]+$/, message: '请输入正确的案件编号！' },
                   { max: 32, message: '最多输入32个字！' },
@@ -333,9 +402,7 @@ class InformationQueryCase extends PureComponent {
         <Row gutter={rowLayout}>
           <Col {...colLayout}>
             <FormItem label="办案单位" {...formItemLayout}>
-              {getFieldDecorator('badw', {
-                // initialValue: this.state.bardw,
-              })(<Input placeholder="请输入办案单位" />)}
+              {getFieldDecorator('badw', {})(<Input placeholder="请输入办案单位" />)}
             </FormItem>
           </Col>
           <Col {...colLayout}>
@@ -356,7 +423,6 @@ class InformationQueryCase extends PureComponent {
           <Col {...colLayout}>
             <FormItem label="&nbsp;&nbsp;&nbsp; 办案人" {...formItemLayout}>
               {getFieldDecorator('bar', {
-                // initialValue: this.state.gzry,
                 rules: [{ max: 32, message: '最多输入32个字！' }],
               })(<Input placeholder="请输入办案人" />)}
             </FormItem>
@@ -365,9 +431,7 @@ class InformationQueryCase extends PureComponent {
         <Row gutter={rowLayout}>
           <Col {...colLayout}>
             <FormItem label="案件类别" {...formItemLayout}>
-              {getFieldDecorator('ajlb', {
-                // initialValue: this.state.caseAllType,
-              })(
+              {getFieldDecorator('ajlb', {})(
                 <Select placeholder="请选择案件类别" style={{ width: '100%' }}>
                   <Option value="">全部</Option>
                   <Option value="八类案件">八类案件</Option>
@@ -400,27 +464,15 @@ class InformationQueryCase extends PureComponent {
   }
 
   renderTable() {
-    // const { policeData: { police, loading } } = this.props;
     const { Casedata } = this.state;
     return (
       <div>
-        <CaseTable
-          // loading={loading}
-          data={Casedata}
-          // onChange={this.handleTableChange}
-          // dispatch={this.props.dispatch}
-          newDetail={this.newDetail}
-          {...this.props}
-          // getPolice={params => this.getPolice(params)}
-          // location={this.props.location}
-          // formValues={this.state.formValues}
-        />
+        <CaseTable data={Casedata} newDetail={this.newDetail} />
       </div>
     );
   }
 
   render() {
-    const { arrayDetail } = this.state;
     const { showDataView } = this.props;
     return (
       <div

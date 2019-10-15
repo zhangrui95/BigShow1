@@ -46,125 +46,155 @@ const personData = [
     ajmc: '开设赌场案1',
     ajbh: 'A4106550302502019040011',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '2',
-    sary: '李冬梅',
+    sary: '李双',
     ryxb: '男',
     zjhm: '232302198502021472',
     rylx: '违法行为人',
     ajmc: '开设赌场案2',
     ajbh: 'A4106550302502019040012',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '3',
-    sary: '王冬梅',
+    sary: '王宇',
     ryxb: '女',
     zjhm: '232302198502021473',
     rylx: '犯罪嫌疑人',
     ajmc: '开设赌场案3',
     ajbh: 'A4106550302502019040013',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '4',
-    sary: '赵冬梅',
+    sary: '赵问滨',
     ryxb: '男',
     zjhm: '232302198502021474',
     rylx: '违法行为人',
     ajmc: '开设赌场案4',
     ajbh: 'A4106550302502019040014',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '5',
-    sary: '马冬梅',
+    sary: '马雷',
     ryxb: '女',
     zjhm: '232302198502021475',
     rylx: '犯罪嫌疑人',
     ajmc: '开设赌场案5',
     ajbh: 'A4106550302502019040015',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '6',
-    sary: '乌冬梅',
+    sary: '王风',
     ryxb: '男',
     zjhm: '232302198502021476',
     rylx: '违法行为人',
     ajmc: '开设赌场案6',
     ajbh: 'A4106550302502019040016',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '7',
-    sary: '谢冬梅',
+    sary: '谢元熙',
     ryxb: '女',
     zjhm: '232302198502021477',
     rylx: '犯罪嫌疑人',
     ajmc: '开设赌场案7',
     ajbh: 'A4106550302502019040017',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '8',
-    sary: '魏冬梅',
+    sary: '魏鞠',
     ryxb: '男',
     zjhm: '232302198502021478',
     rylx: '违法行为人',
     ajmc: '开设赌场案8',
     ajbh: 'A4106550302502019040018',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '9',
-    sary: '高冬梅',
+    sary: '高葵',
     ryxb: '女',
     zjhm: '232302198502021479',
     rylx: '犯罪嫌疑人',
     ajmc: '开设赌场案9',
     ajbh: 'A4106550302502019040019',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '10',
-    sary: '徐冬梅',
+    sary: '徐静',
     ryxb: '男',
     zjhm: '232302198502021110',
     rylx: '违法行为人',
     ajmc: '开设赌场案10',
     ajbh: 'A4106550302502019040010',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '11',
-    sary: '孙冬梅',
+    sary: '孙小青',
     ryxb: '女',
     zjhm: '232302198502021411',
     rylx: '犯罪嫌疑人',
     ajmc: '开设赌场案11',
     ajbh: 'A4106550302502019040021',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '12',
-    sary: '刘冬梅',
+    sary: '刘瑞',
     ryxb: '男',
     zjhm: '232302198502021412',
     rylx: '违法行为人',
     ajmc: '开设赌场案12',
     ajbh: 'A4106550302502019040022',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
 ];
 
-// @connect(({ policeData, loading, common }) => ({
-//   policeData,
-//   loading,
-//   common,
-// loading: loading.models.alarmManagement,
-// }))
 @Form.create()
 class InformationQuery extends PureComponent {
   state = {
@@ -404,19 +434,9 @@ class InformationQuery extends PureComponent {
 
   renderTable() {
     const { personData } = this.state;
-    // const { policeData: { police, loading } } = this.props;
     return (
       <div>
-        <PersonTable
-          // loading={loading}
-          data={personData}
-          // onChange={this.handleTableChange}
-          // dispatch={this.props.dispatch}
-          newDetail={this.newDetail}
-          // getPolice={params => this.getPolice(params)}
-          // location={this.props.location}
-          // formValues={this.state.formValues}
-        />
+        <PersonTable data={personData} newDetail={this.newDetail} />
       </div>
     );
   }

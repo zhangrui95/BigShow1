@@ -93,7 +93,7 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '音视频信息',
+        title: '接处警视频',
         dataIndex: 'ypxx',
       },
     ];
@@ -105,8 +105,6 @@ class RenderTable extends PureComponent {
           rowKey={record => record.key}
           dataSource={this.props.data}
           columns={columns}
-          // pagination={paginationProps}
-          // onChange={this.handleTableChange}
         />
       </div>
     );
