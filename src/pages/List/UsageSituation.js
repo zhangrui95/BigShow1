@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { Input, Card, Carousel, Tooltip, Icon, Row, Col, List, Radio, Badge } from 'antd';
+import moment from 'moment';
 import { ChartCard, Pie, Field } from '@/components/Charts';
 import Trend from '@/components/Trend';
 import styles from './BasicList.less';
@@ -262,7 +263,7 @@ class UsageSituation extends Component {
               title="最新动态"
               extra={
                 <div>
-                  <div>今日值班值班：张福</div>
+                  <div>{moment(new Date()).format('YYYY-MM-DD')} 值班：张福</div>
                   {/* <div>当前在区人数：6</div> */}
                 </div>
               }
