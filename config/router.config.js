@@ -175,8 +175,13 @@ export default [
           {
             path: '/profile/advanced',
             name: 'advanced',
-            authority: ['admin'],
+            // authority: ['admin'],
             component: './Profile/AdvancedProfile',
+          },
+          {
+            path: '/profile/detail',
+            // name: 'advanced',
+            component: './Profile/DetailPage',
           },
         ],
       },

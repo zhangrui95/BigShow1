@@ -19,6 +19,7 @@ import {
 import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Ellipsis from '@/components/Ellipsis'
 import styles from './AdvancedProfile.less';
 import BoxDisplay from './BoxDisplay';
 import { boxDossierInfo, boxUI } from './test';
@@ -36,6 +37,14 @@ class ArkQuery extends Component {
     super(props);
     this.state = {
       boxDisplayVisiable: false,
+      boxDossierInfo: {
+        result: {
+          list: [],
+          page: null,
+        },
+        tableVisable: false,
+
+      },
     };
   }
 
@@ -48,12 +57,106 @@ class ArkQuery extends Component {
   };
   setBoxInfo = data => {
     if (data && data.length && data.length > 0) {
-      if (data[0].dossiercount) {
-        this.setState({});
+      if (data[0].dossiercount > 0) {
+        this.setState({
+          boxDossierInfo: boxDossierInfo,
+          tableVisable: true,
+        });
+      }else{
+        this.setState({
+          boxDossierInfo:{
+            result: {
+              list: [],
+              page: null,
+            } 
+          },
+          tableVisable: true,
+        });
       }
     }
   };
-  render() {
+  listShow = () => {
+    const columns = [
+      {
+        title: '卷宗类别',
+        dataIndex: 'dossier_categorymc',
+        key: '1',
+      },
+      {
+        title: '卷宗名称',
+        dataIndex: 'dossier_name',
+        key: '2',
+        render: (val, record) => {
+          // return (
+          //     val && val.length > 20 ?
+          //         <Tooltip title={val}>
+          //             <a onClick={() => this.handleDetail(record)}>
+          //                 {val.slice(0, 20) + '……'}
+          //             </a>
+          //         </Tooltip> :
+          //         <a onClick={() => this.handleDetail(record)}>
+          //             {val}
+          //         </a>
+          // );                   
+          return (
+            <span>
+              {
+                record.trajectory_category == 3 && record.trajectory_state == 1 ?
+                  <span onClick={() => this.handleDetail(record)}>
+                    <Ellipsis tooltip lines={8} style={{ display: 'inline', cursor: 'pointer' }}>{val}</Ellipsis>   <Tag color="red">异常</Tag>
+                  </span> :
+                  <span onClick={() => this.handleDetail(record)}>
+                    <Ellipsis tooltip lines={8} style={{ cursor: 'pointer' }}>{val}</Ellipsis>
+                  </span>
+              }
+
+            </span>
+          )
+
+
+        },
+      },
+      {
+        title: '立卷人',
+        dataIndex: 'dossier_founder',
+        key: '3',
+      },
+      {
+        title: '立卷时间',
+        dataIndex: 'dossier_founder_time',
+        key: '4',
+      },
+      {
+        title: '页码',
+        dataIndex: 'dossier_now_pages_number',
+        key: '5',
+      },];
+
+    let data = this.state.boxDossierInfo.result.list;
+    let page = this.state.boxDossierInfo.result.page;
+
+
+    const paginationProps = {
+      current: page ? page.currentPage : 1,
+      total: page ? page.totalResult : 0,
+      pageSize: page ? page.showCount : 0,
+      // showQuickJumper: true,
+      // showTotal: (total, range) => `共 ${page ? page.totalResult : 0} 条记录 第 ${page ? page.currentPage : 1} / ${page ? page.totalPage : 1} 页`,
+      onChange: this.handleStandardTableChange
+    };
+
+    return (
+      <Row className={styles.tableWrap}>
+        <Table
+          // loading={loading}
+          columns={columns}
+          dataSource={data}
+          pagination={paginationProps}
+        />
+      </Row>
+    )
+  }
+  render () {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -104,8 +207,8 @@ class ArkQuery extends Component {
                 cancelBox={this.state.cancelBox}
               />
             ) : (
-              ''
-            )}
+                ''
+              )}
           </Col>
           {/* 表格区 */}
           <Col span={12}>{this.state.tableVisable ? this.listShow() : ''}</Col>
