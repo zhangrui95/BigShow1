@@ -80,7 +80,7 @@ export default {
   'menu.form.advancedform': '高级表单',
   'menu.list': '办案区',
   'menu.list.searchtable': '查询表格',
-  'menu.list.basiclist': '标准列表',
+  'menu.list.basiclist': '远程指挥',
   'menu.list.cardlist': '轨迹定位',
   'menu.list.searchlist': '搜索列表',
   'menu.list.searchlist.articles': '搜索列表（文章）',
