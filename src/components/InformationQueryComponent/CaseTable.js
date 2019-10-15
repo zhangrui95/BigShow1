@@ -1,11 +1,11 @@
 /*
-* 音视频管理表格
+* 综合信息查询案件表格
 * author：jhm
 * 20191018
 * */
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
-import styles from './RenderTable.less';
+import styles from './CaseTable.less';
 import Ellipsis from '../Ellipsis';
 
 const data = [
@@ -166,7 +166,7 @@ class RenderTable extends PureComponent {
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={data}
+          dataSource={data.list}
           columns={columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}
