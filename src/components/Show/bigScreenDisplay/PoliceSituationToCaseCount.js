@@ -35,6 +35,8 @@ export default class PoliceSituationToCaseCount extends PureComponent {
     const dataList = [
       { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '入库' },
       { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '调取' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '移送' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '归还' },
       { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '处理' },
     ];
     let num = 0;
@@ -46,8 +48,13 @@ export default class PoliceSituationToCaseCount extends PureComponent {
     myChart.setOption({
       xAxis: {
         type : 'category',
+        axisLabel: {
+          textStyle: {
+            color: '#fff',
+          },
+        },
         boundaryGap : false,
-        data : ['入库','调取','处理']
+        data : ['入库','调取','移送','归还','处理']
       },
       series: [
         {
@@ -114,7 +121,7 @@ export default class PoliceSituationToCaseCount extends PureComponent {
           },
           splitLine:{
             lineStyle: {
-              color:'#334553'
+              color:'#fff'
             }
           },
         }

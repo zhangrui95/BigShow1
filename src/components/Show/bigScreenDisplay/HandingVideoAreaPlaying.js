@@ -7,8 +7,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Row, Col, List, Avatar } from 'antd';
 import styles from '../ComponentStyles.less';
-import video0 from '../../../assets/show/02.mp4';
-import video1 from '../../../assets/video1.mp4';
+import video1 from '../../../assets/show/02.mp4';
+import video0 from '../../../assets/video1.mp4';
 import video2 from '../../../assets/video2.mp4';
 import video3 from '../../../assets/video3.mp4';
 import videoShow from '../../../assets/show/video_show.JPG';
@@ -84,7 +84,7 @@ export default class HandingVideoAreaPlaying extends PureComponent {
               src={this.state.video}
               width="460"
               height="220"
-              poster={videoShow}
+              // poster={videoShow}
               loop
               controls="controls"
             />
