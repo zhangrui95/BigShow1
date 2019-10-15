@@ -77,7 +77,7 @@ export default {
   'menu.form.informationquery': '综合信息查询',
   'menu.form.dynamicshow': '违规动态展示',
   'menu.form.casestatistic': '案件统计',
-  'menu.form.archivesstatisticsform': '档案统计',
+  'menu.form.archivesstatistics': '办案场所考核',
   // 'menu.form.archivesstatisticsform.archivesstatisticsindex1': '档案统计1',
   // 'menu.form.archivesstatisticsform.archivesstatisticsindex2': '档案统计2',
   // 'menu.form.archivesstatisticsform.archivesstatisticsindex3': '档案统计3',

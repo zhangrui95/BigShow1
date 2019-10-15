@@ -84,7 +84,7 @@ export default [
           },
           {
             path: '/form/archivesstatistics',
-            name: 'archivesstatisticsform',
+            name: 'archivesstatistics',
             component: './Forms/ArchivesStatistics',
             // routes: [
             //   {
