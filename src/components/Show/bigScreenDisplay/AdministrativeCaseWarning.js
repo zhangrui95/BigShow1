@@ -10,51 +10,44 @@ import pie from 'echarts/lib/chart/pie';
 import title from 'echarts/lib/component/title';
 import tooltip from 'echarts/lib/component/tooltip';
 import { routerRedux } from 'dva/router';
+import styles from './bigScreenDisplay.less';
 
 let myChart;
 
 export default class AdministrativeCaseWarning extends PureComponent {
+  state={
+    tabList:['行政案卷数量','刑事案卷数量'],
+    idx: 0,
+  }
   componentDidMount() {
     const { selectDate, org, orgCode, orglist } = this.props;
-    this.getAdministrativeCaseWarning(selectDate[0], selectDate[1], org, orgCode, orglist);
     this.showEchart();
+    this.getAdministrativeCaseWarning(selectDate[0], selectDate[1], org, orgCode, orglist);
     window.addEventListener('resize', myChart.resize);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (
-        nextProps.selectDate !== null &&
-        (this.props.selectDate !== nextProps.selectDate ||
-          this.props.orgCode !== nextProps.orgCode ||
-          this.props.org !== nextProps.org ||
-          this.props.orglist !== nextProps.orglist)
-      ) {
-        this.getAdministrativeCaseWarning(
-          nextProps.selectDate[0],
-          nextProps.selectDate[1],
-          nextProps.org,
-          nextProps.orgCode,
-          nextProps.orglist
-        );
+      if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
+        this.getAdministrativeCaseWarning();
       }
     }
   }
-
+  getTab = (idx) =>{
+    this.getAdministrativeCaseWarning();
+    this.setState({
+      idx:idx,
+    });
+  }
   // 行政案件告警统计
-  getAdministrativeCaseWarning = (startTime, endTime, org, orgCode, orglist) => {
+  getAdministrativeCaseWarning = () => {
+    let data = {
+      list: [
+        { name: '入柜', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
+        { name: '出柜', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
+      ],
+    };
     const { shadeColors } = this.props;
-    this.props.dispatch({
-      type: 'UnXzCaseData/getUnXzCaseAllTypeWarnings',
-      payload: {
-        kssj: startTime,
-        jssj: endTime,
-        org: org,
-        orgcode: orgCode,
-        orglist: orglist,
-      },
-      callback: data => {
-        if (data) {
           const legendData = [];
           const pieData = [];
           let num = 0;
@@ -90,7 +83,6 @@ export default class AdministrativeCaseWarning extends PureComponent {
               },
             });
           }
-          this.props.getAllNum(this.props.idx, num, '行政案件告警统计');
           myChart.setOption({
             legend: {
               data: legendData,
@@ -111,9 +103,6 @@ export default class AdministrativeCaseWarning extends PureComponent {
               },
             ],
           });
-        }
-      },
-    });
   };
 
   showEchart = () => {
@@ -125,7 +114,7 @@ export default class AdministrativeCaseWarning extends PureComponent {
         formatter: '{b}: {c}',
       },
       title: {
-        text: '行政案件告警统计',
+        text: '',
         textStyle: {
           color: '#66ccff',
           fontSize: 20,
@@ -209,22 +198,18 @@ export default class AdministrativeCaseWarning extends PureComponent {
     };
     let that = this;
     myChart.setOption(option);
-    myChart.on('click', function(params) {
-      that.props.dispatch(
-        routerRedux.push({
-          pathname: '/newregister/newalarm/newalarmAdministration',
-          state: {
-            code: that.props.dep ? that.props.dep : '',
-            kssj: that.props.selectDate[0] ? that.props.selectDate[0] : '',
-            jssj: that.props.selectDate[1] ? that.props.selectDate[1] : '',
-            wtlx_id: params.data.code ? params.data.code : '',
-          },
-        })
-      );
-    });
   };
 
   render() {
-    return <div id="AdministrativeCaseWarning" style={{ height: '100%', width: '100%' }} />;
+    return <div style={{ height: '100%', width: '100%',position:'relative' }}>
+        <div className={styles.cardTitleBox}>
+          {
+            this.state.tabList.map((item,idx)=>{
+              return <div className={this.state.idx === idx ? styles.cardTitles : styles.cardTitles + ' ' + styles.cardTitleGray} onClick={()=>this.getTab(idx)}>{item}</div>
+            })
+          }
+        </div>
+        <div id="AdministrativeCaseWarning" style={{ height: '100%', width: '100%',marginTop:'-20px' }}></div>
+      </div>
   }
 }

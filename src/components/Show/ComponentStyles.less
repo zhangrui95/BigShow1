@@ -285,5 +285,35 @@
     cursor: default;
   }
 }
+.cardTitleBox{
+  position: relative;
+  top: 0px;
+  z-index: 9999;
+}
+.cardTitles{
+  font-size: 16px;
+  color: #66ccff;
+  height: 30px;
+  line-height: 30px;
+  font-weight: bolder;
+  //line-height: 40px;
+  //padding: 10px;
+  padding-left: 10px;
+  margin-bottom: 0;
+  float: left;
+  cursor: pointer;
+  border-left: 1px solid #2eabff;
+  margin-left: 10px;
+  &:first-child{
+    border-left:none;
+    margin-left:0;
+  }
+  &:active{
+    color: #fff;
+  }
+}
+.cardTitleGray{
+  color: #ccc;
+}
 
 /*新添结束*/
