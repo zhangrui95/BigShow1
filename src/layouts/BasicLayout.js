@@ -12,7 +12,7 @@ import { formatMessage } from 'umi/locale';
 import SiderMenu from '@/components/SiderMenu';
 import Authorized from '@/utils/Authorized';
 import SettingDrawer from '@/components/SettingDrawer';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
@@ -184,7 +184,7 @@ class BasicLayout extends React.PureComponent {
       id: currRouterData.locale || currRouterData.name,
       defaultMessage: currRouterData.name,
     });
-    return `${message} - Ant Design Pro`;
+    return `${message} - 执法监督系统`;
   };
 
   getLayoutStyle = () => {

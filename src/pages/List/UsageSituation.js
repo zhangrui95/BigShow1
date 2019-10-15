@@ -203,7 +203,7 @@ class UsageSituation extends Component {
                     percent={25}
                     color="#68D288"
                     subTitle="候问室"
-                    total="2/10"
+                    total="8/12"
                     height={140}
                   />
                 </Col>
@@ -212,7 +212,7 @@ class UsageSituation extends Component {
                     percent={25}
                     color="#3AA0FE"
                     subTitle="询问室"
-                    total="2/10"
+                    total="6/8"
                     height={140}
                   />
                 </Col>
@@ -220,7 +220,7 @@ class UsageSituation extends Component {
                   percent={25}
                   color="#F37A8E"
                   subTitle="讯问室"
-                  total="2/10"
+                  total="4/6"
                   height={140}
                 />
                 </Col>
@@ -290,7 +290,7 @@ class UsageSituation extends Component {
         </Row>
         <Row>
           <Col span={24}>
-            <Card title="询问室（0/3人）" style={{ marginTop: '24px' }}>
+            <Card title="询问室（6/8人）" style={{ marginTop: '24px' }}>
               <List
                 grid={{
                   gutter: 16,
