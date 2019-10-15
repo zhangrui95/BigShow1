@@ -10,6 +10,10 @@ export default [
       { path: '/user/register-result', component: './User/RegisterResult' },
     ],
   },
+  {
+    path: '/home',
+    component: '../layouts/SetupShow',
+  },
   // app
   {
     path: '/',
@@ -47,6 +51,11 @@ export default [
         icon: 'form',
         name: 'form',
         routes: [
+          {
+            path: '/form/home',
+            name: 'home',
+            component: './Forms/Home',
+          },
           {
             path: '/form/basic-form',
             name: 'basicform',
@@ -114,6 +123,11 @@ export default [
         name: 'list',
         routes: [
           {
+            path: '/list/UsageSituation',
+            name: 'usageSituation',
+            component: './List/UsageSituation',
+          },
+          {
             path: '/list/table-list',
             name: 'searchtable',
             component: './List/TableList',
@@ -134,30 +148,14 @@ export default [
             component: './List/BusinessList',
           },
           {
+            path: '/list/abnormalList',
+            name: 'abnormalList',
+            component: './List/AbnormalList',
+          },
+          {
             path: '/list/search',
             name: 'searchlist',
             component: './List/List',
-            routes: [
-              {
-                path: '/list/search',
-                redirect: '/list/search/articles',
-              },
-              {
-                path: '/list/search/articles',
-                name: 'articles',
-                component: './List/Articles',
-              },
-              {
-                path: '/list/search/projects',
-                name: 'projects',
-                component: './List/Projects',
-              },
-              {
-                path: '/list/search/applications',
-                name: 'applications',
-                component: './List/Applications',
-              },
-            ],
           },
         ],
       },

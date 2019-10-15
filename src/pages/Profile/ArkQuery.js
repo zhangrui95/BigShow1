@@ -19,7 +19,7 @@ import {
 import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import Ellipsis from '@/components/Ellipsis'
+import Ellipsis from '@/components/Ellipsis';
 import styles from './AdvancedProfile.less';
 import BoxDisplay from './BoxDisplay';
 import { boxDossierInfo, boxUI } from './test';
@@ -43,7 +43,6 @@ class ArkQuery extends Component {
           page: null,
         },
         tableVisable: false,
-
       },
     };
   }
@@ -62,13 +61,13 @@ class ArkQuery extends Component {
           boxDossierInfo: boxDossierInfo,
           tableVisable: true,
         });
-      }else{
+      } else {
         this.setState({
-          boxDossierInfo:{
+          boxDossierInfo: {
             result: {
               list: [],
               page: null,
-            } 
+            },
           },
           tableVisable: true,
         });
@@ -97,23 +96,25 @@ class ArkQuery extends Component {
           //         <a onClick={() => this.handleDetail(record)}>
           //             {val}
           //         </a>
-          // );                   
+          // );
           return (
             <span>
-              {
-                record.trajectory_category == 3 && record.trajectory_state == 1 ?
-                  <span onClick={() => this.handleDetail(record)}>
-                    <Ellipsis tooltip lines={8} style={{ display: 'inline', cursor: 'pointer' }}>{val}</Ellipsis>   <Tag color="red">异常</Tag>
-                  </span> :
-                  <span onClick={() => this.handleDetail(record)}>
-                    <Ellipsis tooltip lines={8} style={{ cursor: 'pointer' }}>{val}</Ellipsis>
-                  </span>
-              }
-
+              {record.trajectory_category == 3 && record.trajectory_state == 1 ? (
+                <span onClick={() => this.handleDetail(record)}>
+                  <Ellipsis tooltip lines={8} style={{ display: 'inline', cursor: 'pointer' }}>
+                    {val}
+                  </Ellipsis>{' '}
+                  <Tag color="red">异常</Tag>
+                </span>
+              ) : (
+                <span onClick={() => this.handleDetail(record)}>
+                  <Ellipsis tooltip lines={8} style={{ cursor: 'pointer' }}>
+                    {val}
+                  </Ellipsis>
+                </span>
+              )}
             </span>
-          )
-
-
+          );
         },
       },
       {
@@ -130,11 +131,11 @@ class ArkQuery extends Component {
         title: '页码',
         dataIndex: 'dossier_now_pages_number',
         key: '5',
-      },];
+      },
+    ];
 
     let data = this.state.boxDossierInfo.result.list;
     let page = this.state.boxDossierInfo.result.page;
-
 
     const paginationProps = {
       current: page ? page.currentPage : 1,
@@ -142,7 +143,7 @@ class ArkQuery extends Component {
       pageSize: page ? page.showCount : 0,
       // showQuickJumper: true,
       // showTotal: (total, range) => `共 ${page ? page.totalResult : 0} 条记录 第 ${page ? page.currentPage : 1} / ${page ? page.totalPage : 1} 页`,
-      onChange: this.handleStandardTableChange
+      onChange: this.handleStandardTableChange,
     };
 
     return (
@@ -154,9 +155,9 @@ class ArkQuery extends Component {
           pagination={paginationProps}
         />
       </Row>
-    )
-  }
-  render () {
+    );
+  };
+  render() {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -207,8 +208,8 @@ class ArkQuery extends Component {
                 cancelBox={this.state.cancelBox}
               />
             ) : (
-                ''
-              )}
+              ''
+            )}
           </Col>
           {/* 表格区 */}
           <Col span={12}>{this.state.tableVisable ? this.listShow() : ''}</Col>
