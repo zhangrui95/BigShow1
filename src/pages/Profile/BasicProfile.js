@@ -185,17 +185,22 @@ class BasicProfile extends Component {
         x: '未使用卷柜',
         y: 21,
       },
-      {
-        x: '卷柜总数',
-        y: 61,
-      },
+      // {
+      //   x: '卷柜总数',
+      //   y: 61,
+      // },
     ];
     return (
       <div>
         <Row>
           <Card title={'卷宗出入柜趋势图'}>
             <Chart height={300} data={data} scale={cols} forceFit>
-              <Legend />
+              <Legend 
+              textStyle={{
+                fontSize: '16', // 文本大小
+                fontWeight: 'bold', // 文本粗细
+            }}
+              />
               <Axis name="month" />
               <Axis
                 name="revenue"
@@ -234,14 +239,14 @@ class BasicProfile extends Component {
                   hasLegend
                   title={this.props.title}
                   subTitle={this.props.title}
-                  total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
+                  // total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
                   data={dataPie1}
                   // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
                   height={200}
                   colors={
                     this.props.pieType == 'EQ'
                       ? ['#3AA0FF', '#36CBCB', '#F2637B', '#975FE4']
-                      : ['#3AA0FF', '#36CBCB', '#F2637B']
+                      : ['#975FE4', '#F2637B', '#36CBCB']
                   }
                 />
               </Card>
@@ -253,7 +258,7 @@ class BasicProfile extends Component {
                     hasLegend
                     title={this.props.title}
                     subTitle={this.props.title}
-                    // total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
+                    total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
                     data={dataPie2}
                     // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
                     height={200}
