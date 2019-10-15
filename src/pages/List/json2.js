@@ -48,6 +48,7 @@ export const tableData = [
     ajbh: 'BHYN4125378',
     entrycause: "盗窃",
     name: "宋佳",
+    barxm:'王俊凯、刘凯',
     xh: 1,
   }, {
     ajlx: "刑事",
@@ -55,6 +56,7 @@ export const tableData = [
     ajmc: "小区盗窃案",
     ajbh: 'BHYN2034512',
     entrycause: "抢劫",
+    barxm:'王放、刘丽',
     name: "陈平",
     xh: 2,
   },
@@ -64,7 +66,18 @@ export const tableData = [
     ajmc: "闹事打架",
     ajbh: 'BHYN2034512',
     name: "王强",
+    barxm:'宋小、刘丽',
     entrycause: "闹事",
     xh: 3,
+  },
+  {
+    ajlx: "民事",
+    ajly: 1,
+    ajmc: "盗窃案件",
+    ajbh: 'BHYN1134512',
+    name: "沙特",
+    barxm:'王里斯',
+    entrycause: "闹事",
+    xh: 4,
   }
 ]

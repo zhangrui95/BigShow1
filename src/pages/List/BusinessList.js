@@ -58,11 +58,22 @@ class BusinessList extends PureComponent {
   }
   renderSearch = () => {
     return <Search
-      placeholder="请输入查询条件"
-
-      onSearch={value => console.log(value)}
-      style={{ width: 200 }}
+      placeholder="案件编号、名称、嫌疑人姓名"
+      onSearch={value => this.search(value)}
+      style={{ width: 300 }}
     />
+  }
+  search = (value) => {
+    let list = tableData;
+    if (value) {
+      list = list.filter(item => item.ajbh.indexOf(value) > -1 ||
+        item.ajmc.indexOf(value) > -1 ||
+        item.name.indexOf(value) > -1);
+    }
+    this.setState({
+      tableData: list
+    })
+
   }
   render() {
     // const chartData = []; 
@@ -127,25 +138,26 @@ class BusinessList extends PureComponent {
       <div>
         <div>
           <Row gutter={24}>
-            <div>
-              <TimelineChart height={200} data={chartData} titleMap={{ y1: '入区人员数量', y2: '案件办理总数' }} />
+            <div style={{ minHeight: '240px' }}>
+              <TimelineChart height={240} data={chartData} titleMap={{ y1: '入区人员数量', y2: '案件办理总数' }} />
             </div>
             <Row gutter={12} style={{ marginTop: '24px' }}>
               <Col span={12}>
 
-                <Card title='案件详情' className={styles.tableContent} extra={this.renderSearch()} >
-                  <div style={{ height: '335px' }}>
+                <Card title='案件详情' className={styles.tableContent} extra={this.renderSearch()} style={{ minHeight: '408px' }}>
+                  <div >
                     <Table columns={columns}
+                      size='small'
                       rowKey={record => record.xh}
-                      // pagination={pageProps}
-                      // onChange={this.handleTableChange}
-                      dataSource={tableData} scroll={{ y: 200 }} />
+                      dataSource={this.state.tableData}
+                    // scroll={{ y: 200 }}
+                    />
                   </div>
                 </Card>
 
               </Col>
               <Col span={12}>
-                <Card title="办理总数资源占比" bordered={false}>
+                <Card title="办理总数资源占比" bordered={false} style={{ minHeight: '408px' }}>
                   <Pie
                     hasLegend
                     subTitle="办理总数"
