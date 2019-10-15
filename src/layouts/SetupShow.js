@@ -12,6 +12,7 @@ import HandingVideoAreaPlaying from '../components/Show/bigScreenDisplay/Handing
 import DossierCount from '../components/Show/bigScreenDisplay/DossierCount';
 import CaseItemWarningCount from '../components/Show/bigScreenDisplay/CaseItemWarningCount';
 import AjNum from '../components/Show/bigScreenDisplay/AjNum';
+import AdministrativeCaseWarning from '../components/Show/bigScreenDisplay/AdministrativeCaseWarning';
 
 class SetupShow extends React.PureComponent {
   constructor(porps) {
@@ -97,7 +98,8 @@ class SetupShow extends React.PureComponent {
               <PersonCount {...this.props} {...this.state} />
             </div>
             <div className={styles.globalCard}>
-              <AjNum {...this.props} {...this.state} />
+              {/*<AjNum {...this.props} {...this.state} />*/}
+              <AdministrativeCaseWarning {...this.props} {...this.state} />
             </div>
           </div>
           <div className={styles.wrapMiddle}>

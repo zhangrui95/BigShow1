@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import styles from './PersonTable.less';
 import Ellipsis from '../Ellipsis';
+import PersonTableDetail from './PersonTableDetail';
 
 const data = {
   list: [
@@ -131,24 +132,25 @@ const data = {
       qzcs: '起诉',
     },
   ],
-  // page:{
-  //   currentPage: 1,
-  //   currentResult: 0,
-  //   entityOrField: true,
-  //   pageStr: "",
-  //   showCount: 10,
-  //   totalPage: 2,
-  //   totalResult: 11,
-  // }
 };
 
-class RenderTable extends PureComponent {
+class PersonTable extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   componentDidMount() {}
+
+  PersonDetail = record => {
+    const divs = (
+      <div>
+        <PersonTableDetail key={record.key} {...this.props} />
+      </div>
+    );
+    const AddNewDetail = { title: '嫌疑人详情', content: divs, key: 'persontable' + record.key };
+    this.props.newDetail(AddNewDetail);
+  };
 
   render() {
     const columns = [
@@ -246,22 +248,16 @@ class RenderTable extends PureComponent {
           );
         },
       },
+      {
+        title: '操作',
+        render: record => (
+          <div>
+            <a onClick={() => this.PersonDetail(record)}>详情</a>
+          </div>
+        ),
+      },
     ];
 
-    // const paginationProps = {
-    //   showSizeChanger: true,
-    //   showQuickJumper: true,
-    //   current: data.page ? data.page.currentPage : '',
-    //   total: data.page ? data.page.totalResult : '',
-    //   pageSize: data.page ? data.page.showCount : '',
-    //   showTotal: (total, range) => (
-    //     <span className={styles.pagination}>{`共 ${
-    //       data.page ? data.page.totalResult : 0
-    //       } 条记录 第 ${data.page ? data.page.currentPage : 1} / ${
-    //       data.page ? data.page.totalPage : 1
-    //       } 页`}</span>
-    //   ),
-    // };
     return (
       <div className={styles.standardTable}>
         <Table
@@ -269,13 +265,10 @@ class RenderTable extends PureComponent {
           rowKey={record => record.key}
           dataSource={data.list}
           columns={columns}
-          // pagination={paginationProps}
-          // onChange={this.handleTableChange}
-          // style={{ backgroundColor: '#fff' }}
         />
       </div>
     );
   }
 }
 
-export default RenderTable;
+export default PersonTable;
