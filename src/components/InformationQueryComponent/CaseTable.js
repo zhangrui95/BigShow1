@@ -9,7 +9,7 @@ import styles from './CaseTable.less';
 import Ellipsis from '../Ellipsis';
 import CaseTableDetail from './CaseTableDetail';
 
-class RenderTable extends PureComponent {
+class CaseTable extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -20,7 +20,7 @@ class RenderTable extends PureComponent {
   CaseDetail = record => {
     const divs = (
       <div>
-        <CaseTableDetail {...this.props} />
+        <CaseTableDetail record={record} {...this.props} />
       </div>
     );
     const AddNewDetail = { title: '案件详情', content: divs, key: 'casetable' + record.key };
@@ -147,4 +147,4 @@ class RenderTable extends PureComponent {
   }
 }
 
-export default RenderTable;
+export default CaseTable;

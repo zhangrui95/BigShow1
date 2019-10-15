@@ -46,6 +46,9 @@ const personData = [
     ajmc: '开设赌场案1',
     ajbh: 'A4106550302502019040011',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '2',
@@ -56,6 +59,9 @@ const personData = [
     ajmc: '开设赌场案2',
     ajbh: 'A4106550302502019040012',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '3',
@@ -66,6 +72,9 @@ const personData = [
     ajmc: '开设赌场案3',
     ajbh: 'A4106550302502019040013',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '4',
@@ -76,6 +85,9 @@ const personData = [
     ajmc: '开设赌场案4',
     ajbh: 'A4106550302502019040014',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '5',
@@ -86,6 +98,9 @@ const personData = [
     ajmc: '开设赌场案5',
     ajbh: 'A4106550302502019040015',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '6',
@@ -96,6 +111,9 @@ const personData = [
     ajmc: '开设赌场案6',
     ajbh: 'A4106550302502019040016',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '7',
@@ -106,6 +124,9 @@ const personData = [
     ajmc: '开设赌场案7',
     ajbh: 'A4106550302502019040017',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '8',
@@ -116,6 +137,9 @@ const personData = [
     ajmc: '开设赌场案8',
     ajbh: 'A4106550302502019040018',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '9',
@@ -126,6 +150,9 @@ const personData = [
     ajmc: '开设赌场案9',
     ajbh: 'A4106550302502019040019',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '10',
@@ -136,6 +163,9 @@ const personData = [
     ajmc: '开设赌场案10',
     ajbh: 'A4106550302502019040010',
     qzcs: '刑事拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '11',
@@ -146,6 +176,9 @@ const personData = [
     ajmc: '开设赌场案11',
     ajbh: 'A4106550302502019040021',
     qzcs: '行政拘留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
   {
     key: '12',
@@ -156,15 +189,12 @@ const personData = [
     ajmc: '开设赌场案12',
     ajbh: 'A4106550302502019040022',
     qzcs: '延长居留',
+    age: 30,
+    address: '张家屯',
+    phone: '15204569874',
   },
 ];
 
-// @connect(({ policeData, loading, common }) => ({
-//   policeData,
-//   loading,
-//   common,
-// loading: loading.models.alarmManagement,
-// }))
 @Form.create()
 class InformationQuery extends PureComponent {
   state = {
@@ -404,19 +434,9 @@ class InformationQuery extends PureComponent {
 
   renderTable() {
     const { personData } = this.state;
-    // const { policeData: { police, loading } } = this.props;
     return (
       <div>
-        <PersonTable
-          // loading={loading}
-          data={personData}
-          // onChange={this.handleTableChange}
-          // dispatch={this.props.dispatch}
-          newDetail={this.newDetail}
-          // getPolice={params => this.getPolice(params)}
-          // location={this.props.location}
-          // formValues={this.state.formValues}
-        />
+        <PersonTable data={personData} newDetail={this.newDetail} />
       </div>
     );
   }

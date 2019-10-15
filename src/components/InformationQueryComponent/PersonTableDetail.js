@@ -5,28 +5,85 @@
 * */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Card, Steps, message, Tabs, Button, Spin, Table } from 'antd';
-// import html2canvas from 'html2canvas';
+import { Row, Col, Form, Card, Steps, message, Tabs, Button, Spin, Table, Icon, List } from 'antd';
 import echarts from 'echarts/lib/echarts';
 import tree from 'echarts/lib/chart/tree';
 import tooltip from 'echarts/lib/component/tooltip';
 import Ellipsis from '../Ellipsis';
-// import PersonIntoArea from '../../routes/CaseRealData/IntoArea';
-// import ItemDetail from '../../routes/ItemRealData/itemDetail';
-// import CaseDetail from '../../routes/CaseRealData/caseDetail';
-// import XzCaseDetail from '../../routes/XzCaseRealData/caseDetail';
-// import PersonDetail from '../../routes/AllDocuments/PersonalDocDetail';
-// import PersonDetailTab from '../../components/AllDocuments/PersonDetailTab';
-// import JzDetail from '../../routes/DossierData/DossierDetail';
 import styles from './PersonTableDetail.less';
 
 import { autoheight } from '../../utils/utils';
 
-const FormItem = Form.Item;
 const { Step } = Steps;
 const TabPane = Tabs.TabPane;
 let echartTree;
-let imgBase = [];
+
+const tarList = [
+  { name: '任琴女', sex: '女', xyr_sfzh: '15272219830122556X', xszk: '9', xszk_name: '其他' },
+  { name: '任琴女', sex: '女', xyr_sfzh: '15272219830122556X', xszk: '9', xszk_name: '其他' },
+  { name: '刘玉莲', sex: '女', xyr_sfzh: '152722196705173648', xszk: '9', xszk_name: '其他' },
+  { name: '崔文会', sex: '男', xyr_sfzh: '152722198412071831', xszk: '9', xszk_name: '其他' },
+  { name: '张凤琴', sex: '女', xyr_sfzh: '152722197001225520', xszk: '9', xszk_name: '其他' },
+  { name: '李克成', sex: '男', xyr_sfzh: '320922197810127833', xszk: '9', xszk_name: '其他' },
+  { name: '李树青', sex: '女', xyr_sfzh: '152722197003090324', xszk: '9', xszk_name: '其他' },
+  { name: '王三喜', sex: '男', xyr_sfzh: '152722197507075515', xszk: '9', xszk_name: '其他' },
+  { name: '王勇', sex: '男', xyr_sfzh: '152722196911240012', xszk: '9', xszk_name: '其他' },
+  { name: '王清莲', sex: '女', xyr_sfzh: '152722197210032725', xszk: '9', xszk_name: '其他' },
+  { name: '苏丽', sex: '女', xyr_sfzh: '152722197709243628', xszk: '9', xszk_name: '其他' },
+  { name: '郝翠连', sex: '女', xyr_sfzh: '152722197410215526', xszk: '9', xszk_name: '其他' },
+];
+
+const book = [
+  {
+    name: '证据材料卷',
+    time: '2019-01-05',
+    bookBottom: [
+      { bookBottomName: '受立案文书', bookBottomTime: '2019-01-01' },
+      { bookBottomName: '判决书', bookBottomTime: '2019-01-06' },
+    ],
+  },
+];
+
+const thing = [{ name: '刀', num: 1, dw: '把', wgy: '陈某', bamj: '丽人' }];
+
+const data = {
+  name: '张冬梅',
+  children: [
+    {
+      name: '刘玉莲为赌博提供便利条件',
+      children: [
+        {
+          name: '历史入去信息',
+        },
+        {
+          name: '同案人',
+          children: [
+            { name: '任琴女', value: 3938 },
+            { name: '刘玉莲', value: 3812 },
+            { name: '崔文辉', value: 6714 },
+            { name: '李克成', value: 743 },
+          ],
+        },
+        {
+          name: '行政处罚记录',
+          children: [{ name: '罚款100元', value: 3534 }, { name: '罚款200元', value: 5731 }],
+        },
+        {
+          name: '强制措施记录',
+        },
+        {
+          name: '随身物品',
+        },
+        {
+          name: '涉案物品',
+        },
+        {
+          name: '相关卷宗',
+        },
+      ],
+    },
+  ],
+};
 export default class PersonTableDetail extends PureComponent {
   state = {
     // personData: '',
@@ -38,116 +95,6 @@ export default class PersonTableDetail extends PureComponent {
   }
 
   showEchart = () => {
-    const data = {
-      name: 'flare',
-      children: [
-        {
-          name: 'analytics',
-          children: [
-            {
-              name: 'cluster',
-              children: [
-                { name: 'AgglomerativeCluster', value: 3938 },
-                { name: 'CommunityStructure', value: 3812 },
-                { name: 'HierarchicalCluster', value: 6714 },
-                { name: 'MergeEdge', value: 743 },
-              ],
-            },
-            {
-              name: 'graph',
-              children: [
-                { name: 'BetweennessCentrality', value: 3534 },
-                { name: 'LinkDistance', value: 5731 },
-                { name: 'MaxFlowMinCut', value: 7840 },
-                { name: 'ShortestPaths', value: 5914 },
-                { name: 'SpanningTree', value: 3416 },
-              ],
-            },
-            {
-              name: 'optimization',
-              children: [{ name: 'AspectRatioBanker', value: 7074 }],
-            },
-          ],
-        },
-        {
-          name: 'animate',
-          children: [
-            { name: 'Easing', value: 17010 },
-            { name: 'FunctionSequence', value: 5842 },
-            {
-              name: 'interpolate',
-              children: [
-                { name: 'ArrayInterpolator', value: 1983 },
-                { name: 'ColorInterpolator', value: 2047 },
-                { name: 'DateInterpolator', value: 1375 },
-                { name: 'Interpolator', value: 8746 },
-                { name: 'MatrixInterpolator', value: 2202 },
-                { name: 'NumberInterpolator', value: 1382 },
-                { name: 'ObjectInterpolator', value: 1629 },
-                { name: 'PointInterpolator', value: 1675 },
-                { name: 'RectangleInterpolator', value: 2042 },
-              ],
-            },
-            { name: 'ISchedulable', value: 1041 },
-            { name: 'Parallel', value: 5176 },
-            { name: 'Pause', value: 449 },
-            { name: 'Scheduler', value: 5593 },
-            { name: 'Sequence', value: 5534 },
-            { name: 'Transition', value: 9201 },
-            { name: 'Transitioner', value: 19975 },
-            { name: 'TransitionEvent', value: 1116 },
-            { name: 'Tween', value: 6006 },
-          ],
-        },
-        {
-          name: 'data',
-          children: [
-            {
-              name: 'converters',
-              children: [
-                { name: 'Converters', value: 721 },
-                { name: 'DelimitedTextConverter', value: 4294 },
-                { name: 'GraphMLConverter', value: 9800 },
-                { name: 'IDataConverter', value: 1314 },
-                { name: 'JSONConverter', value: 2220 },
-              ],
-            },
-            { name: 'DataField', value: 1759 },
-            { name: 'DataSchema', value: 2165 },
-            { name: 'DataSet', value: 586 },
-            { name: 'DataSource', value: 3331 },
-            { name: 'DataTable', value: 772 },
-            { name: 'DataUtil', value: 3322 },
-          ],
-        },
-        {
-          name: 'display',
-          children: [
-            { name: 'DirtySprite', value: 8833 },
-            { name: 'LineSprite', value: 1732 },
-            { name: 'RectSprite', value: 3623 },
-            { name: 'TextSprite', value: 10066 },
-          ],
-        },
-        {
-          name: 'flex',
-          children: [{ name: 'FlareVis', value: 4116 }],
-        },
-        {
-          name: 'physics',
-          children: [
-            { name: 'DragForce', value: 1082 },
-            { name: 'GravityForce', value: 1336 },
-            { name: 'IForce', value: 319 },
-            { name: 'NBodyForce', value: 10498 },
-            { name: 'Particle', value: 2822 },
-            { name: 'Simulation', value: 9983 },
-            { name: 'Spring', value: 2213 },
-            { name: 'SpringForce', value: 1681 },
-          ],
-        },
-      ],
-    };
     echartTree = echarts.init(document.getElementById('ryRegulateTree'));
     const option = {
       tooltip: {
@@ -195,8 +142,85 @@ export default class PersonTableDetail extends PureComponent {
     echartTree.setOption(option);
   };
 
+  // 同案人List
+  showTarList = () => {
+    return (
+      <List
+        itemLayout="vertical"
+        size="small"
+        pagination={
+          tarList.length > 0
+            ? {
+                size: 'small',
+                pageSize: 8,
+                showTotal: (total, range) => (
+                  <div style={{ position: 'absolute', left: '12px' }}>
+                    共 {total} 条记录 第 {this.state.gjCurrent} / {Math.ceil(total / 8)} 页
+                  </div>
+                ),
+                onChange: page => {
+                  this.setState({ gjCurrent: page });
+                },
+              }
+            : null
+        }
+        dataSource={tarList}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 4,
+          lg: 4,
+        }}
+        className={styles.listItem}
+        style={{ color: '#faa' }}
+        renderItem={item => (
+          <List.Item>
+            <div className={styles.blueItems}>
+              <div className={styles.listItemContents}>
+                <Row style={{ padding: '10px' }}>
+                  <Col span={12}>
+                    姓名：
+                    {item.name}
+                  </Col>
+                  <Col span={8}>
+                    性别：
+                    {item.sex}
+                  </Col>
+                  <Col span={4}>
+                    <span
+                      className={
+                        item.xszk_name && item.xszk_name === '在逃' ? styles.tag : styles.tagBlue
+                      }
+                    >
+                      {item.xszk_name ? item.xszk_name : '未知'}
+                    </span>
+                  </Col>
+                </Row>
+                <Row style={{ padding: '10px' }}>
+                  <Col span={24}>
+                    证件号：
+                    {item.xyr_sfzh}
+                  </Col>
+                </Row>
+              </div>
+              <div className={styles.operationButton}>查看</div>
+            </div>
+          </List.Item>
+        )}
+      />
+    );
+  };
+
   render() {
     // const { personData, loading } = this.state;
+    const { record } = this.props;
+    const formItemLayout = {
+      labelCol: { xs: { span: 24 }, md: { span: 8 }, xl: { span: 6 }, xxl: { span: 4 } },
+      wrapperCol: { xs: { span: 24 }, md: { span: 16 }, xl: { span: 18 }, xxl: { span: 20 } },
+    };
+    const rowLayout = { md: 8, xl: 16, xxl: 24 };
+    const colLayout = { sm: 24, md: 12, xl: 8 };
     // 卷宗表头
     const JzColumns = [
       {
@@ -242,7 +266,7 @@ export default class PersonTableDetail extends PureComponent {
     const sswpColumns = [
       {
         title: '物品名称',
-        dataIndex: 'wpName',
+        dataIndex: 'name',
         render: text => {
           return text ? (
             <Ellipsis length={20} tooltip>
@@ -255,31 +279,19 @@ export default class PersonTableDetail extends PureComponent {
       },
       {
         title: '数量',
-        dataIndex: 'sl',
+        dataIndex: 'num',
       },
       {
         title: '单位',
-        dataIndex: 'unit',
-      },
-      {
-        title: '特征',
-        dataIndex: 'tz',
-      },
-      {
-        title: '备注',
-        dataIndex: 'remark',
+        dataIndex: 'dw',
       },
       {
         title: '物管员',
-        dataIndex: 'wgr',
+        dataIndex: 'wgy',
       },
       {
         title: '办案民警',
-        dataIndex: 'bary',
-      },
-      {
-        title: '接领人员',
-        dataIndex: 'jlry',
+        dataIndex: 'bamj',
       },
     ];
     return (
@@ -299,7 +311,7 @@ export default class PersonTableDetail extends PureComponent {
         </div>
         <div
           style={{ padding: '24px 0', background: '#F0F2F5' }}
-          className={styles.detailBoxScroll}
+          // className={styles.detailBoxScroll}
         >
           <div>
             <div>
@@ -318,27 +330,48 @@ export default class PersonTableDetail extends PureComponent {
                     <Col md={22} sm={24} style={{ paddingLeft: '24px' }}>
                       <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginBottom: 24 }}>
                         <Col md={4} sm={24}>
-                          <div className={styles.break}>姓名：张冬梅</div>
+                          <div className={styles.break}>
+                            姓名：
+                            {record ? record.sary : ''}
+                          </div>
                         </Col>
                         <Col md={4} sm={24}>
-                          <div className={styles.break}>年龄：30</div>
+                          <div className={styles.break}>
+                            年龄：
+                            {record ? record.age : ''}
+                          </div>
                         </Col>
                         <Col md={4} sm={24}>
-                          <div className={styles.break}>性别：女</div>
+                          <div className={styles.break}>
+                            性别：
+                            {record.ryxb}
+                          </div>
                         </Col>
                         <Col md={6} sm={24}>
-                          <div className={styles.break}>证件号：232302198502021478</div>
+                          <div className={styles.break}>
+                            证件号：
+                            {record.zjhm}
+                          </div>
                         </Col>
                         <Col md={6} sm={24}>
-                          <div className={styles.break}>现阶段强制措施：起诉</div>
+                          <div className={styles.break}>
+                            现阶段强制措施：
+                            {record.qzcs}
+                          </div>
                         </Col>
                       </Row>
                       <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginBottom: '24px' }}>
                         <Col md={12} sm={24}>
-                          <div className={styles.break}>现住址：张家屯</div>
+                          <div className={styles.break}>
+                            现住址：
+                            {record.address}
+                          </div>
                         </Col>
                         <Col md={12} sm={24}>
-                          <div className={styles.break}>联系电话：18944569874</div>
+                          <div className={styles.break}>
+                            联系电话：
+                            {record.phone}
+                          </div>
                         </Col>
                       </Row>
                     </Col>
@@ -398,17 +431,39 @@ export default class PersonTableDetail extends PureComponent {
                     </TabPane>
                     <TabPane tab="音频信息" key="2" forceRender className="Namesaxx2">
                       <div className={styles.tabDiv}>
-                        <Row className={styles.contentRow}>
+                        <Row className={styles.contentRow} style={{ padding: '0 12px' }}>
                           <Col md={24} sm={24}>
-                            <Row>
-                              <Col>
-                                <a>a.mp3</a>
+                            <Row gutter={rowLayout}>
+                              <Col {...colLayout}>
+                                <div>接处警音视频</div>
+                                <div>
+                                  <img className={styles.img} width={60} height={60} />
+                                </div>
                               </Col>
-                              <Col>
-                                <a>b.mp3</a>
-                              </Col>
-                              <Col>
-                                <a>c.mp3</a>
+                              <Col {...colLayout}>
+                                <div>办案区视频</div>
+                                <div>
+                                  <Steps progressDot current={3}>
+                                    <Step
+                                      title={<span style={{ fontSize: 14 }}>入区视频</span>}
+                                      description={
+                                        <img className={styles.img} width={60} height={60} />
+                                      }
+                                    />
+                                    <Step
+                                      title={<span style={{ fontSize: 14 }}>询讯问视频</span>}
+                                      description={
+                                        <img className={styles.img} width={60} height={60} />
+                                      }
+                                    />
+                                    <Step
+                                      title={<span style={{ fontSize: 14 }}>离区视频</span>}
+                                      description={
+                                        <img className={styles.img} width={60} height={60} />
+                                      }
+                                    />
+                                  </Steps>
+                                </div>
                               </Col>
                             </Row>
                           </Col>
@@ -416,9 +471,7 @@ export default class PersonTableDetail extends PureComponent {
                       </div>
                     </TabPane>
                     <TabPane tab="涉案人员" key="3" forceRender className="Namesaxx3">
-                      <div className={styles.tabDiv}>
-                        {/*{this.showTarList(caseData.tarList || [])}*/}
-                      </div>
+                      <div className={styles.tabDiv}>{this.showTarList()}</div>
                     </TabPane>
                     <TabPane tab="案件流程" key="4" forceRender className="Namesaxx4">
                       <div className={styles.tabDiv}>
@@ -456,7 +509,7 @@ export default class PersonTableDetail extends PureComponent {
                               this.setState({ sswpCurrent: page });
                             },
                           }}
-                          // dataSource={caseData.sswpList || []}
+                          dataSource={thing}
                           columns={sswpColumns}
                         />
                       </div>
@@ -468,23 +521,83 @@ export default class PersonTableDetail extends PureComponent {
                     {/*</TabPane>*/}
                     <TabPane tab="相关卷宗" key="8" forceRender className="Namesaxx8">
                       <div className={styles.tabDiv}>
-                        <Table
-                          size="middle"
-                          style={{ backgroundColor: '#fff' }}
-                          pagination={{
-                            pageSize: 3,
-                            showTotal: (total, range) => (
-                              <div style={{ position: 'absolute', left: '12px' }}>
-                                共 {total} 条记录 第 {this.state.jzCurrent} / {Math.ceil(total / 3)}{' '}
-                                页
-                              </div>
-                            ),
-                            onChange: page => {
-                              this.setState({ jzCurrent: page });
-                            },
+                        <List
+                          itemLayout="vertical"
+                          size="small"
+                          pagination={
+                            book.length > 0
+                              ? {
+                                  size: 'small',
+                                  pageSize: 8,
+                                  showTotal: (total, range) => (
+                                    <div style={{ position: 'absolute', left: '12px' }}>
+                                      共 {total} 条记录 第 {this.state.gjCurrent} /{' '}
+                                      {Math.ceil(total / 8)} 页
+                                    </div>
+                                  ),
+                                  onChange: page => {
+                                    this.setState({ gjCurrent: page });
+                                  },
+                                }
+                              : null
+                          }
+                          dataSource={book}
+                          grid={{
+                            gutter: 16,
+                            xs: 1,
+                            sm: 2,
+                            md: 4,
+                            lg: 4,
                           }}
-                          // dataSource={caseData ? caseData.jzList : []}
-                          columns={JzColumns}
+                          className={styles.listItem}
+                          // style={{ color: '#faa' }}
+                          renderItem={item => (
+                            <List.Item>
+                              <div className={styles.blueItems}>
+                                <div className={styles.listItemContents}>
+                                  <Row style={{ padding: '10px' }}>
+                                    <Col span={24}>
+                                      卷宗名称：
+                                      {item.name}
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col span={12}>
+                                      <div>
+                                        <img className={styles.img1} width={60} height={60} />
+                                      </div>
+                                      <div>
+                                        文书名称：
+                                        {item.bookBottom[0].bookBottomName}
+                                      </div>
+                                      <div>
+                                        日期：
+                                        {item.bookBottom[0].bookBottomTime}
+                                      </div>
+                                    </Col>
+                                    <Col span={12}>
+                                      <div>
+                                        <img className={styles.img1} width={60} height={60} />
+                                      </div>
+                                      <div>
+                                        文书名称：
+                                        {item.bookBottom[1].bookBottomName}
+                                      </div>
+                                      <div>
+                                        日期：
+                                        {item.bookBottom[0].bookBottomTime}
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                  {/*<Row>*/}
+                                  {/*<Col span={8}><img className={styles.img1} width={60} height={60} /></Col>*/}
+                                  {/*<Col span={8}>文书名称：{item.xyr_sfzh}</Col>*/}
+                                  {/*<Col span={8}>日期：{item.xyr_sfzh}</Col>*/}
+                                  {/*</Row>*/}
+                                </div>
+                              </div>
+                            </List.Item>
+                          )}
                         />
                       </div>
                     </TabPane>

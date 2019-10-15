@@ -42,7 +42,7 @@ const data = [
     badw: '第一派出所',
     bar: '李铭',
     ajlb: '侵财案件',
-    ypxx: 'aa.mp3',
+    ypxx: '入区视频.mp3',
   },
   {
     key: '2',
@@ -52,7 +52,7 @@ const data = [
     badw: '第二派出所',
     bar: '王肥肥',
     ajlb: '两抢一盗',
-    ypxx: 'abb.mp3',
+    ypxx: '询问视频.mp3',
   },
   {
     key: '3',
@@ -62,7 +62,7 @@ const data = [
     badw: '第三派出所',
     bar: '赵要',
     ajlb: '八类案件',
-    ypxx: 'cc.mp3',
+    ypxx: '离区视频.mp3',
   },
 ];
 
@@ -200,15 +200,7 @@ class BasicForms extends PureComponent {
     const { data } = this.state;
     return (
       <div>
-        <BasicFromTable
-          data={data}
-          onChange={this.handleTableChange}
-          // dispatch={this.props.dispatch}
-          // newDetail={this.newDetail}
-          // getPolice={(params) => this.getPolice(params)}
-          // location={this.props.location}
-          // formValues={this.state.formValues}
-        />
+        <BasicFromTable data={data} onChange={this.handleTableChange} />
       </div>
     );
   }
