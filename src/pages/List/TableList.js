@@ -437,7 +437,9 @@ class TableList extends PureComponent {
             <Divider type="vertical" />
             <a
               onClick={() => {
-                this.caseRelat(true, record);
+                this.setState({
+                  visibleVideo: true
+                })
               }}
             >
               视频
@@ -488,6 +490,29 @@ class TableList extends PureComponent {
             pageSize={1}
             total={9}
           />
+        </Modal>
+        <Modal
+          title="全流程轨迹"
+          visible={this.state.visibleVideo}
+          width={825}
+          footer={null}
+          onCancel={() => {
+            this.setState({
+              visibleVideo: false
+            })
+          }}
+        >
+          <video
+            controls
+            preload="auto"
+            width='100%'
+            height="40%"
+            poster="video/cover.png"
+            data-setup="{}"
+            autoPlay
+          >
+            <source src={require('@/assets/video4.mp4')} type="video/mp4" />
+          </video>
         </Modal>
       </div>
     );

@@ -8,6 +8,7 @@ import React, { PureComponent } from 'react';
 import echarts from 'echarts/lib/echarts';
 import pictorialBar from 'echarts/lib/chart/pictorialBar';
 import title from 'echarts/lib/component/title';
+import tooltip from 'echarts/lib/component/tooltip';
 
 let myChart;
 const spirit =
@@ -23,33 +24,21 @@ export default class PersonCount extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (
-        nextProps.selectDate !== null &&
-        (this.props.selectDate !== nextProps.selectDate ||
-          this.props.orgCode !== nextProps.orgCode ||
-          this.props.org !== nextProps.org ||
-          this.props.orglist !== nextProps.orglist)
-      ) {
-        this.getPersonCount(
-          nextProps.selectDate[0],
-          nextProps.selectDate[1],
-          nextProps.org,
-          nextProps.orgCode,
-          nextProps.orglist
-        );
+      if (this.props.currentDateType !== nextProps.currentDateType || this.props.org !== nextProps.org) {
+        this.getPersonCount();
       }
     }
   }
 
   // 获取强制措施人数
-  getPersonCount = (startTime, endTime, org, orgCode, orglist) => {
+  getPersonCount = () => {
     let data = {
       list: [
-        { name: '拘传', count: 745 },
-        { name: '拘留', count: 312 },
-        { name: '逮捕', count: 567 },
-        { name: '取保候审', count: 521 },
-        { name: '监视居住', count: 1093 },
+        { name: '拘传', count: Math.floor(Math.random()*(1000 - 100) + 100) },
+        { name: '拘留', count: Math.floor(Math.random()*(1000 - 100) + 100)},
+        { name: '逮捕', count: Math.floor(Math.random()*(1000 - 100) + 100) },
+        { name: '取保候审', count: Math.floor(Math.random()*(2000 - 100) + 100) },
+        { name: '监视居住', count: Math.floor(Math.random()*(1000 - 100) + 100)},
       ],
     };
     const yData = [];

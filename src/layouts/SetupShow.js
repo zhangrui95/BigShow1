@@ -10,6 +10,7 @@ import PersonCount from '../components/Show/bigScreenDisplay/PersonCount';
 import PoliceSituationFrom from '../components/Show/bigScreenDisplay/PoliceSituationFrom';
 import HandingVideoAreaPlaying from '../components/Show/bigScreenDisplay/HandingVideoAreaPlaying';
 import DossierCount from '../components/Show/bigScreenDisplay/DossierCount';
+import CaseItemWarningCount from '../components/Show/bigScreenDisplay/CaseItemWarningCount';
 import AjNum from '../components/Show/bigScreenDisplay/AjNum';
 
 class SetupShow extends React.PureComponent {
@@ -17,13 +18,21 @@ class SetupShow extends React.PureComponent {
     super(porps);
     this.state = {
       nowTime: moment().format('YYYY-MM-DD HH:mm'),
-      selectDate: [
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment().format('YYYY-MM-DD'),
-      ],
+      selectDate: [moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
       mapLoopTime: 3,
+      currentDateType: 'day',
+      shadeColors: [
+        ['#ff4d98', '#ff0062'],
+        ['#00e3ff', '#009bcd'],
+        ['#6f05c3', '#c6306c'],
+        ['#ff4e50', '#f9d423'],
+        ['#4971ff', '#9798ff'],
+        ['#00c9ff', '#92f39d'],
+        ['#ffe000', '#799f0c'],
+        ['#00c6ff', '#0072ff'],
+        ['#f09819', '#edde5d'],
+        ['#8e2de2', '#4a00e0'],
+      ],
     };
   }
   componentDidMount() {
@@ -44,6 +53,19 @@ class SetupShow extends React.PureComponent {
       org: code,
     });
   };
+  // 改变数据展示时间段
+  changeCurrentDate = (dateType) => {
+    let selectDate = [moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')];
+    if (dateType === 'month') {
+      selectDate = [moment().startOf('month').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')];
+    }else if(dateType === 'week'){
+      selectDate = [moment().startOf('week').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')];
+    }
+    this.setState({
+      selectDate,
+      currentDateType: dateType,
+    });
+  };
   render() {
     return (
       <div className={styles.SCMDataShow}>
@@ -59,11 +81,11 @@ class SetupShow extends React.PureComponent {
             </span>
           </div>
           <div className={styles.dateButtons}>
-            {/*<span className={currentDateType === 'week' ? styles.currentDate : null} onClick={() => this.changeCurrentDate('week')}>本周</span>*/}
-            {/*<span className={currentDateType === 'month' ? styles.currentDate : null}*/}
-            {/*      onClick={() => this.changeCurrentDate('month')}>本月</span>*/}
-            {/*<span className={currentDateType === 'year' ? styles.currentDate : null}*/}
-            {/*      onClick={() => this.changeCurrentDate('year')}>本年</span>*/}
+             <span className={this.state.currentDateType === 'day' ? styles.currentDate : null}
+                   onClick={() => this.changeCurrentDate('day')}>本日</span>
+            <span className={this.state.currentDateType === 'week' ? styles.currentDate : null} onClick={() => this.changeCurrentDate('week')}>本周</span>
+            <span className={this.state.currentDateType === 'month' ? styles.currentDate : null}
+                  onClick={() => this.changeCurrentDate('month')}>本月</span>
           </div>
         </div>
         <div className={styles.wrap}>
@@ -90,7 +112,9 @@ class SetupShow extends React.PureComponent {
             <div className={styles.globalCard}>
               <HandingVideoAreaPlaying {...this.props} {...this.state} />
             </div>
-            <div className={styles.globalCard} />
+            <div className={styles.globalCard}>
+              <CaseItemWarningCount {...this.props} {...this.state} />
+            </div>
             <div className={styles.globalCard}>
               <DossierCount {...this.props} {...this.state} />
             </div>

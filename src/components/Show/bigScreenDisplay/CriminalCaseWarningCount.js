@@ -15,6 +15,20 @@ import { routerRedux } from 'dva/router';
 let myChart;
 
 export default class CriminalCaseWarningCount extends PureComponent {
+  state={
+    shadeColors: [
+      ['#ff4d98', '#ff0062'],
+      ['#00e3ff', '#009bcd'],
+      ['#6f05c3', '#c6306c'],
+      ['#ff4e50', '#f9d423'],
+      ['#4971ff', '#9798ff'],
+      ['#00c9ff', '#92f39d'],
+      ['#ffe000', '#799f0c'],
+      ['#00c6ff', '#0072ff'],
+      ['#f09819', '#edde5d'],
+      ['#8e2de2', '#4a00e0'],
+    ],
+  }
   componentDidMount() {
     const { selectDate, orgCode, org, orglist } = this.props;
     this.showEchart();
@@ -44,18 +58,19 @@ export default class CriminalCaseWarningCount extends PureComponent {
 
   // 刑事案件告警数量
   getUnCaseAllTypeWarnings = (startTime, endTime, org, orgCode, orglist) => {
-    const { shadeColors } = this.props;
-    this.props.dispatch({
-      type: 'UnCaseData/getUnCaseAllTypeWarnings',
-      payload: {
-        kssj: startTime,
-        jssj: endTime,
-        org: org,
-        orgcode: orgCode,
-        orglist: orglist,
-      },
-      callback: data => {
-        if (data) {
+    const { shadeColors } = this.state;
+    // this.props.dispatch({
+    //   type: 'UnCaseData/getUnCaseAllTypeWarnings',
+    //   payload: {
+    //     kssj: startTime,
+    //     jssj: endTime,
+    //     org: org,
+    //     orgcode: orgCode,
+    //     orglist: orglist,
+    //   },
+    //   callback: data => {
+    //     if (data) {
+    let data = {list:[{name:'取保候审超期',count:'102',code:'1'},{name:'逮捕超期',count:'31',code:'2'},{name:'行政拘留超期',count:'56',code:'3'},{name:'监视居住超期',count:'78',code:'4'}]}
           const legendData = [];
           const pieData = [];
           let countData = 0;
@@ -91,7 +106,6 @@ export default class CriminalCaseWarningCount extends PureComponent {
             });
             countData += parseInt(data.list[i].count);
           }
-          this.props.getAllNum(this.props.idx, countData, '刑事案件问题告警');
           myChart.setOption({
             legend: {
               data: legendData,
@@ -117,9 +131,9 @@ export default class CriminalCaseWarningCount extends PureComponent {
               },
             ],
           });
-        }
-      },
-    });
+    //     }
+    //   },
+    // });
   };
 
   showEchart = () => {

@@ -17,56 +17,34 @@ export default class CaseItemWarningCount extends PureComponent {
   componentDidMount() {
     const { selectDate, org, orgCode, orglist } = this.props;
     this.showEchart();
-    this.getCaseItemWarningCount(selectDate[0], selectDate[1], org, orgCode, orglist);
+    this.getCaseItemWarningCount();
     window.addEventListener('resize', myChart.resize);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (
-        nextProps.selectDate !== null &&
-        (this.props.selectDate !== nextProps.selectDate ||
-          this.props.orgCode !== nextProps.orgCode ||
-          this.props.org !== nextProps.org ||
-          this.props.orglist !== nextProps.orglist)
-      ) {
-        this.getCaseItemWarningCount(
-          nextProps.selectDate[0],
-          nextProps.selectDate[1],
-          nextProps.org,
-          nextProps.orgCode,
-          nextProps.orglist
-        );
+      if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
+        this.getCaseItemWarningCount();
       }
     }
   }
 
   // 涉案物品告警数量
-  getCaseItemWarningCount = (startTime, endTime, org, orgCode, orglist) => {
+  getCaseItemWarningCount = () => {
     const { shadeColors } = this.props;
-    this.props.dispatch({
-      type: 'UnItemData/getUnItemAllTypeWarnings',
-      payload: {
-        kssj: startTime,
-        jssj: endTime,
-        org: org,
-        orgcode: orgCode,
-        orglist: orglist,
-      },
-      callback: data => {
-        if (data) {
           const legendData = [];
+          const dataList = [{name:'非法出库',count:Math.floor(Math.random()*(500 - 1) + 1)},{name:'盘点异常',count:Math.floor(Math.random()*(500 - 1) + 1)},{name:'保管超期',count:Math.floor(Math.random()*(500 - 1) + 1)},{name:'归还超期',count:Math.floor(Math.random()*(500 - 1) + 1)}];
           const pieData = [];
           let countData = 0;
-          for (let i = 0; i < data.list.length; i++) {
+          for (let i = 0; i < dataList.length; i++) {
             const obj = {
-              name: data.list[i].name,
+              name: dataList[i].name,
               icon: 'circle',
             };
             legendData.push(obj);
             pieData.push({
-              name: data.list[i].name,
-              value: data.list[i].count,
+              name: dataList[i].name,
+              value: dataList[i].count,
               itemStyle: {
                 color: {
                   type: 'linear',
@@ -87,9 +65,8 @@ export default class CaseItemWarningCount extends PureComponent {
                 },
               },
             });
-            countData += parseInt(data.list[i].count);
+            countData += parseInt(dataList[i].count);
           }
-          this.props.getAllNum(this.props.idx, countData, '涉案物品告警数量');
           myChart.setOption({
             legend: {
               data: legendData,
@@ -115,9 +92,6 @@ export default class CaseItemWarningCount extends PureComponent {
               },
             ],
           });
-        }
-      },
-    });
   };
 
   showEchart = () => {

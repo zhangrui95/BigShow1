@@ -79,7 +79,7 @@ export default function request(url, option) {
     .digest('hex');
 
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
   if (
@@ -91,6 +91,7 @@ export default function request(url, option) {
       newOptions.headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkMGU5YTNlNC0wZWZiLTRlMDktODUxNS02OTBiYjRhZGUxM2IiLCJpYXQiOjE1NzExNTcwOTYsInN1YiI6IjEiLCJpc3MiOiJTZWN1cml0eSBDZW50ZXIiLCJkZXBhcnRtZW50Ijp7ImlkIjoxNSwicGFyZW50SWQiOjAsImRlcHRoIjoxLCJuYW1lIjoi6buR6b6Z5rGf55yBIiwiY29kZSI6IjIzMDAwMDAwMDAwMCJ9LCJnb3Zlcm5tZW50IjpbXSwiaWQiOjEsImlkQ2FyZCI6IjIzMDE4MzE5OTIwMTExMTI4MyIsInBjYXJkIjoiYWRtaW4iLCJuYW1lIjoiYWRtaW4iLCJqb2IiOlt7ImNvZGUiOiIyMDAwMDEiLCJuYW1lIjoi5rCR6K2mIiwiaWQiOjI2fSx7ImNvZGUiOiIyMDAwMDIiLCJuYW1lIjoi566h55CG5ZGYIiwiaWQiOjI3fSx7ImNvZGUiOiIyMDAwMDMiLCJuYW1lIjoi5omn5rOV55uR566hIiwiaWQiOjI4fSx7ImNvZGUiOiIyMDAwMDQiLCJuYW1lIjoi5bGA6ZW_IiwiaWQiOjI5fSx7ImNvZGUiOiIyMDAwMDUiLCJuYW1lIjoi5YW25LuW5Lq65ZGYIiwiaWQiOjMwfV0sImNvbnRhY3QiOiIxMzEwNDUxODgzMyIsImlzQWRtaW4iOjEsImV4cCI6MTU3MzIzMDY5Nn0.fTKfAJBoZ31gtCPgBDxjIlmHQttYzNHX7cLn_-ixHnM',
         ...newOptions.headers,
       };
       newOptions.body = JSON.stringify(newOptions.body);
