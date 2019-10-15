@@ -12,11 +12,12 @@ import { formatMessage } from 'umi/locale';
 import SiderMenu from '@/components/SiderMenu';
 import Authorized from '@/utils/Authorized';
 import SettingDrawer from '@/components/SettingDrawer';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
 import Exception403 from '../pages/Exception/403';
+import { watermark } from '../utils/function';
 
 const { Content } = Layout;
 
@@ -115,6 +116,7 @@ class BasicLayout extends React.PureComponent {
         });
       }
     });
+    watermark('basicLayout');
   }
 
   componentDidUpdate(preProps) {
@@ -184,7 +186,7 @@ class BasicLayout extends React.PureComponent {
       id: currRouterData.locale || currRouterData.name,
       defaultMessage: currRouterData.name,
     });
-    return `${message} - Ant Design Pro`;
+    return `${message} - 执法监督系统`;
   };
 
   getLayoutStyle = () => {
@@ -278,7 +280,9 @@ class BasicLayout extends React.PureComponent {
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
+                <div className={classNames(params)} id="basicLayout">
+                  {layout}
+                </div>
               </Context.Provider>
             )}
           </ContainerQuery>

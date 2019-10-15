@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
-import { Input, Card, Carousel, Tooltip, Icon, Row, Col, List, Radio } from 'antd';
+import { Input, Card, Carousel, Tooltip, Icon, Row, Col, List, Radio, Badge } from 'antd';
 import { ChartCard, Pie, Field } from '@/components/Charts';
 import Trend from '@/components/Trend';
+import styles from './BasicList.less';
 
 @connect()
 class UsageSituation extends Component {
@@ -11,10 +12,25 @@ class UsageSituation extends Component {
     rightDateGroup: 'rightWeek',
   };
 
-  handleFormSubmit = value => {
-    // eslint-disable-next-line
-    console.log(value);
-  };
+
+  componentDidMount() {
+    this.scrollPx = 0;
+    this.timetr = setInterval(() => {
+      this.scrollPx += 1;
+
+      const { scrollHeight } = this.refs.refList;
+      if (this.scrollPx + 138 > scrollHeight) {
+        this.refs.refList.scrollTo(0, 0);
+        this.scrollPx = 0;
+      } else {
+        this.refs.refList.scrollTo(0, this.scrollPx);
+      }
+    }, 200)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timetr);
+  }
 
   renderContent = (item) => (
     <div>
@@ -165,7 +181,17 @@ class UsageSituation extends Component {
     const { rightDateGroup } = this.state;
     const count = rightDateGroup === 'rightMonth' ? 145 : rightDateGroup === 'rightyear' ? 1250 : 12;
     const count2 = rightDateGroup === 'rightMonth' ? 137 : rightDateGroup === 'rightyear' ? 1236 : 10;
-
+    const data4 = [
+      '张德利入区',
+      '李明进入人身安全检查室',
+      '张小龙进入讯问室1',
+      '李立伟离区',
+      '张明入区',
+      '凌淑华入区',
+      '张夏荣离区',
+      '李玉峰进入候问室',
+      '李科离区',
+    ];
     return (
       <div>
         <Row gutter={8}>
@@ -177,7 +203,7 @@ class UsageSituation extends Component {
                     percent={25}
                     color="#68D288"
                     subTitle="候问室"
-                    total="2/10"
+                    total="8/12"
                     height={140}
                   />
                 </Col>
@@ -186,7 +212,7 @@ class UsageSituation extends Component {
                     percent={25}
                     color="#3AA0FE"
                     subTitle="询问室"
-                    total="2/10"
+                    total="6/8"
                     height={140}
                   />
                 </Col>
@@ -194,15 +220,16 @@ class UsageSituation extends Component {
                   percent={25}
                   color="#F37A8E"
                   subTitle="讯问室"
-                  total="2/10"
+                  total="4/6"
                   height={140}
                 />
                 </Col>
               </Row>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col span={8} className={styles.week}>
             <Card
+              bodyStyle={{ paddingTop: '17px' }}
               title="办案区人员统计"
               extra={
                 <div>
@@ -231,16 +258,39 @@ class UsageSituation extends Component {
             </Card>
           </Col>
           <Col span={8}>
-            <Card title="最新动态">
-              <div>当值值班：张福</div>
-              <div>当前在区人数：6</div>
+            <Card
+              title="最新动态"
+              extra={
+                <div>
+                  <div>今日值班值班：张福</div>
+                  {/* <div>当前在区人数：6</div> */}
+                </div>
+              }
+            >
 
+              <div span={24} style={{ height: '138px', overflow: 'hidden', fontSize: '18px' }} ref="refList">
+                {
+                  data4.map((item) => (
+                    <div>
+                      <Badge status="processing" />{item}
+                    </div>
+                  ))
+                }
+                {/* <List
+                  ref="refList"
+                  style={{ height: '138px', overflow: 'auto', fontSize: '16px' }}
+                  size="small"
+                  bordered
+                  dataSource={data4}
+                  renderItem={item => <List.Item> <Badge status="processing" />{item}</List.Item>}
+                /> */}
+              </div>
             </Card>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <Card title="询问室（0/3人）" style={{ marginTop: '24px' }}>
+            <Card title="询问室（6/8人）" style={{ marginTop: '24px' }}>
               <List
                 grid={{
                   gutter: 16,

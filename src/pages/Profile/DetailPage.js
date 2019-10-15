@@ -20,6 +20,7 @@ import {
   Tag,
   Tooltip,
   Timeline,
+  Upload,
 } from 'antd';
 import styles from './AdvancedProfile.less';
 import { routerRedux } from 'dva/router';
@@ -87,7 +88,7 @@ export default class DetailPage extends PureComponent {
       headers: {
         authorization: 'authorization-text',
       },
-      onChange (info) {
+      onChange(info) {
         if (info.file.status !== 'uploading') {
           console.log(info.file, info.fileList);
         }
@@ -183,25 +184,29 @@ export default class DetailPage extends PureComponent {
                   </span>
                 </Tooltip>
               </Col>
-              {
-                relevanceInfo[i].application_reason ? <Col md={6} span={24}>操作原因：{relevanceInfo[i].application_reason}</Col> : ''
-              }
+              {relevanceInfo[i].application_reason ? (
+                <Col md={6} span={24}>
+                  操作原因：
+                  {relevanceInfo[i].application_reason}
+                </Col>
+              ) : (
+                ''
+              )}
               {/* {
                 relevanceInfo[i].dossier_current_custody_details && relevanceInfo[i].dossier_current_custody_details.cabinet_id ?
                   relevanceInfo[i].dossier_current_custody_details.cabinet_id == '106202002' ?
                     <Col md={6} span={24}>存储位置：{`${relevanceInfo[i].dossier_current_custody_details.kfmc}/${relevanceInfo[i].dossier_current_custody_details.qymc}/${relevanceInfo[i].dossier_current_custody_details.kwmc}/${relevanceInfo[i].dossier_current_custody_details.gmc}/${relevanceInfo[i].dossier_current_custody_details.mjjmc}/${relevanceInfo[i].dossier_current_custody_details.mmc}`}</Col> :
                     <Col md={6} span={24}>存储位置：{`${relevanceInfo[i].dossier_current_custody_details.kfmc}/${relevanceInfo[i].dossier_current_custody_details.qymc}/${relevanceInfo[i].dossier_current_custody_details.kwmc}/${relevanceInfo[i].dossier_current_custody_details.gmc}`}</Col> : ''
               } */}
-              {
-                relevanceInfo[i].dossier_custody_categorymc === '申请入柜' || relevanceInfo[i].dossier_custody_categorymc === '申请借阅' || relevanceInfo[i].dossier_custody_categorymc === '申请归还' ?
-                  <Upload {...props} key={i}>
-                    <Button type="primary">
-                      上传文书
-                    </Button>
-                  </Upload>
-                  : ''
-              }
-
+              {relevanceInfo[i].dossier_custody_categorymc === '申请入柜' ||
+              relevanceInfo[i].dossier_custody_categorymc === '申请借阅' ||
+              relevanceInfo[i].dossier_custody_categorymc === '申请归还' ? (
+                <Upload {...props} key={i}>
+                  <Button type="primary">上传文书</Button>
+                </Upload>
+              ) : (
+                ''
+              )}
             </Row>
           </Timeline.Item>
         </div>

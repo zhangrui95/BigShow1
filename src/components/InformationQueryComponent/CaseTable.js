@@ -7,33 +7,144 @@ import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import styles from './CaseTable.less';
 import Ellipsis from '../Ellipsis';
+import CaseTableDetail from './CaseTableDetail';
 
-const data = [
-  {
-    key: '1',
-    firstName: 'John',
-    lastName: 'Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    firstName: 'Jim',
-    lastName: 'Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    firstName: 'Joe',
-    lastName: 'Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+const data = {
+  list: [
+    {
+      key: '11',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '21',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '31',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '41',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '51',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '61',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '71',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '81',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '91',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '101',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '111',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+    {
+      key: '121',
+      ajbh: 'A4106550302502019040013',
+      ajmc: '开设赌场案',
+      sarq: '2019-05-05',
+      badw: '公安局国保大队',
+      ajzt: '受理',
+      bar: '文凯',
+      ajlb: '八类案件',
+      qssj: '2015-01-01',
+    },
+  ],
+};
 
 class RenderTable extends PureComponent {
   constructor(props) {
@@ -43,11 +154,21 @@ class RenderTable extends PureComponent {
 
   componentDidMount() {}
 
+  CaseDetail = record => {
+    const divs = (
+      <div>
+        <CaseTableDetail {...this.props} />
+      </div>
+    );
+    const AddNewDetail = { title: '案件详情', content: divs, key: 'casetable' + record.key };
+    this.props.newDetail(AddNewDetail);
+  };
+
   render() {
     const columns = [
       {
         title: '案件编号',
-        dataIndex: 'jqlbmc',
+        dataIndex: 'ajbh',
         render: text => {
           return (
             <Ellipsis tooltip length="7">
@@ -58,8 +179,7 @@ class RenderTable extends PureComponent {
       },
       {
         title: '案件名称',
-        dataIndex: 'jjdw',
-        width: '15%',
+        dataIndex: 'ajmc',
         render: text => {
           if (text) {
             let arry = text.split(',');
@@ -73,8 +193,8 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '嫌疑人姓名',
-        dataIndex: 'jjr',
+        title: '案件类别',
+        dataIndex: 'ajlb',
         render: text => {
           if (text) {
             let arry = text.split(',');
@@ -88,9 +208,8 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '接警时间',
-        dataIndex: 'jjsj',
-        width: 100,
+        title: '办案单位',
+        dataIndex: 'badw',
         // render: (text) => {
         //     return (
         //         <Ellipsis tooltip length='12'>{text}</Ellipsis>
@@ -98,9 +217,8 @@ class RenderTable extends PureComponent {
         // }
       },
       {
-        title: '接警内容',
-        dataIndex: 'jjnr',
-        width: '20%',
+        title: '办案人',
+        dataIndex: 'bar',
         render: text => {
           return (
             <Ellipsis tooltip lines={4}>
@@ -110,9 +228,8 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '处警单位',
-        dataIndex: 'cjdw',
-        width: '15%',
+        title: '起诉时间',
+        dataIndex: 'qssj',
         render: text => {
           if (text) {
             let arry = text.split(',');
@@ -126,14 +243,14 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '处警人',
-        dataIndex: 'cjr',
+        title: '受案日期',
+        dataIndex: 'sarq',
         render: text => {
           if (text) {
             let arry = text.split(',');
             const num = arry.length - 1;
             return (
-              <Ellipsis tooltip length="7">
+              <Ellipsis tooltip length="20">
                 {arry[num]}
               </Ellipsis>
             );
@@ -141,26 +258,19 @@ class RenderTable extends PureComponent {
         },
       },
       {
-        title: '是否处警',
-        dataIndex: 'is_cj',
-        width: 50,
+        title: '案件状态',
+        dataIndex: 'ajzt',
+      },
+      {
+        title: '操作',
+        render: record => (
+          <div>
+            <a onClick={() => this.CaseDetail(record)}>详情</a>
+          </div>
+        ),
       },
     ];
 
-    const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      current: data.page ? data.page.currentPage : '',
-      total: data.page ? data.page.totalResult : '',
-      pageSize: data.page ? data.page.showCount : '',
-      showTotal: (total, range) => (
-        <span className={styles.pagination}>{`共 ${
-          data.page ? data.page.totalResult : 0
-        } 条记录 第 ${data.page ? data.page.currentPage : 1} / ${
-          data.page ? data.page.totalPage : 1
-        } 页`}</span>
-      ),
-    };
     return (
       <div className={styles.standardTable}>
         <Table
@@ -168,8 +278,6 @@ class RenderTable extends PureComponent {
           rowKey={record => record.key}
           dataSource={data.list}
           columns={columns}
-          pagination={paginationProps}
-          onChange={this.handleTableChange}
         />
       </div>
     );
