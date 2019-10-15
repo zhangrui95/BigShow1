@@ -53,38 +53,58 @@ export default [
             component: './Forms/BasicForm',
           },
           {
-            path: '/form/step-form',
-            name: 'stepform',
-            component: './Forms/StepForm',
-            hideChildrenInMenu: true,
-            routes: [
-              {
-                path: '/form/step-form',
-                redirect: '/form/step-form/info',
-              },
-              {
-                path: '/form/step-form/info',
-                name: 'info',
-                component: './Forms/StepForm/Step1',
-              },
-              {
-                path: '/form/step-form/confirm',
-                name: 'confirm',
-                component: './Forms/StepForm/Step2',
-              },
-              {
-                path: '/form/step-form/result',
-                name: 'result',
-                component: './Forms/StepForm/Step3',
-              },
-            ],
+            path: '/form/information-query',
+            name: 'informationquery',
+            component: './Forms/InformationQuery',
           },
           {
-            path: '/form/advanced-form',
-            name: 'advancedform',
-            authority: ['admin'],
-            component: './Forms/AdvancedForm',
+            path: '/form/dynamic-show',
+            name: 'dynamicshow',
+            component: './Forms/DynamicShow',
           },
+          {
+            path: '/form/case-statistic',
+            name: 'casestatistic',
+            component: './Forms/CaseStatistic',
+          },
+          {
+            path: '/form/archives-statistics',
+            name: 'archivesstatistics',
+            component: './Forms/ArchivesStatistics',
+          },
+          // {
+          //   path: '/form/step-form',
+          //   name: 'stepform',
+          //   component: './Forms/StepForm',
+          //   hideChildrenInMenu: true,
+          //   routes: [
+          //     {
+          //       path: '/form/step-form',
+          //       redirect: '/form/step-form/info',
+          //     },
+          //     {
+          //       path: '/form/step-form/info',
+          //       name: 'info',
+          //       component: './Forms/StepForm/Step1',
+          //     },
+          //     {
+          //       path: '/form/step-form/confirm',
+          //       name: 'confirm',
+          //       component: './Forms/StepForm/Step2',
+          //     },
+          //     {
+          //       path: '/form/step-form/result',
+          //       name: 'result',
+          //       component: './Forms/StepForm/Step3',
+          //     },
+          //   ],
+          // },
+          // {
+          //   path: '/form/advanced-form',
+          //   name: 'advancedform',
+          //   authority: ['admin'],
+          //   component: './Forms/AdvancedForm',
+          // },
         ],
       },
       // list
@@ -107,6 +127,11 @@ export default [
             path: '/list/card-list',
             name: 'cardlist',
             component: './List/CardList',
+          },
+          {
+            path: '/list/businessList',
+            name: 'businessList',
+            component: './List/BusinessList',
           },
           {
             path: '/list/search',
@@ -167,6 +192,22 @@ export default [
             component: './Result/Success',
           },
           { path: '/result/fail', name: 'fail', component: './Result/Error' },
+        ],
+      },
+      {
+        name: 'middlePlatform',
+        path: '/middlePlatform',
+        routes: [
+          {
+            path: '/middlePlatform/depManage',
+            name: 'depManage',
+            component: './MiddlePlatform/DepManage',
+          },
+          {
+            path: '/middlePlatform/dictManage',
+            name: 'dictManage',
+            component: './MiddlePlatform/DictManage',
+          },
         ],
       },
       {
