@@ -971,7 +971,7 @@ class Error extends Component {
               }}
             >
               <p />
-              <p>存储数量</p>
+              <p>库存数量</p>
               <p>32</p>
             </Row>
           </Col>
@@ -1061,8 +1061,8 @@ class Error extends Component {
               <Row style={{ height: 200 }}>
                 <Pie
                   hasLegend
-                  title={this.props.title}
-                  subTitle={this.props.title}
+                  title={'总数'}
+                  subTitle={'总数'}
                   total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
                   data={dataPie1}
                   // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
@@ -1081,8 +1081,8 @@ class Error extends Component {
               <Row style={{ height: 200 }}>
                 <Pie
                   hasLegend
-                  title={this.props.title}
-                  subTitle={this.props.title}
+                  title={'总数'}
+                  subTitle={'总数'}
                   total={dataPie2.reduce((pre, now) => now.y + pre, 0)}
                   data={dataPie2}
                   // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
@@ -1101,8 +1101,8 @@ class Error extends Component {
               <Row style={{ height: 200 }}>
                 <Pie
                   hasLegend
-                  title={this.props.title}
-                  subTitle={this.props.title}
+                  title={'总数'}
+                  subTitle={'总数'}
                   total={dataPie3.reduce((pre, now) => now.y + pre, 0)}
                   data={dataPie3}
                   // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
