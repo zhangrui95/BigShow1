@@ -450,8 +450,9 @@ export default class ChinaMap extends PureComponent {
         that.showEchart(myData);
         that.getMapData(that.props.selectDate[0], that.props.selectDate[1], myData);
       } else {
-        that.showEchart(MapData);
-        that.getMapData(that.props.selectDate[0], that.props.selectDate[1], MapData);
+        // that.showEchart(MapData);
+        // that.getMapData(that.props.selectDate[0], that.props.selectDate[1], MapData);
+        that.props.getMap(false);
       }
     });
   };

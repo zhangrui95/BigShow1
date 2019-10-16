@@ -12,6 +12,9 @@ import HandingVideoAreaPlaying from '../components/Show/bigScreenDisplay/Handing
 import DossierCount from '../components/Show/bigScreenDisplay/DossierCount';
 import CaseItemWarningCount from '../components/Show/bigScreenDisplay/CaseItemWarningCount';
 import AjNum from '../components/Show/bigScreenDisplay/AjNum';
+import PoliceSituationWarningCount from '../components/Show/bigScreenDisplay/PoliceSituationWarningCount';
+import ShowNumber from '../components/Show/ShowNumber';
+import AdministrativeCaseWarning from '../components/Show/bigScreenDisplay/AdministrativeCaseWarning';
 
 class SetupShow extends React.PureComponent {
   constructor(porps) {
@@ -33,6 +36,7 @@ class SetupShow extends React.PureComponent {
         ['#f09819', '#edde5d'],
         ['#8e2de2', '#4a00e0'],
       ],
+      map: true,
     };
   }
   componentDidMount() {
@@ -66,6 +70,11 @@ class SetupShow extends React.PureComponent {
       currentDateType: dateType,
     });
   };
+  getMap = (map) =>{
+    this.setState({
+      map,
+    })
+  }
   render() {
     return (
       <div className={styles.SCMDataShow}>
@@ -97,12 +106,15 @@ class SetupShow extends React.PureComponent {
               <PersonCount {...this.props} {...this.state} />
             </div>
             <div className={styles.globalCard}>
-              <AjNum {...this.props} {...this.state} />
+              {/*<AjNum {...this.props} {...this.state} />*/}
+              <AdministrativeCaseWarning {...this.props} {...this.state} />
             </div>
           </div>
           <div className={styles.wrapMiddle}>
             <div className={styles.mapCard}>
-              <ChinaMap {...this.state} {...this.props} setAreaCode={this.setAreaCode} />
+              {
+                this.state.map ?  <ChinaMap {...this.state} {...this.props} setAreaCode={this.setAreaCode} getMap={this.getMap}/> : <ShowNumber {...this.state} {...this.props} getMap={this.getMap}/>
+              }
             </div>
             <div className={styles.longCard}>
               <PoliceSituationToCaseCount {...this.props} {...this.state} />
@@ -113,7 +125,8 @@ class SetupShow extends React.PureComponent {
               <HandingVideoAreaPlaying {...this.props} {...this.state} />
             </div>
             <div className={styles.globalCard}>
-              <CaseItemWarningCount {...this.props} {...this.state} />
+              {/*<CaseItemWarningCount {...this.props} {...this.state} />*/}
+              <PoliceSituationWarningCount {...this.props} {...this.state} />
             </div>
             <div className={styles.globalCard}>
               <DossierCount {...this.props} {...this.state} />

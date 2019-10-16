@@ -7,148 +7,25 @@ import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import styles from './PersonTable.less';
 import Ellipsis from '../Ellipsis';
+import PersonTableDetail from './PersonTableDetail';
 
-const data = {
-  list: [
-    {
-      key: '1',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '2',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '3',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '4',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '5',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '6',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '7',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '8',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '9',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '10',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '11',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-    {
-      key: '12',
-      sary: '张冬梅',
-      ryxb: '女',
-      zjhm: '232302198502021478',
-      rylx: '犯罪嫌疑人',
-      ajmc: '开设赌场案',
-      ajbh: 'A4106550302502019040013',
-      qzcs: '起诉',
-    },
-  ],
-  // page:{
-  //   currentPage: 1,
-  //   currentResult: 0,
-  //   entityOrField: true,
-  //   pageStr: "",
-  //   showCount: 10,
-  //   totalPage: 2,
-  //   totalResult: 11,
-  // }
-};
-
-class RenderTable extends PureComponent {
+class PersonTable extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   componentDidMount() {}
+
+  PersonDetail = record => {
+    const divs = (
+      <div>
+        <PersonTableDetail record={record} key={record.key} {...this.props} />
+      </div>
+    );
+    const AddNewDetail = { title: '嫌疑人详情', content: divs, key: 'persontable' + record.key };
+    this.props.newDetail(AddNewDetail);
+  };
 
   render() {
     const columns = [
@@ -246,36 +123,27 @@ class RenderTable extends PureComponent {
           );
         },
       },
+      {
+        title: '操作',
+        render: record => (
+          <div>
+            <a onClick={() => this.PersonDetail(record)}>详情</a>
+          </div>
+        ),
+      },
     ];
 
-    // const paginationProps = {
-    //   showSizeChanger: true,
-    //   showQuickJumper: true,
-    //   current: data.page ? data.page.currentPage : '',
-    //   total: data.page ? data.page.totalResult : '',
-    //   pageSize: data.page ? data.page.showCount : '',
-    //   showTotal: (total, range) => (
-    //     <span className={styles.pagination}>{`共 ${
-    //       data.page ? data.page.totalResult : 0
-    //       } 条记录 第 ${data.page ? data.page.currentPage : 1} / ${
-    //       data.page ? data.page.totalPage : 1
-    //       } 页`}</span>
-    //   ),
-    // };
     return (
       <div className={styles.standardTable}>
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={data.list}
+          dataSource={this.props.data}
           columns={columns}
-          // pagination={paginationProps}
-          // onChange={this.handleTableChange}
-          // style={{ backgroundColor: '#fff' }}
         />
       </div>
     );
   }
 }
 
-export default RenderTable;
+export default PersonTable;

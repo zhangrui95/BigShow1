@@ -5,7 +5,7 @@
 * */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import styles from '../../routes/ShowData/SCMDataShow.less';
+import styles from './SCMDataShow.less';
 import yqImg1 from '../../assets/show/yq1.png';
 import yqImg2 from '../../assets/show/yq2.png';
 import yhbjImg from '../../assets/show/yhbj.png';
@@ -18,16 +18,18 @@ let index = 0;
 export default class ShowNumber extends PureComponent {
   state = {
     transformProp: '',
-    pcslist: [],
+    pcslist: [{
+      name:'派出所'
+    }],
     data: [],
-    ajzs: '0',
-    depNum: this.props.userDepNum.substring(0, 6),
-    groupList: getUserInfos().groupList,
+    ajzs: '98',
+    depNum: '',
+    // groupList: getUserInfos().groupList,
     orglist: [],
   };
 
   componentDidMount() {
-    this.getOrgList(this.props.userDepNum, 0); //获取组织机构列表
+    this.getOrgList('', 0); //获取组织机构列表
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,185 +60,185 @@ export default class ShowNumber extends PureComponent {
   };
   getDepts = (dep, orgGxType) => {
     console.log('dep---------->', dep);
-    this.props.dispatch({
-      type: 'common/getQueryLowerDepts',
-      payload: {
-        departmentNum: dep,
-      },
-      callback: data => {
-        let stu = '';
-        if (data.length > 0) {
-          if (!orgGxType) {
-            //判断是否为管辖机构，orgGxType true为管辖机构(管辖机构查本身) false子机构(子机构查下级全部)
-            if (dep === this.props.userDepNum) {
-              //判断是否为总机构，总机构需包含管辖机构
-              data = this.uniqueByKey(data.concat(this.state.groupList), 'code');
-            }
-            stu = data
-              .map(item => {
-                return item.code;
-              })
-              .join();
-          } else {
-            let list = [];
-            list.push(data[0]);
-            stu = list
-              .map(item => {
-                return item.code;
-              })
-              .join();
-          }
-          this.props.setOrgList(stu, dep);
-          this.setState({
-            orglist: stu,
-          });
-          this.getNum(this.props.selectDate[0], this.props.selectDate[1], '', stu);
-        } else {
-          this.setState({
-            orglist: '',
-          });
-          this.props.setAreaOrgCode(dep);
-          this.getNum(this.props.selectDate[0], this.props.selectDate[1], dep, '');
-        }
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'common/getQueryLowerDepts',
+    //   payload: {
+    //     departmentNum: dep,
+    //   },
+    //   callback: data => {
+    //     let stu = '';
+    //     if (data.length > 0) {
+    //       if (!orgGxType) {
+    //         //判断是否为管辖机构，orgGxType true为管辖机构(管辖机构查本身) false子机构(子机构查下级全部)
+    //         if (dep === this.props.userDepNum) {
+    //           //判断是否为总机构，总机构需包含管辖机构
+    //           data = this.uniqueByKey(data.concat(this.state.groupList), 'code');
+    //         }
+    //         stu = data
+    //           .map(item => {
+    //             return item.code;
+    //           })
+    //           .join();
+    //       } else {
+    //         let list = [];
+    //         list.push(data[0]);
+    //         stu = list
+    //           .map(item => {
+    //             return item.code;
+    //           })
+    //           .join();
+    //       }
+    //       this.props.setOrgList(stu, dep);
+    //       this.setState({
+    //         orglist: stu,
+    //       });
+    //       this.getNum(this.props.selectDate[0], this.props.selectDate[1], '', stu);
+    //     } else {
+    //       this.setState({
+    //         orglist: '',
+    //       });
+    //       this.props.setAreaOrgCode(dep);
+    //       this.getNum(this.props.selectDate[0], this.props.selectDate[1], dep, '');
+    //     }
+    //   },
+    // });
   };
   getOrgList = (code, type, parentCode) => {
-    let job = getUserInfos().job;
-    this.props.dispatch({
-      type: 'common/getNextLevelDeps',
-      payload: {
-        code: code,
-      },
-      callback: data => {
-        if ((data && data.length > 0) || type === 2 || parentCode) {
-          if (parentCode) {
-            parentCode['code'] = this.props.userDepNum;
-          }
-          data.unshift(parentCode ? parentCode : this.props.userGroup);
-          data.map(item => {
-            return (item['orgGxType'] = false);
-          }); //标记为子机构
-          if (type !== 2) {
-            this.state.groupList.map(item => {
-              return (item['orgGxType'] = true);
-            }); //标记为管辖机构
-            data = this.uniqueByKey(data.concat(this.state.groupList), 'code');
-          }
-          if (data && data.length < 10 && data.length > 2) {
-            //保证数据成圆环展示
-            data = data.concat(data).concat(data);
-          }
-          let tan = data.length > 0 ? Math.tan((180 / data.length) * (Math.PI / 180)) : 1;
-          let r = data.length > 2 ? Math.round(130 / tan) : 450; //圆环半径
-          this.setState({
-            transformProp: 'translateZ( -' + r + 'px ) rotateY(0deg)',
-            pcslist: data,
-            preId: data[data.length - 1] ? data[data.length - 1].code : null, //上一个组织id
-            nextId: data[1] ? data[1].code : null, //下一个组织id
-            id: data[0].code, //当前展示id
-          });
-          this.getDepts(parentCode ? this.props.userDepNum : data[0].code);
-        } else {
-          if (JSON.stringify(job).includes('200003')) {
-            this.props.dispatch({
-              type: 'common/getQueryLowerDepts',
-              payload: {
-                departmentNum: this.state.depNum + '000000',
-              },
-              callback: data => {
-                this.setState({
-                  isJob: true,
-                });
-                this.getOrgList(this.props.userDepNum, 1, data[0]); //type 0 正常有子集机构，1 无子集机构但为法制， 2无子组织机构也无法制
-              },
-            });
-          } else {
-            this.getOrgList(this.props.userDepNum, 2);
-          }
-        }
-      },
-    });
+    // let job = getUserInfos().job;
+    // this.props.dispatch({
+    //   type: 'common/getNextLevelDeps',
+    //   payload: {
+    //     code: code,
+    //   },
+    //   callback: data => {
+    //     if ((data && data.length > 0) || type === 2 || parentCode) {
+    //       if (parentCode) {
+    //         parentCode['code'] = this.props.userDepNum;
+    //       }
+    //       data.unshift(parentCode ? parentCode : this.props.userGroup);
+    //       data.map(item => {
+    //         return (item['orgGxType'] = false);
+    //       }); //标记为子机构
+    //       if (type !== 2) {
+    //         this.state.groupList.map(item => {
+    //           return (item['orgGxType'] = true);
+    //         }); //标记为管辖机构
+    //         data = this.uniqueByKey(data.concat(this.state.groupList), 'code');
+    //       }
+    //       if (data && data.length < 10 && data.length > 2) {
+    //         //保证数据成圆环展示
+    //         data = data.concat(data).concat(data);
+    //       }
+    //       let tan = data.length > 0 ? Math.tan((180 / data.length) * (Math.PI / 180)) : 1;
+    //       let r = data.length > 2 ? Math.round(130 / tan) : 450; //圆环半径
+    //       this.setState({
+    //         transformProp: 'translateZ( -' + r + 'px ) rotateY(0deg)',
+    //         pcslist: data,
+    //         preId: data[data.length - 1] ? data[data.length - 1].code : null, //上一个组织id
+    //         nextId: data[1] ? data[1].code : null, //下一个组织id
+    //         id: data[0].code, //当前展示id
+    //       });
+    //       this.getDepts(parentCode ? this.props.userDepNum : data[0].code);
+    //     } else {
+    //       if (JSON.stringify(job).includes('200003')) {
+    //         this.props.dispatch({
+    //           type: 'common/getQueryLowerDepts',
+    //           payload: {
+    //             departmentNum: this.state.depNum + '000000',
+    //           },
+    //           callback: data => {
+    //             this.setState({
+    //               isJob: true,
+    //             });
+    //             this.getOrgList(this.props.userDepNum, 1, data[0]); //type 0 正常有子集机构，1 无子集机构但为法制， 2无子组织机构也无法制
+    //           },
+    //         });
+    //       } else {
+    //         this.getOrgList(this.props.userDepNum, 2);
+    //       }
+    //     }
+    //   },
+    // });
   };
   getNum = (startTime, endTime, id, orglist) => {
-    this.props.dispatch({
-      type: 'show/getCaseAndWarningCount',
-      payload: {
-        kssj: startTime,
-        jssj: endTime,
-        orgcode: id,
-        orglist: orglist,
-      },
-      callback: res => {
-        res.list.map(item => {
-          if (item.sj_name === '案件总数') {
-            this.setState({
-              ajzs: item.sj_count.toString(),
-            });
-          }
-        });
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'show/getCaseAndWarningCount',
+    //   payload: {
+    //     kssj: startTime,
+    //     jssj: endTime,
+    //     orgcode: id,
+    //     orglist: orglist,
+    //   },
+    //   callback: res => {
+    //     res.list.map(item => {
+    //       if (item.sj_name === '案件总数') {
+    //         this.setState({
+    //           ajzs: item.sj_count.toString(),
+    //         });
+    //       }
+    //     });
+    //   },
+    // });
   };
 
   getNext = num => {
-    index = index + num;
-    if (Math.abs(index) > this.state.pcslist.length - 1) {
-      index = 0;
-    }
-    let tan =
-      this.state.pcslist.length > 0
-        ? Math.tan((180 / this.state.pcslist.length) * (Math.PI / 180))
-        : 1;
-    let r = this.state.pcslist.length > 2 ? Math.round(130 / tan) : 450;
-    theta += (360 / this.state.pcslist.length) * num * -1;
-    let id = '',
-      name = '',
-      nextId = '',
-      preId = '';
-    if (index > -1) {
-      id = this.state.pcslist[index].code;
-      nextId = this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1]
-        ? this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1].code
-        : null;
-      preId = this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1]
-        ? this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1].code
-        : null;
-      name = this.state.pcslist[index].name;
-      this.getDepts(id, this.state.pcslist[index].orgGxType);
-    } else {
-      id = this.state.pcslist[this.state.pcslist.length + index].code;
-      nextId = this.state.pcslist[
-        this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
-          ? 0
-          : this.state.pcslist.length + index + 1
-      ]
-        ? this.state.pcslist[
-            this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
-              ? 0
-              : this.state.pcslist.length + index + 1
-          ].code
-        : null;
-      preId = this.state.pcslist[this.state.pcslist.length + index - 1]
-        ? this.state.pcslist[this.state.pcslist.length + index - 1].code
-        : null;
-      name = this.state.pcslist[this.state.pcslist.length + index].name;
-      this.getDepts(id, this.state.pcslist[this.state.pcslist.length + index].orgGxType);
-    }
-    this.setState({
-      transformProp: 'translateZ( -' + r + 'px ) rotateY(' + theta + 'deg)',
-      id: id,
-      name: name,
-      nextId: nextId,
-      preId: preId,
-      index: index,
-    });
+    // index = index + num;
+    // if (Math.abs(index) > this.state.pcslist.length - 1) {
+    //   index = 0;
+    // }
+    // let tan =
+    //   this.state.pcslist.length > 0
+    //     ? Math.tan((180 / this.state.pcslist.length) * (Math.PI / 180))
+    //     : 1;
+    // let r = this.state.pcslist.length > 2 ? Math.round(130 / tan) : 450;
+    // theta += (360 / this.state.pcslist.length) * num * -1;
+    // let id = '',
+    //   name = '',
+    //   nextId = '',
+    //   preId = '';
+    // if (index > -1) {
+    //   id = this.state.pcslist[index].code;
+    //   nextId = this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1]
+    //     ? this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1].code
+    //     : null;
+    //   preId = this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1]
+    //     ? this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1].code
+    //     : null;
+    //   name = this.state.pcslist[index].name;
+    //   this.getDepts(id, this.state.pcslist[index].orgGxType);
+    // } else {
+    //   id = this.state.pcslist[this.state.pcslist.length + index].code;
+    //   nextId = this.state.pcslist[
+    //     this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
+    //       ? 0
+    //       : this.state.pcslist.length + index + 1
+    //   ]
+    //     ? this.state.pcslist[
+    //         this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
+    //           ? 0
+    //           : this.state.pcslist.length + index + 1
+    //       ].code
+    //     : null;
+    //   preId = this.state.pcslist[this.state.pcslist.length + index - 1]
+    //     ? this.state.pcslist[this.state.pcslist.length + index - 1].code
+    //     : null;
+    //   name = this.state.pcslist[this.state.pcslist.length + index].name;
+    //   this.getDepts(id, this.state.pcslist[this.state.pcslist.length + index].orgGxType);
+    // }
+    // this.setState({
+    //   transformProp: 'translateZ( -' + r + 'px ) rotateY(' + theta + 'deg)',
+    //   id: id,
+    //   name: name,
+    //   nextId: nextId,
+    //   preId: preId,
+    //   index: index,
+    // });
   };
 
   changeAnimate = (type, idx) => {
-    this.setState({
-      ['numAnimate' + idx]: type ? styles.bounce : styles.yhBox,
-    });
+    // this.setState({
+    //   ['numAnimate' + idx]: type ? styles.bounce : styles.yhBox,
+    // });
   };
 
   render() {
@@ -248,6 +250,7 @@ export default class ShowNumber extends PureComponent {
       Math.round(130 / tan) > 0 && this.state.pcslist.length > 2 ? Math.round(130 / tan) : 450;
     return (
       <div className={styles.allNumCard}>
+        <div className={styles.back} onClick={()=>this.props.getMap(true)}>返回</div>
         <img src={yqImg1} className={styles.yqImg1} />
         <img src={yqImg1} className={styles.yqImg2} />
         <img src={yqImg2} className={styles.yqImg3} />
@@ -258,8 +261,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 3)}
         >
           <div className={styles.yhCenter}>
-            <div className={styles.num}>{this.props.num3 ? this.props.num3 : 0}</div>
-            <div className={styles.name}>{this.props.name3 ? this.props.name3 : ''}</div>
+            <div className={styles.num}>{5}</div>
+            <div className={styles.name}>执法监督报警数</div>
           </div>
         </div>
         <div
@@ -269,8 +272,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 4)}
         >
           <div className={styles.yhCenter} style={{ width: '100px', height: '100px' }}>
-            <div className={styles.num}>{this.props.num4 ? this.props.num4 : 0}</div>
-            <div className={styles.name}>{this.props.name4 ? this.props.name4 : ''}</div>
+            <div className={styles.num}>{28}</div>
+            <div className={styles.name}>在用办案场所人数</div>
           </div>
         </div>
         <div
@@ -280,8 +283,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 6)}
         >
           <div className={styles.yhCenter} style={{ width: '100px', height: '100px' }}>
-            <div className={styles.num}>{this.props.num6 ? this.props.num6 : 0}</div>
-            <div className={styles.name}>{this.props.name6 ? this.props.name6 : ''}</div>
+            <div className={styles.num}>{56}</div>
+            <div className={styles.name}>涉案财物数量</div>
           </div>
         </div>
         <div
@@ -291,8 +294,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 1)}
         >
           <div className={styles.yhCenter} style={{ width: '95px', height: '95px' }}>
-            <div className={styles.num}>{this.props.num1 ? this.props.num1 : 0}</div>
-            <div className={styles.name}>{this.props.name1 ? this.props.name1 : ''}</div>
+            <div className={styles.num}>{2}</div>
+            <div className={styles.name}>案卷数量</div>
           </div>
         </div>
         <div
@@ -302,8 +305,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 7)}
         >
           <div className={styles.yhCenter}>
-            <div className={styles.num}>{this.props.num7 ? this.props.num7 : 0}</div>
-            <div className={styles.name}>{this.props.name7 ? this.props.name7 : ''}</div>
+            <div className={styles.num}>{4}</div>
+            <div className={styles.name}>视频场所</div>
           </div>
         </div>
         <div
@@ -313,8 +316,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 2)}
         >
           <div className={styles.yhCenters}>
-            <div className={styles.num}>{this.props.num2 ? this.props.num2 : 0}</div>
-            <div className={styles.name}>{this.props.name2 ? this.props.name2 : ''}</div>
+            <div className={styles.num}>{8}</div>
+            <div className={styles.name}>询/讯问室总数</div>
           </div>
         </div>
         <div
@@ -330,8 +333,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 5)}
         >
           <div className={styles.yhCenters} style={{ width: '100px', height: '100px' }}>
-            <div className={styles.num}>{this.props.num5 ? this.props.num5 : 0}</div>
-            <div className={styles.name}>{this.props.name5 ? this.props.name5 : ''}</div>
+            <div className={styles.num}>{7}</div>
+            <div className={styles.name}>办案区数</div>
           </div>
         </div>
         <div

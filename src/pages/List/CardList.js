@@ -13,13 +13,7 @@ import styles from './CardList.less';
 }))
 class CardList extends PureComponent {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 8,
-      },
-    });
+    window.location = 'myapp://parameter';
   }
 
   render() {
@@ -61,6 +55,7 @@ class CardList extends PureComponent {
     );
 
     return (
+      <div />
       // <PageHeaderWrapper title="卡片列表" content={content} extraContent={extraContent}>
       //   <div className={styles.cardList}>
       //     <List
@@ -94,20 +89,20 @@ class CardList extends PureComponent {
       //     />
       //   </div>
       // </PageHeaderWrapper>
-      <div>
-        <video
-          id="my-video"
-          // class="video-js"
-          controls
-          preload="auto"
-          width="1296"
-          height="728"
-          poster="video/cover.png"
-          data-setup="{}"
-        >
-          <source src={require('../../assets/baqVideo.mp4')} type="video/mp4" />
-        </video>
-      </div>
+      // <div>
+      //   <video
+      //     id="my-video"
+      //     // class="video-js"
+      //     controls
+      //     preload="auto"
+      //     width="1296"
+      //     height="728"
+      //     poster="video/cover.png"
+      //     data-setup="{}"
+      //   >
+      //     <source src={require('../../assets/baqVideo.mp4')} type="video/mp4" />
+      //   </video>
+      // </div>
     );
   }
 }

@@ -24,27 +24,33 @@ export default [
       // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        icon: 'dashboard',
-        routes: [
-          {
-            path: '/dashboard/analysis',
-            name: 'analysis',
-            component: './Dashboard/Analysis',
-          },
-          {
-            path: '/dashboard/monitor',
-            name: 'monitor',
-            component: './Dashboard/Monitor',
-          },
-          {
-            path: '/dashboard/workplace',
-            name: 'workplace',
-            component: './Dashboard/Workplace',
-          },
-        ],
+        path: '/dashboard/analysis',
+        name: 'home',
+        icon: 'home',
+        component: './Dashboard/Analysis',
       },
+      // {
+      //   path: '/dashboard',
+      //   name: 'dashboard',
+      //   icon: 'dashboard',
+      //   routes: [
+      //     {
+      //       path: '/dashboard/analysis',
+      //       name: 'analysis',
+      //       component: './Dashboard/Analysis',
+      //     },
+      //     {
+      //       path: '/dashboard/monitor',
+      //       name: 'monitor',
+      //       component: './Dashboard/Monitor',
+      //     },
+      //     {
+      //       path: '/dashboard/workplace',
+      //       name: 'workplace',
+      //       component: './Dashboard/Workplace',
+      //     },
+      //   ],
+      // },
       // forms
       {
         path: '/form',
@@ -67,18 +73,13 @@ export default [
             component: './Forms/InformationQuery',
           },
           {
-            path: '/form/dynamic-show',
-            name: 'dynamicshow',
-            component: './Forms/DynamicShow',
-          },
-          {
             path: '/form/case-statistic',
             name: 'casestatistic',
             component: './Forms/CaseStatistic',
           },
           {
             path: '/form/archivesstatistics',
-            name: 'archivesstatisticsform',
+            name: 'archivesstatistics',
             component: './Forms/ArchivesStatistics',
             // routes: [
             //   {
@@ -225,6 +226,7 @@ export default [
       },
       {
         name: 'middlePlatform',
+        icon: 'setting',
         path: '/middlePlatform',
         routes: [
           {
@@ -238,9 +240,9 @@ export default [
             component: './MiddlePlatform/DictManage',
           },
           {
-              path: '/middlePlatform/deviceStatus',
-              name: 'deviceStatus',
-              component: './MiddlePlatform/DeviceStatus',
+            path: '/middlePlatform/deviceStatus',
+            name: 'deviceStatus',
+            component: './MiddlePlatform/DeviceStatus',
           },
         ],
       },

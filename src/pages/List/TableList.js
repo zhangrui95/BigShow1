@@ -434,7 +434,7 @@ class TableList extends PureComponent {
             >
               台账
             </a>
-            <Divider type="vertical" />
+            {/* <Divider type="vertical" />
             <a
               onClick={() => {
                 this.setState({
@@ -443,7 +443,7 @@ class TableList extends PureComponent {
               }}
             >
               视频
-            </a>
+            </a> */}
           </div>
         ),
       },
@@ -459,15 +459,15 @@ class TableList extends PureComponent {
               rowKey={record => record.xh}
               dataSource={this.state.peoplelist}
               columns={columns}
-              // pagination={false}
-              // onChange={this.handleTableChange}
+            // pagination={false}
+            // onChange={this.handleTableChange}
             />
           </div>
         </Card>
         <Modal
           title="台账"
           visible={this.state.visible}
-          width={625}
+          width={858}
           footer={null}
           onCancel={() => {
             this.setState({
@@ -475,7 +475,7 @@ class TableList extends PureComponent {
             });
           }}
         >
-          <PDF style={{ width: '300px' }} file={pdfShow} page={this.state.page} />
+          <PDF scale={1.4} style={{ width: '300px' }} file={pdfShow} page={this.state.page} />
 
           <Pagination
             current={this.state.page}
