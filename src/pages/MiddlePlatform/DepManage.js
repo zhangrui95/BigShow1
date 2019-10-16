@@ -4,33 +4,20 @@
  * 20191015
  */
 import React, { PureComponent } from 'react';
-import {
-  Layout,
-  Card,
-  Button,
-  Dropdown,
-  Form,
-  Row,
-  Col,
-  Select,
-  Input,
-  Icon,
-  Spin,
-  Menu,
-  message,
-  Popconfirm,
-  Modal,
-  Upload,
-} from 'antd';
+import {Layout, Card, Form, Select, Modal, Button, Icon, Input, message } from 'antd';
 import moment from 'moment/moment';
 import GroupTree from './GroupTree';
 import GroupTable from './GroupTable';
 import styles from './GroupManagement.less';
+import groupTreeDefaultData from './group';
+import { makeUuid } from '../../utils/utils';
 
 const { Content, Sider } = Layout;
 const { confirm } = Modal;
 const FormItem = Form.Item;
 const { Option } = Select;
+
+@Form.create()
 
 export default class DepManage extends PureComponent {
   state = {
@@ -44,1066 +31,103 @@ export default class DepManage extends PureComponent {
     selectedDepCode: '', // 选中节点的父节点编码
     currentPage: 1, // 当前页数
     currentPageList: 10, // 当前分页数
-    treeData: {
-      reason: null,
-      result: {
-        list: [
-          {
-            id: 'eb151683-02eb-4c47-9699-243e49cdff35',
-            parentId: '0',
-            depth: 1,
-            code: '210000000000',
-            name: '辽宁省',
-            policeCategory: '100000',
-            childrenList: [
-              {
-                id: '16245d67-b804-4fe4-8966-fd5973c18506',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '211100000000',
-                name: '盘锦市',
-                childrenList: [
-                  {
-                    id: '9382ebd6-d34c-4af5-aab8-7a29a9c5a603',
-                    parentId: '16245d67-b804-4fe4-8966-fd5973c18506',
-                    depth: 3,
-                    code: '211103000000',
-                    name: '兴隆台区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '9b04c992-6ddf-468f-8c34-ce9ec8e13b34',
-                    parentId: '16245d67-b804-4fe4-8966-fd5973c18506',
-                    depth: 3,
-                    code: '211122000000',
-                    name: '盘山县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c46ce64c-b627-43b5-8249-b96a4b2ff98a',
-                    parentId: '16245d67-b804-4fe4-8966-fd5973c18506',
-                    depth: 3,
-                    code: '211104000000',
-                    name: '大洼区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'fbf1194c-7619-4176-ac6d-d41ac6f5d7d4',
-                    parentId: '16245d67-b804-4fe4-8966-fd5973c18506',
-                    depth: 3,
-                    code: '211102000000',
-                    name: '双台子区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '211000000000',
-                name: '辽阳市',
-                childrenList: [
-                  {
-                    id: '2b9e4d20-2a94-48ac-ab2d-ad23570b1862',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211004000000',
-                    name: '宏伟区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '3b54a2e7-96be-48e1-9f4a-e715115100ac',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211005000000',
-                    name: '弓长岭区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '60433c7d-6400-4210-898b-75c217dc7a2a',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211081000000',
-                    name: '灯塔市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c1d33fa6-f908-4a05-aaaf-3a037519da05',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211021000000',
-                    name: '辽阳县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'd7a71773-847f-4d6d-b26f-2fb9ef4cdfb4',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211003000000',
-                    name: '文圣区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'e87eef89-2dd3-4bdc-8a4c-59577e3b5008',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211002000000',
-                    name: '白塔区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'ef1571d0-06d2-43f1-8156-a34f856cd63f',
-                    parentId: '2562f994-1f9b-47f9-90fe-134ba120283e',
-                    depth: 3,
-                    code: '211011000000',
-                    name: '太子河区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210100000000',
-                name: '沈阳市',
-                childrenList: [
-                  {
-                    id: '0308c15e-db93-4ff6-a7e9-82cc4eea62f3',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210104000000',
-                    name: '大东区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '3acf5f6b-4b96-454f-8417-dbe0cbfe0cf9',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210113000000',
-                    name: '沈北新区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '57520f4e-34fa-4610-91a5-aece0442d1d9',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210114000000',
-                    name: '于洪区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '69e9fd07-9859-4b52-b62b-67128f45a5bf',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210105000000',
-                    name: '皇姑区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '77d18a2e-1019-4dc2-aa86-62c0d2fe2651',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210124000000',
-                    name: '法库县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '80a1edf3-16fb-4c83-a0bd-b0b85c6d760a',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210103000000',
-                    name: '沈河区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'b938d798-58df-40bd-8882-0baa4e83811d',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210112000000',
-                    name: '浑南区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'bf1e51d7-02c4-4ae4-8b1b-c418741e863a',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210123000000',
-                    name: '康平县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c8ae1aef-9072-4ccd-a82f-3483cffe57d8',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210181000000',
-                    name: '新民市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'cba65ae6-aeff-45f1-bc98-2b0c7c25ffb6',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210102000000',
-                    name: '和平区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'ccef7e2d-d58d-419b-94a3-465506c6ea22',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210115000000',
-                    name: '辽中区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'da31811e-a6e0-475f-b30f-24c0ab401ed5',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210106000000',
-                    name: '铁西区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'f34a53d1-b077-442b-9cda-5c329f24aced',
-                    parentId: '3679ab67-329c-46b6-b3b3-dfcb1b3eaf1a',
-                    depth: 3,
-                    code: '210111000000',
-                    name: '苏家屯区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '211200000000',
-                name: '铁岭市',
-                childrenList: [
-                  {
-                    id: '3557080c-d27b-437b-b5d7-af84ce396f6c',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211281000000',
-                    name: '调兵山市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '4559b162-f9f8-44f5-a741-01a31301c834',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211221000000',
-                    name: '铁岭县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '4f2c15fc-3ce3-452f-b9ad-1f68ed5b87a8',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211224000000',
-                    name: '昌图县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '6cc917ee-229b-45a2-a44d-6728b7a68a2d',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211282000000',
-                    name: '开原市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'd641734a-2f0a-42c7-af89-66373e99491d',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211223000000',
-                    name: '西丰县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'df072a21-e65a-4068-af0b-78fa359e24d8',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211204000000',
-                    name: '清河区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'e9a8fd39-5ec8-46b3-bfe9-439cb1b615ba',
-                    parentId: '40fa99bb-50a8-4ce7-aa12-45cd8974a9db',
-                    depth: 3,
-                    code: '211202000000',
-                    name: '银州区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '596ed5dd-746d-4592-9b61-2d252582313a',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210600000000',
-                name: '丹东市',
-                childrenList: [
-                  {
-                    id: '1c59cdf7-c109-44de-8d1c-27b28d34c08f',
-                    parentId: '596ed5dd-746d-4592-9b61-2d252582313a',
-                    depth: 3,
-                    code: '210682000000',
-                    name: '凤城市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '578518fc-787a-4ea7-a1b5-c0e1d34214f7',
-                    parentId: '596ed5dd-746d-4592-9b61-2d252582313a',
-                    depth: 3,
-                    code: '210604000000',
-                    name: '振安区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '9c99e47b-4eda-4c26-8a95-c4508ff27339',
-                    parentId: '596ed5dd-746d-4592-9b61-2d252582313a',
-                    depth: 3,
-                    code: '210624000000',
-                    name: '宽甸满族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'a34e144b-b1cf-4169-b8a7-b8368aff8894',
-                    parentId: '596ed5dd-746d-4592-9b61-2d252582313a',
-                    depth: 3,
-                    code: '210681000000',
-                    name: '东港市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'b291d27b-5fff-4c3d-9e42-a6490cf59013',
-                    parentId: '596ed5dd-746d-4592-9b61-2d252582313a',
-                    depth: 3,
-                    code: '210603000000',
-                    name: '振兴区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'fd695405-e859-462f-8e8e-6168ce51d29f',
-                    parentId: '596ed5dd-746d-4592-9b61-2d252582313a',
-                    depth: 3,
-                    code: '210602000000',
-                    name: '元宝区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '6175271e-b32c-4716-870a-33d3e98610e2',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210400000000',
-                name: '抚顺市',
-                childrenList: [
-                  {
-                    id: '39453791-593c-4870-9c2e-f9b441a90b48',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210422000000',
-                    name: '新宾满族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '3a046cef-c839-4f3e-9ff8-b254089eda06',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210402000000',
-                    name: '新抚区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '665dc6d9-beda-40cb-a256-84365542659e',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210404000000',
-                    name: '望花区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '8cbd8423-b628-4c84-b931-e57043312c0c',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210421000000',
-                    name: '抚顺县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'ba81fcd2-2967-4ec8-848a-93a97b413df0',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210411000000',
-                    name: '顺城区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c3115a4a-b49b-4899-b1c9-3e5890858e38',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210403000000',
-                    name: '东洲区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'fd4aa5e4-fcb7-4291-aec4-f7cef78c2074',
-                    parentId: '6175271e-b32c-4716-870a-33d3e98610e2',
-                    depth: 3,
-                    code: '210423000000',
-                    name: '清原满族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '211300000000',
-                name: '朝阳市',
-                childrenList: [
-                  {
-                    id: '041ec0e9-04d8-4e36-a429-d65ad403d1f3',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211324000000',
-                    name: '喀喇沁左翼蒙古族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '181c952b-0ecb-4945-a32f-39fbcb908795',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211302000000',
-                    name: '双塔区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '5c799208-2e2d-458a-9361-fbc96d84e23b',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211303000000',
-                    name: '龙城区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '72474152-e1d0-4884-9e05-0e8af4965610',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211322000000',
-                    name: '建平县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c435a3ec-f58a-4e09-8ffd-43006de8f003',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211381000000',
-                    name: '北票市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'd5ab8cd7-eb87-43e8-8cf3-278105014d37',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211321000000',
-                    name: '朝阳县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'e8046978-5231-48e8-9c2d-6e2202417ed3',
-                    parentId: '8c2784cd-492e-4e3f-8146-10dbf4a7c8ea',
-                    depth: 3,
-                    code: '211382000000',
-                    name: '凌源市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210500000000',
-                name: '本溪市',
-                childrenList: [
-                  {
-                    id: 'c46dc92f-2328-4c3a-b8ae-a22ecca20fc4',
-                    parentId: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                    depth: 3,
-                    code: '210502000000',
-                    name: '平山区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c52680eb-f585-4438-90c1-6c037a1fb805',
-                    parentId: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                    depth: 3,
-                    code: '210505000000',
-                    name: '南芬区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'cc86c8fd-07cd-459b-a264-72c558968820',
-                    parentId: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                    depth: 3,
-                    code: '210503000000',
-                    name: '溪湖区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'd27b1b28-510a-4b27-b9ad-a1d43cfd9cb8',
-                    parentId: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                    depth: 3,
-                    code: '210521000000',
-                    name: '本溪满族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'f8694ead-e6f4-4010-b130-128c5993726f',
-                    parentId: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                    depth: 3,
-                    code: '210504000000',
-                    name: '明山区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'fe3c6588-eae9-475d-9d4f-e0a9a9e5ffeb',
-                    parentId: '93dc2533-f7e5-4d89-8cc7-c9f8313ac623',
-                    depth: 3,
-                    code: '210522000000',
-                    name: '桓仁满族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: '99228d60-68db-453e-8a40-3f3d303eec22',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '211400000000',
-                name: '葫芦岛市',
-                childrenList: [
-                  {
-                    id: '14180b56-81cf-4d8b-a0dd-abafc12933ee',
-                    parentId: '99228d60-68db-453e-8a40-3f3d303eec22',
-                    depth: 3,
-                    code: '211403000000',
-                    name: '龙港区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '1686146a-333b-45b0-b6ef-177ea7077e15',
-                    parentId: '99228d60-68db-453e-8a40-3f3d303eec22',
-                    depth: 3,
-                    code: '211421000000',
-                    name: '绥中县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '27949a50-b4c4-47ac-9551-fcfe1c312720',
-                    parentId: '99228d60-68db-453e-8a40-3f3d303eec22',
-                    depth: 3,
-                    code: '211404000000',
-                    name: '南票区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '5c091be5-aed1-434c-9883-30ee346dc0ac',
-                    parentId: '99228d60-68db-453e-8a40-3f3d303eec22',
-                    depth: 3,
-                    code: '211481000000',
-                    name: '兴城市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '7e31cd01-dab3-4100-88d7-47219eabf94d',
-                    parentId: '99228d60-68db-453e-8a40-3f3d303eec22',
-                    depth: 3,
-                    code: '211402000000',
-                    name: '连山区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'ef204a27-e63e-41d5-a656-91f138e0ac34',
-                    parentId: '99228d60-68db-453e-8a40-3f3d303eec22',
-                    depth: 3,
-                    code: '211422000000',
-                    name: '建昌县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210700000000',
-                name: '锦州市',
-                childrenList: [
-                  {
-                    id: '00791747-19f3-4ee4-8aa7-b40775db2cd9',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210711000000',
-                    name: '太和区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '06df4134-4140-4822-a348-1ddde5f1177e',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210726000000',
-                    name: '黑山县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '0ca3bce8-5e67-499b-8ad2-51aa62320e0f',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210703000000',
-                    name: '凌河区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '3c73a25a-cd1b-495c-ba0f-d9bcd32d90fc',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210702000000',
-                    name: '古塔区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '414373f9-1aba-44f9-92a7-84c3ef9be09b',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210727000000',
-                    name: '义县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'aaf68870-509a-4347-af7e-3159e458f1ff',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210782000000',
-                    name: '北镇市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'abe9b529-5ce9-452a-871c-24e728c7fe49',
-                    parentId: 'a2203422-dfc7-4a65-bbcf-86b37c76f992',
-                    depth: 3,
-                    code: '210781000000',
-                    name: '凌海市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210800000000',
-                name: '营口市',
-                childrenList: [
-                  {
-                    id: '0969cb5a-ae52-473d-839c-bff35a0c8fa3',
-                    parentId: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                    depth: 3,
-                    code: '210803000000',
-                    name: '西市区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '1e3f6697-b582-4f02-9c69-a4eaa8c57c7d',
-                    parentId: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                    depth: 3,
-                    code: '210811000000',
-                    name: '老边区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '926207b9-9fd0-4e47-bd30-c702d8b099c1',
-                    parentId: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                    depth: 3,
-                    code: '210881000000',
-                    name: '盖州市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'b6ccf26c-5765-45b1-a68f-3347a0fe286a',
-                    parentId: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                    depth: 3,
-                    code: '210882000000',
-                    name: '大石桥市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'ebfa390f-1761-4cdc-b4b6-c1cb6bf521c7',
-                    parentId: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                    depth: 3,
-                    code: '210804000000',
-                    name: '鲅鱼圈区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'f95a4144-bba0-4532-a9b7-213eb03d5d86',
-                    parentId: 'd64ba051-b84e-4988-92a9-a45acaa8072f',
-                    depth: 3,
-                    code: '210802000000',
-                    name: '站前区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210900000000',
-                name: '阜新市',
-                childrenList: [
-                  {
-                    id: '2ddf6be1-ed7e-47db-851c-12fa101fe42a',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210911000000',
-                    name: '细河区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '61e57f6c-92e7-436c-98cd-868a5f189567',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210922000000',
-                    name: '彰武县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '71c4c7f7-3210-4b76-9300-92616ca090a1',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210903000000',
-                    name: '新邱区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '8b977614-db9d-40b0-ba6b-90f84e66f94f',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210904000000',
-                    name: '太平区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '94e1a02a-eda1-48c4-96b4-81a333d4cd84',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210902000000',
-                    name: '海州区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'afa05fb1-809a-41cb-a0bf-c2725ec7dff1',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210921000000',
-                    name: '阜新蒙古族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'b4340b09-4ecd-498d-ac25-0be5c2f34fa8',
-                    parentId: 'd8eea648-74e0-4561-99d9-cd10b7526907',
-                    depth: 3,
-                    code: '210905000000',
-                    name: '清河门区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210200000000',
-                name: '大连市',
-                childrenList: [
-                  {
-                    id: '1ba318f3-69fb-443f-b818-ef22c29d3ecf',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210224000000',
-                    name: '长海县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '32d2d39c-ae0c-472d-adb7-aab5f4b75e11',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210212000000',
-                    name: '旅顺口区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '4ba790a6-a08d-4a57-9f36-e0ba4c3304de',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210204000000',
-                    name: '沙河口区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '556a6495-4fdd-4162-9131-451ae2baff30',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210213000000',
-                    name: '金州区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '5a4f7c10-5d79-4ab6-a4ae-14efad529509',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210203000000',
-                    name: '西岗区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '70925aae-7e6a-49b8-8efa-79af75285f1f',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210211000000',
-                    name: '甘井子区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '984e3cf9-a4c1-4c92-bfb2-a46fca3d2e7d',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210281000000',
-                    name: '瓦房店市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '9ba10236-6298-4217-a5f5-3fb0b1f0b1b5',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210283000000',
-                    name: '庄河市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'bd16d0d8-ff60-4a29-bae5-8af449314443',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210214000000',
-                    name: '普兰店区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'd3df4029-df60-4426-b302-b4343afe5a84',
-                    parentId: 'e69db8ee-1ce2-4617-877e-fe33851f273e',
-                    depth: 3,
-                    code: '210202000000',
-                    name: '中山区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-              {
-                id: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                parentId: 'eb151683-02eb-4c47-9699-243e49cdff35',
-                depth: 2,
-                code: '210300000000',
-                name: '鞍山市',
-                childrenList: [
-                  {
-                    id: '1c54962d-439e-4c1d-9afb-1b2c3797e401',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210303000000',
-                    name: '铁西区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '30b9bc1e-d035-454c-bfb8-38951a15a3c5',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210302000000',
-                    name: '铁东区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '58131fa9-56a7-42c6-9505-d5352bc6ef05',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210304000000',
-                    name: '立山区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: '8edffa11-296d-46f6-a960-fe5eb2022742',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210311000000',
-                    name: '千山区',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'c717e796-b011-476f-9fa9-bee08c8db047',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210323000000',
-                    name: '岫岩满族自治县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'ec7816fd-cebc-4cfc-875c-28c8ab4357e2',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210321000000',
-                    name: '台安县',
-                    childrenList: [],
-                    alias: null,
-                  },
-                  {
-                    id: 'f59c1ded-d734-4515-b8e9-79dcfce015db',
-                    parentId: 'fa757bf1-1bc0-4aca-87ec-694c6de443c1',
-                    depth: 3,
-                    code: '210381000000',
-                    name: '海城市',
-                    childrenList: [],
-                    alias: null,
-                  },
-                ],
-                alias: null,
-              },
-            ],
-            alias: '辽宁省',
-          },
-        ],
-      },
-    },
+    treeData: [],
     tableData: [{ name: '辽宁省', code: '210000000000' }],
+      groupInfo: {},
   };
+
+    componentDidMount() {
+        this.getGroupTree();
+    }
+
+  getGroupTree = () => {
+      const {treeId} = this.state;
+      const groupData = localStorage.getItem('groupDefaultData');
+      let groupDataJson;
+      if(!groupData){
+          localStorage.setItem('groupDefaultData', JSON.stringify(groupTreeDefaultData));
+          groupDataJson = groupTreeDefaultData;
+      } else {
+          groupDataJson = JSON.parse(groupData);
+      }
+      const defaultTableData = [];
+      const findGroupArry = this.findGroup(treeId, groupDataJson) || [];
+      findGroupArry.forEach(item => defaultTableData.push({name: item.name, code: item.code, id: item.id, pid: item.pid}))
+      this.setState({
+          treeData: groupDataJson,
+          tableData: defaultTableData,
+      })
+  }
+
+    addGroup = (id, list, param) => {
+        if(id === 0){
+            list.push(param);
+            return true;
+        }
+        for(let i=0; i< list.length; i++) {
+            console.log('forid', list[i].id, id)
+            if(list[i].id == id) {
+              console.log('idididididididid', id)
+              list[i].children.push(param);
+                return true;
+            }
+            if(list[i].children && list[i].children.length > 0) {
+                const isExists = this.addGroup(id, list[i].children, param);
+                if(isExists){
+                    return isExists;
+                }
+            }
+        }
+        return false;
+    }
+    editGroup = (id, list, param) => {
+        for(let i=0; i< list.length; i++) {
+            if(list[i].id == id) {
+                list[i].name = param.name;
+                list[i].code = param.code;
+                return true;
+            }
+            if(list[i].children && list[i].children.length > 0) {
+                const isExists = this.editGroup(id, list[i].children, param);
+                if(isExists){
+                    return isExists;
+                }
+            }
+        }
+        return false;
+    }
+    removeGroup = (id, list) => {
+        for(let i=0; i< list.length; i++) {
+            if(list[i].id == id) {
+                list.splice(i,1);
+                return true;
+            }
+            if(list[i].children && list[i].children.length > 0) {
+                const isExists = this.removeGroup(id, list[i].children);
+                if(isExists){
+                    return isExists;
+                }
+            }
+        }
+        return false;
+    }
+    findGroup = (id, list) => {
+        if(id === 0) {
+            return list;
+        }
+        for(let i=0; i< list.length; i++) {
+            if(list[i].id == id) {
+                return list[i].children;
+            }
+            if(list[i].children && list[i].children.length > 0) {
+                const isExists = this.findGroup(id, list[i].children);
+                if(isExists){
+                    return isExists;
+                }
+            }
+        }
+        return false;
+    }
 
   // 点击树时，更换treeId并查询右侧表数据
   changeTreeId = (id, pName, depth, code, childrenData) => {
@@ -1117,10 +141,70 @@ export default class DepManage extends PureComponent {
       tableData: childrenData,
     });
   };
+    openModal = (modalType) => {
+      this.setState({
+          addModalVisible: true,
+          modalType,
+      })
+    }
+    //确定保存
+    handleAdd = (e) => {
+        e.preventDefault();
+        console.log('aaaaaaaaaaaaaaa')
+        this.props.form.validateFields(['groupName', 'groupCode'], (err, values) => {
+            const { groupInfo, modalType, treeId, treeData } = this.state;
+            console.log('err------------', err)
+            if (!err) {
+              let param = {
+                  name: values.groupName,
+                  code: values.groupCode,
+              }
+                let successMsg = '添加';
+              if (modalType === 'edit') {
+                    param.id = groupInfo.id;
+                    successMsg = '编辑';
+                  this.editGroup(groupInfo.id, treeData, param);
+              } else {
+                console.log('treeId----------', treeId)
+                param.pid = treeId;
+                param.children = [];
+                param.id = makeUuid();
+                this.addGroup(treeId, treeData, param);
+              }
+              localStorage.setItem('groupDefaultData', JSON.stringify(treeData));
+              this.getGroupTree();
+              message.success(`${successMsg}成功`);
+                this.setState({
+                    addModalVisible: false,
+                })
+            }
+        });
+    };
+    // 删除
+    delGroup= (id) => {
+        let {treeData} = this.state;
+        this.removeGroup(id, treeData);
+        localStorage.setItem('groupDefaultData', JSON.stringify(treeData));
+        message.success('删除机构成功');
+        this.getGroupTree();
+    }
+    // 编辑
+    updGroup = (record) => {
+        this.setState({
+            groupInfo: record,
+        })
+        this.openModal('edit');
+    }
+    handleModalVisible = (visble) => {
+      this.setState({
+          addModalVisible: visble,
+      })
+    }
 
   render() {
-    const { treeData, tableData } = this.state;
-    const tree = treeData.result;
+    const { treeData, tableData, addModalVisible, modalType, groupInfo } = this.state;
+    const { form: { getFieldDecorator }} = this.props;
+    const tree = treeData;
     const data = tableData;
     return (
       <Layout className={styles.content_layout}>
@@ -1129,11 +213,69 @@ export default class DepManage extends PureComponent {
         </Sider>
         <Content className={styles.content_right}>
           <Card className={styles.card}>
+              <div className={styles.tableListOperator}>
+                  <Button icon="plus" type="primary" onClick={() => this.openModal('add')}>
+                      添加机构
+                  </Button>
+              </div>
             <div className={styles.tableList}>
-              <GroupTable data={data} />
+              <GroupTable data={data} delGroup={this.delGroup} updGroup={this.updGroup} />
             </div>
           </Card>
         </Content>
+          {
+            addModalVisible ? (
+                <Modal
+                    key={this.state.modalKey}
+                    title={
+                      modalType === 'edit' ? (
+                          <span>{groupInfo.name}<Icon type="right" />编辑</span>
+                      ) : (
+                          <span> 添加机构</span>
+                      )
+                    }
+                    visible={addModalVisible}
+                    onOk={this.handleAdd}
+                    onCancel={() => this.handleModalVisible(false)}
+                    maskClosable={false}
+                >
+                    <Form key="addGroup">
+                        <FormItem
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{ span: 15 }}
+                            label="机构名称"
+                        >
+                            {getFieldDecorator('groupName', {
+                                initialValue: modalType === 'edit' ? groupInfo.name : '',
+                                rules: [
+                                    { required: true, message: '请输入机构名称' },
+                                    { max: 50, message: '请输入50字以内机构名称' },
+                                ],
+                            })(
+                                <Input placeholder="请输入机构名称" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{ span: 15 }}
+                            label="机构编码"
+                        >
+                            {getFieldDecorator('groupCode',
+                                {
+                                    initialValue: modalType === 'edit' ? groupInfo.code : '',
+                                    rules: [{ required: true, message: '请输入机构编码' },
+                                        { len: 12, message: '请输入12位机构编码' },
+                                        // { pattern: '^\\d{12}$', message: '机构编码固定为12位数字' },
+                                    ],
+                                }
+                            )(
+                                <Input placeholder="请输入机构编码" />
+                            )}
+                        </FormItem>
+                    </Form>
+                </Modal>
+            ) : null
+          }
       </Layout>
     );
   }

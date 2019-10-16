@@ -38,29 +38,7 @@ export default class DictManage extends PureComponent {
     componentDidMount() {
         this.queryDictsTree();
     }
-    // 查询字典
-    queryDicts = (params) => {
-        const { dispatch } = this.props;
-        const { formValues, searchPId } = this.state;
-        if (params) {
-            dispatch({
-                type: 'dictSettings/fetch',
-                payload: params,
-            });
-        } else {
-            dispatch({
-                type: 'dictSettings/fetch',
-                payload: {
-                    currentPage: 1,
-                    showCount: 10,
-                    pd: {
-                        id: searchPId,
-                        ...formValues,
-                    },
-                },
-            });
-        }
-    }
+
     // 查询字典树
     queryDictsTree = () => {
       const {searchPId} = this.state;
@@ -90,7 +68,6 @@ export default class DictManage extends PureComponent {
     delDict = (id) => {
       let {treeData} = this.state;
         this.removeDict(id, treeData);
-        console.log('this.state.treeData',treeData);
         localStorage.setItem('dictDefaultData', JSON.stringify(treeData));
         message.success('删除字典成功');
         this.queryDictsTree();
@@ -102,22 +79,6 @@ export default class DictManage extends PureComponent {
             dictInfo: record,
         })
         this.openModal('updDict');
-    }
-
-    // 处理表格点击分页事件
-    handleStandardTableChange = (pagination) => {
-        const { formValues } = this.state;
-
-        const params = {
-            currentPage: pagination.current,
-            showCount: pagination.pageSize,
-            pd: {
-                ...formValues,
-                id: this.state.searchPId,
-            },
-        };
-
-        this.queryDicts(params);
     }
 
     // 处理表格选中多行事件
@@ -289,7 +250,6 @@ export default class DictManage extends PureComponent {
                                 selectedRows={selectedRows}
                                 data={tableData}
                                 onSelectRow={this.handleSelectRows}
-                                onChange={this.handleStandardTableChange}
                                 deleteDict={this.delDict}
                                 openModal={this.openModal}
                                 updDict={this.updDict}

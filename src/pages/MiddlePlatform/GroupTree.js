@@ -27,23 +27,24 @@ class GroupTree extends PureComponent {
   getMenuData = data => {
     for (let i = 0; i < data.length; i++) {
       this.dataList.push(data[i]);
-      if (data[i].childrenList) {
-        this.getMenuData(data[i].childrenList);
+      if (data[i].children) {
+        this.getMenuData(data[i].children);
       }
     }
   };
 
   // 点击树节点触发
   treeNodeClick = (selectedKeys, e) => {
-    const {
-      key,
-      props: { pName, depth, code, children: treeChildren },
-    } = e.selectedNodes[0];
+
     if (selectedKeys.length > 0) {
+        const {
+            key,
+            props: { pName, depth, code, children: treeChildren },
+        } = e.selectedNodes[0];
       // 第二次点击相同节点时，selectedKeys返回空
       const childrenData = [];
       treeChildren.forEach(item =>
-        childrenData.push({ name: item.props.pName, code: item.props.code })
+        childrenData.push({ name: item.props.pName, code: item.props.code, id: item.key, pid: item.props.pid })
       );
       this.props.changeTreeId(key, pName, depth, code, childrenData);
     }
@@ -84,7 +85,7 @@ class GroupTree extends PureComponent {
             item.name
           );
 
-        if (item.childrenList) {
+        if (item.children) {
           return (
             <TreeNode
               key={item.id}
@@ -92,8 +93,9 @@ class GroupTree extends PureComponent {
               pName={item.name}
               depth={item.depth}
               code={item.code}
+              pid={item.pid}
             >
-              {loop(item.childrenList)}
+              {loop(item.children)}
             </TreeNode>
           );
         }
@@ -104,6 +106,7 @@ class GroupTree extends PureComponent {
             pName={item.name}
             depth={item.depth}
             code={item.code}
+            pid={item.pid}
           />
         );
       });
@@ -120,7 +123,7 @@ class GroupTree extends PureComponent {
             defaultSelectedKeys={selectedKeys}
           >
             <TreeNode key={0} title={'全部'}>
-              {this.props.data.list.length > 0 ? loop(this.props.data.list) : ''}
+              {this.props.data.length > 0 ? loop(this.props.data) : ''}
             </TreeNode>
           </Tree>
         </div>
