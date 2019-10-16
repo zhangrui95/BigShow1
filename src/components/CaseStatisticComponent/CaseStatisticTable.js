@@ -1,37 +1,45 @@
 /*
-* 综合信息查询案件表格
+* 案件统计表格
 * author：jhm
-* 20191018
+* 20191016
 * */
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
-import styles from './CaseTable.less';
+import styles from './CaseStatisticTable.less';
 import Ellipsis from '../Ellipsis';
-import CaseTableDetail from './CaseTableDetail';
+// import CaseTableDetail from './CaseTableDetail';
+import VideoComponent from './VideoComponentModal';
 
-class CaseTable extends PureComponent {
+class CaseStatisticTable extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      videoFlag: false,
+      record: '',
+    };
   }
 
   componentDidMount() {}
 
-  CaseDetail = record => {
-    const divs = (
-      <div>
-        <CaseTableDetail record={record} {...this.props} />
-      </div>
-    );
-    const AddNewDetail = { title: '案件详情', content: divs, key: 'casetable' + record.key };
-    this.props.newDetail(AddNewDetail);
+  CaseDetail = (record, flag) => {
+    this.setState({
+      record: record,
+      videoFlag: !!flag,
+    });
+  };
+
+  CloseVideoComponent = () => {
+    this.setState({
+      videoFlag: false,
+    });
   };
 
   render() {
+    const { videoFlag, record } = this.state;
     const columns = [
       {
-        title: '案件编号',
-        dataIndex: 'ajbh',
+        title: '警情来源',
+        dataIndex: 'jqly',
         render: text => {
           return (
             <Ellipsis tooltip length="24">
@@ -41,8 +49,8 @@ class CaseTable extends PureComponent {
         },
       },
       {
-        title: '案件名称',
-        dataIndex: 'ajmc',
+        title: '管辖单位',
+        dataIndex: 'gxdw',
         render: text => {
           if (text) {
             return (
@@ -54,47 +62,12 @@ class CaseTable extends PureComponent {
         },
       },
       {
-        title: '案件类别',
-        dataIndex: 'ajlb',
-        render: text => {
-          if (text) {
-            let arry = text.split(',');
-            const num = arry.length - 1;
-            return (
-              <Ellipsis tooltip length="7">
-                {arry[num]}
-              </Ellipsis>
-            );
-          }
-        },
-      },
-      {
-        title: '办案单位',
-        dataIndex: 'badw',
-        // render: (text) => {
-        //     return (
-        //         <Ellipsis tooltip length='12'>{text}</Ellipsis>
-        //     )
-        // }
-      },
-      {
-        title: '办案人',
-        dataIndex: 'bar',
-        render: text => {
-          return (
-            <Ellipsis tooltip length={9}>
-              {text}
-            </Ellipsis>
-          );
-        },
-      },
-      {
-        title: '起诉时间',
-        dataIndex: 'qssj',
+        title: '接警人',
+        dataIndex: 'jjr',
         render: text => {
           if (text) {
             return (
-              <Ellipsis tooltip length={16}>
+              <Ellipsis tooltip length="9">
                 {text}
               </Ellipsis>
             );
@@ -102,8 +75,43 @@ class CaseTable extends PureComponent {
         },
       },
       {
-        title: '受理日期',
-        dataIndex: 'slrq',
+        title: '接警时间',
+        dataIndex: 'jjsj',
+        render: text => {
+          return (
+            <Ellipsis tooltip length="16">
+              {text}
+            </Ellipsis>
+          );
+        },
+      },
+      {
+        title: '接警内容',
+        dataIndex: 'jjnr',
+        render: text => {
+          return (
+            <Ellipsis tooltip length={30}>
+              {text}
+            </Ellipsis>
+          );
+        },
+      },
+      {
+        title: '处警人',
+        dataIndex: 'cjr',
+        render: text => {
+          if (text) {
+            return (
+              <Ellipsis tooltip length={9}>
+                {text}
+              </Ellipsis>
+            );
+          }
+        },
+      },
+      {
+        title: '处警单位',
+        dataIndex: 'cjdw',
         render: text => {
           if (text) {
             return (
@@ -115,30 +123,33 @@ class CaseTable extends PureComponent {
         },
       },
       {
-        title: '案件状态',
-        dataIndex: 'ajzt',
-      },
-      {
         title: '操作',
         render: record => (
           <div>
-            <a onClick={() => this.CaseDetail(record)}>详情</a>
+            <a onClick={() => this.CaseDetail(record, true)}>录音详情</a>
           </div>
         ),
       },
     ];
-
     return (
       <div className={styles.standardTable}>
         <Table
           size={'middle'}
           rowKey={record => record.key}
-          dataSource={this.props.data}
+          dataSource={this.props.CaseStatisticdata}
           columns={columns}
         />
+
+        {videoFlag ? (
+          <VideoComponent
+            visible={videoFlag}
+            CloseVideoComponent={this.CloseVideoComponent}
+            record={record}
+          />
+        ) : null}
       </div>
     );
   }
 }
 
-export default CaseTable;
+export default CaseStatisticTable;

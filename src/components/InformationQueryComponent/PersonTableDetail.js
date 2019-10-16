@@ -429,7 +429,7 @@ export default class PersonTableDetail extends PureComponent {
                         </Row>
                       </div>
                     </TabPane>
-                    <TabPane tab="音频信息" key="2" forceRender className="Namesaxx2">
+                    <TabPane tab="音视频信息" key="2" forceRender className="Namesaxx2">
                       <div className={styles.tabDiv}>
                         <Row className={styles.contentRow} style={{ padding: '0 12px' }}>
                           <Col md={24} sm={24}>
