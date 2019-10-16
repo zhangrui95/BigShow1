@@ -173,10 +173,8 @@ export default class ChinaMap extends PureComponent {
   // 获取地图数据
   getMapData = (startTime, endTime, dataMap) => {
     let data = [
-      { org: '210100', count:209 },
       { org: '210200', count:1896},
-      { org: '210300', count:2064 },
-      { org: '210400', count:98},
+      { org: '211100', count:2064 },
       { org: '210500', count:832 },
     ];
     let arry = [];
@@ -211,7 +209,7 @@ export default class ChinaMap extends PureComponent {
         left: 'right',
         inRange: {
           color: [
-              '#7ed155',
+              '#61d156',
               '#fd7921',
               '#d70400',
           ],
@@ -379,8 +377,8 @@ export default class ChinaMap extends PureComponent {
             emphasis: {
               show: false,
               textStyle: {
-                color: '#fff',
-                fontSize: 18,
+                color: '#000',
+                fontSize: 24,
                 fontWeight: 'bolder',
               },
               // formatter:'{a}:{b}',
@@ -422,16 +420,16 @@ export default class ChinaMap extends PureComponent {
                 y: 0,
                 x2: 1,
                 y2: 0,
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: '#6f05c3', // 0% 处的颜色
-                  },
-                  {
-                    offset: 1,
-                    color: '#c6306c', // 100% 处的颜色
-                  },
-                ],
+                // colorStops: [
+                  // {
+                  //   offset: 0,
+                  //   color: '#6f05c3', // 0% 处的颜色
+                  // },
+                  // {
+                  //   offset: 1,
+                  //   color: '#c6306c', // 100% 处的颜色
+                  // },
+                // ],
               },
               borderWidth: 0,
             },
