@@ -29,22 +29,7 @@ const { RangePicker } = DatePicker;
 const TreeNode = TreeSelect.TreeNode;
 const { Option } = Select;
 
-const fileList = [
-  {
-    uid: '-1',
-    name: 'xxx.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-  {
-    uid: '-2',
-    name: 'yyy.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-];
+
 @Form.create()
 export default class VideoComponentModal extends PureComponent {
   state = {
@@ -52,6 +37,9 @@ export default class VideoComponentModal extends PureComponent {
     editvisible: false,
     DeleteVisible: false,
     data: this.props.record.yp,
+    newypUid:'',
+    addInputValue:'',
+    uploadloading:false,
   };
 
   componentDidMount() {}
@@ -91,7 +79,9 @@ export default class VideoComponentModal extends PureComponent {
   edit = record => {
     this.setState({
       editvisible: true,
+      newypUid:record.uid,
     });
+
   };
   CaseDetail = (record, flag) => {
     this.setState({
@@ -115,16 +105,36 @@ export default class VideoComponentModal extends PureComponent {
     });
   };
   Onok = () => {
+    const {newypUid} = this.state;
+    const newData = [...this.state.data];
+
+    const index = newData.findIndex((item)=>{
+      return item.uid === newypUid
+    })
+    newData[index].name = this.state.addInputValue;
+
     this.setState({
       editvisible: false,
+      data:newData,
     });
   };
-  Delete = () => {
+  Delete = (record) => {
     this.setState({
       DeleteVisible: true,
+      newypUid:record.uid,
     });
-    const { record } = this.props;
-    record.yp.splice(0, 1);
+    const { data,newypUid } = this.state;
+    const newData = [...this.state.data]
+    // const record = [...this.props.record];
+    // console.log('record',record);
+    // console.log()
+    const index = newData.findIndex((item)=>{
+      return item.uid === newypUid
+    })
+    newData.splice(index, 1);
+    this.setState({
+      data:newData,
+    })
   };
   CloseDeletemodal = () => {
     this.setState({
@@ -134,7 +144,12 @@ export default class VideoComponentModal extends PureComponent {
   OnDeleteOk = () => {
     message.success('删除成功');
   };
-
+  ypOnChange = (val) => {
+    console.log('value',val.target.value)
+    this.setState({
+      addInputValue:val.target.value,
+    })
+  }
   render() {
     const that = this;
     const {
@@ -155,39 +170,30 @@ export default class VideoComponentModal extends PureComponent {
       headers: {
         authorization: 'authorization-text',
       },
+      showUploadList:this.state.uploadloading,
       onChange(info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
+        console.log('info',info)
+        that.setState({
+          uploadloading:true,
+        });
+        if (info.file.status !== 'uploading'){
           const mewyp = {
-            uid: '-3',
-            name: '接警音频',
+            uid: '3',
+            name: info.file.name,
             status: 'done',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             thumbUrl:
               'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
           };
-          that.state.data.push(mewyp);
+          const newData = [...that.state.data];
+          newData.push(mewyp);
           that.setState({
-            data: that.state.data,
+            data: newData,
+            uploadloading:false,
           });
-          console.log('that.state.data-------->', that.state.data);
         }
-        // if (info.file.status === 'done') {
-        //   message.success(`${info.file.name} file uploaded successfully`);
-        // } else if (info.file.status === 'error') {
-        //   message.error(`${info.file.name} file upload failed.`);
-        // }
       },
     };
-    // let CaseStatusOption = [];
-    // if (CaseStatusType.length > 0) {
-    //   for (let i = 0; i < CaseStatusType.length; i++) {
-    //     const item = CaseStatusType[i];
-    //     CaseStatusOption.push(
-    //       <Option key={item.id} value={item.code}>{item.name}</Option>,
-    //     );
-    //   }
-    // }
     const columns = [
       {
         title: '音频名称',
@@ -257,7 +263,7 @@ export default class VideoComponentModal extends PureComponent {
             onOk={this.Onok}
           >
             音频名称：
-            <input placeholder="请输入音频名称" />
+            <input placeholder="请输入音频名称" onChange={this.ypOnChange} />
           </Modal>
         ) : null}
 
@@ -273,33 +279,10 @@ export default class VideoComponentModal extends PureComponent {
               });
             }}
           >
-            {/*<video*/}
-            {/*controls*/}
-            {/*preload="auto"*/}
-            {/*width='100%'*/}
-            {/*height="40%"*/}
-            {/*poster="video/cover.png"*/}
-            {/*data-setup="{}"*/}
-            {/*autoPlay*/}
-            {/*>*/}
-            {/*<source src={require('@/assets/videoplay1.mp3')} type="video/mp3" />*/}
-            {/*</video>*/}
             <audio src={video1} controls="controls" />
           </Modal>
         ) : null}
 
-        {/*{*/}
-        {/*DeleteVisible?*/}
-        {/*<Modal*/}
-        {/*visible={DeleteVisible}*/}
-        {/*onCancel={this.CloseDeletemodal}*/}
-        {/*onOk={this.OnDeleteOk}*/}
-        {/*>*/}
-        {/*/!*音频名称：<input placeholder='请输入音频名称'/>*!/*/}
-        {/*</Modal>*/}
-        {/*:*/}
-        {/*null*/}
-        {/*}*/}
       </div>
     );
   }

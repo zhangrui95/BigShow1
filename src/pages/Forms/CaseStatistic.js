@@ -45,14 +45,14 @@ const data = [
     jjnr: '2019-05-04日夜，东台街发生抢劫时间',
     yp: [
       {
-        uid: '-1',
+        uid: '1',
         name: '接警音频',
         status: 'done',
         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       },
       {
-        uid: '-2',
+        uid: '2',
         name: '处警音频',
         status: 'done',
         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
