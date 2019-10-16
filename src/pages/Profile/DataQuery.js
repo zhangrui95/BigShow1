@@ -20,7 +20,7 @@ import {
 import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './AdvancedProfile.less';
+import styles from './Index.less';
 import { anJuanLeiXing, chaXunJieGuo, getChaXunJieGuo } from './test';
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
@@ -138,7 +138,7 @@ class DataQuery extends Component {
   };
 
   // 查询表单
-  renderSimpleForm() {
+  renderSimpleForm () {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -164,6 +164,7 @@ class DataQuery extends Component {
       }
     }
     return (
+
       <Form
         layout="inline"
         onSubmit={this.handleSearch}
@@ -286,8 +287,8 @@ class DataQuery extends Component {
               <a onClick={() => this.handleDetail(record)}>{val.slice(0, 10) + '……'}</a>
             </Tooltip>
           ) : (
-            <a onClick={() => this.handleDetail(record)}>{val}</a>
-          );
+              <a onClick={() => this.handleDetail(record)}>{val}</a>
+            );
         },
       },
       {
@@ -327,17 +328,17 @@ class DataQuery extends Component {
       },
     ];
 
-    const paginationProps = {
-      current: page ? page.currentPage : 1,
-      total: page ? page.totalResult : 0,
-      pageSize: page ? page.showCount : 0,
-      showQuickJumper: true,
-      showTotal: (total, range) =>
-        `共 ${page ? page.totalResult : 0} 条记录 第 ${page ? page.currentPage : 1} / ${
-          page ? page.totalPage : 1
-        } 页`,
-      onChange: this.handleStandardTableChange,
-    };
+    // const paginationProps = {
+    //   current: page ? page.currentPage : 1,
+    //   total: page ? page.totalResult : 0,
+    //   pageSize: page ? page.showCount : 0,
+    //   showQuickJumper: true,
+    //   showTotal: (total, range) =>
+    //     `共 ${page ? page.totalResult : 0} 条记录 第 ${page ? page.currentPage : 1} / ${
+    //     page ? page.totalPage : 1
+    //     } 页`,
+    //   onChange: this.handleStandardTableChange,
+    // };
 
     return (
       <Row className={styles.tableWrap}>
@@ -345,15 +346,20 @@ class DataQuery extends Component {
           loading={loading}
           columns={columns}
           dataSource={cardList}
-          pagination={paginationProps}
+          pagination={{pageSize:6}}
         />
       </Row>
     );
   };
-  render() {
+  renderForm () {
+    return this.renderSimpleForm();
+  }
+  render () {
     return (
       <div>
-        {this.renderSimpleForm()}
+        <Row className={styles.searchForm}>
+          {this.renderForm()}
+        </Row>
         {this.listShow()}
       </div>
     );

@@ -75,7 +75,7 @@ export default class Success extends Component {
           loading={loading}
           columns={columns}
           dataSource={cardList}
-          pagination={paginationProps}
+          pagination={{pageSize:10}}
         />
       </Row>
     );
