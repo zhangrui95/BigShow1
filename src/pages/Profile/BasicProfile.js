@@ -20,7 +20,7 @@ import {
   Facet,
   Util,
 } from 'bizcharts';
-import { Pie } from '../../components/Charts';
+import { Pie, yuan } from '../../components/Charts';
 const { Line } = Guide;
 const { Description } = DescriptionList;
 
@@ -29,14 +29,14 @@ const { Description } = DescriptionList;
   loading: loading.effects['profile/fetchBasic'],
 }))
 class BasicProfile extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { dispatch } = this.props;
     dispatch({
       type: 'profile/fetchBasic',
     });
   }
 
-  render() {
+  render () {
     //  折线图的数据
     const data = [
       {
@@ -195,11 +195,11 @@ class BasicProfile extends Component {
         <Row>
           <Card title={'卷宗出入柜趋势图'}>
             <Chart height={300} data={data} scale={cols} forceFit>
-              <Legend 
-              textStyle={{
-                fontSize: '16', // 文本大小
-                fontWeight: 'bold', // 文本粗细
-            }}
+              <Legend
+                textStyle={{
+                  fontSize: '16', // 文本大小
+                  fontWeight: 'bold', // 文本粗细
+                }}
               />
               <Axis name="month" />
               <Axis
@@ -237,9 +237,9 @@ class BasicProfile extends Component {
               <Card title={'卷宗柜使用与空闲情况'}>
                 <Pie
                   hasLegend
-                  title={this.props.title}
-                  subTitle={this.props.title}
-                  // total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
+                  title={'卷柜总数'}
+                  subTitle={'卷柜总数'}
+                  total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
                   data={dataPie1}
                   // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
                   height={200}
@@ -256,9 +256,9 @@ class BasicProfile extends Component {
                 <Row style={{ height: 200 }}>
                   <Pie
                     hasLegend
-                    title={this.props.title}
-                    subTitle={this.props.title}
-                    total={dataPie1.reduce((pre, now) => now.y + pre, 0)}
+                    title={'卷柜总数'}
+                    subTitle={'卷柜总数'}
+                    total={dataPie2.reduce((pre, now) => now.y + pre, 0)}
                     data={dataPie2}
                     // valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
                     height={200}
