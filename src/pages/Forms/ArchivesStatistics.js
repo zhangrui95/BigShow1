@@ -591,6 +591,16 @@ class ArchivesStatistics extends PureComponent {
               })(<Input placeholder="请输入办案场所负责人" />)}
             </FormItem>
           </Col>
+          <Col>
+            <span style={{ float: 'right', marginBottom: 24 }}>
+              <Button style={{ marginLeft: 8 }} type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+            </span>
+          </Col>
         </Row>
       </Form>
     );

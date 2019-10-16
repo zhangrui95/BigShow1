@@ -70,7 +70,67 @@ export var gaoJingGuanLi = {
       "case_name": "友达小区停车位纠纷案件",
       "dossier_categorymc": "行政诉讼卷",  //案卷类型
       "alarm_time": "2019-10-09 19:16:42", 
-  }
+  },
+  {
+    "xh": 8,
+    "alarm_categorymc": "告警",
+    "alarm_typemc": "违规出库",
+    "dossier_name": "银河小区停车位纠纷案件卷宗",
+    "casepolice": "民警张莹,民警刘文",
+    "case_name": "银河小区停车位纠纷案件",
+    "dossier_categorymc": "行政诉讼卷",  //案卷类型
+    "alarm_time": "2019-10-09 19:16:42", 
+},
+{
+    "xh": 9,
+    "alarm_categorymc": "告警",
+    "alarm_typemc": "违规出库",
+    "dossier_name": "友达小区入室盗窃案件卷宗",
+    "casepolice": "民警张莹,民警刘文",
+    "case_name": "友达小区入室盗窃案件",
+    "dossier_categorymc": "行政诉讼卷",  //案卷类型
+    "alarm_time": "2019-10-09 19:16:42", 
+},
+{
+    "xh": 10,
+    "alarm_categorymc": "告警",
+    "alarm_typemc": "违规出库",
+    "dossier_name": "志华商城强买强卖斗殴案件卷宗",
+    "casepolice": "民警张莹,民警刘文",
+    "case_name": "志华商城强买强卖斗殴案件",
+    "dossier_categorymc": "行政诉讼卷",  //案卷类型
+    "alarm_time": "2019-10-09 19:16:42", 
+},
+{
+    "xh": 11,
+    "alarm_categorymc": "告警",
+    "alarm_typemc": "违规出库",
+    "dossier_name": "南京路友谊路交口抢劫案件卷宗",
+    "casepolice": "民警张莹,民警刘文",
+    "case_name": "南京路友谊路交口抢劫案件",
+    "dossier_categorymc": "行政诉讼卷",  //案卷类型
+    "alarm_time": "2019-10-09 19:16:42", 
+},
+{
+    "xh": 12,
+    "alarm_categorymc": "告警",
+    "alarm_typemc": "违规出库",
+    "dossier_name": "新文中学聚众斗殴案件卷宗",
+    "casepolice": "民警张莹,民警刘文",
+    "case_name": "新文中学聚众斗殴案件",
+    "dossier_categorymc": "行政诉讼卷",  //案卷类型
+    "alarm_time": "2019-10-09 19:16:42", 
+},
+{
+    "xh": 13,
+    "alarm_categorymc": "告警",
+    "alarm_typemc": "违规出库",
+    "dossier_name": "民生厂商房地产纠纷案件卷宗",
+    "casepolice": "民警张莹,民警刘文",
+    "case_name": "民生厂商房地产纠纷案件",
+    "dossier_categorymc": "行政诉讼卷",  //案卷类型
+    "alarm_time": "2019-10-09 19:16:42", 
+},
   ],
   "page": {
       "showCount": 10,

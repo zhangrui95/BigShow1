@@ -10,7 +10,7 @@ import styles from '../ComponentStyles.less';
 import video1 from '../../../assets/show/02.mp4';
 import video0 from '../../../assets/video1.mp4';
 import video2 from '../../../assets/video2.mp4';
-import video3 from '../../../assets/video3.mp4';
+import video3 from '../../../assets/video04.mp4';
 import videoShow from '../../../assets/show/video_show.JPG';
 
 export default class HandingVideoAreaPlaying extends PureComponent {
