@@ -178,7 +178,7 @@ class ArchivesStatistics extends PureComponent {
           }
         }
       }
-    } else if (enabledEvents.includes(info.event)) {
+    } else if (enabledEvents&&enabledEvents.includes(info.event)) {
       console.log('info>', info);
       this.setState({
         info: info,

@@ -38,6 +38,7 @@ window.warnInfo = {
 window.opacity = 0.6;
 
 window.configUrl = {
+  socket_server: 'http://192.168.3.245:8720',
   serverUrl: `http://${ip}:7500`, // 接口请求地址
   // serverUrl: `http://192.168.3.89:7500`, // 接口请求地址
   // 安全中心地址
