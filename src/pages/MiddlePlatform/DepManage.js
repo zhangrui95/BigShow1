@@ -25,7 +25,7 @@ export default class DepManage extends PureComponent {
     addModalVisible: false,
     formValues: {},
     modalType: '',
-    treeId: 0,
+    treeId: '0',
     selectedNodePName: '', // 选中节点的父节点名称
     selectedDepth: 0, // 选中节点的父节深度
     selectedDepCode: '', // 选中节点的父节点编码
@@ -60,14 +60,12 @@ export default class DepManage extends PureComponent {
   }
 
     addGroup = (id, list, param) => {
-        if(id === 0){
+        if(id === '0'){
             list.push(param);
             return true;
         }
         for(let i=0; i< list.length; i++) {
-            console.log('forid', list[i].id, id)
             if(list[i].id == id) {
-              console.log('idididididididid', id)
               list[i].children.push(param);
                 return true;
             }
@@ -112,7 +110,7 @@ export default class DepManage extends PureComponent {
         return false;
     }
     findGroup = (id, list) => {
-        if(id === 0) {
+        if(id === '0') {
             return list;
         }
         for(let i=0; i< list.length; i++) {
@@ -150,10 +148,8 @@ export default class DepManage extends PureComponent {
     //确定保存
     handleAdd = (e) => {
         e.preventDefault();
-        console.log('aaaaaaaaaaaaaaa')
         this.props.form.validateFields(['groupName', 'groupCode'], (err, values) => {
             const { groupInfo, modalType, treeId, treeData } = this.state;
-            console.log('err------------', err)
             if (!err) {
               let param = {
                   name: values.groupName,
@@ -165,7 +161,6 @@ export default class DepManage extends PureComponent {
                     successMsg = '编辑';
                   this.editGroup(groupInfo.id, treeData, param);
               } else {
-                console.log('treeId----------', treeId)
                 param.pid = treeId;
                 param.children = [];
                 param.id = makeUuid();
