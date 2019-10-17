@@ -140,7 +140,7 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon> */}
-        {currentUser.name ? (
+        {/*{currentUser.name ? (*/}
           <Dropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
@@ -149,12 +149,12 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={require('../../assets/userImg.png')}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.name}</span>
+              <span className={styles.name}>章明鑫</span>
             </span>
           </Dropdown>
-        ) : (
-          <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
-        )}
+        {/*) : (*/}
+        {/*  <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />*/}
+        {/*)}*/}
         {/* <SelectLang className={styles.action} /> */}
       </div>
     );

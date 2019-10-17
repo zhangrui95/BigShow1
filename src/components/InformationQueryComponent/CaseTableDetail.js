@@ -312,7 +312,7 @@ export default class CaseTableDetail extends PureComponent {
             </Card>
           </div>
           <div>
-            <Card title="音频信息" className={styles.card} bordered={false}>
+            <Card title="音视频信息" className={styles.card} bordered={false}>
               <div className={styles.tabDiv}>
                 <Row className={styles.contentRow} style={{ padding: '0 12px' }}>
                   <Col md={24} sm={24}>
@@ -324,19 +324,19 @@ export default class CaseTableDetail extends PureComponent {
                         </div>
                       </Col>
                       <Col {...colLayout}>
-                        <div>办案区视频</div>
+                        <div>办案区音视频</div>
                         <div>
                           <Steps progressDot current={3}>
                             <Step
-                              title={<span style={{ fontSize: 14 }}>入区视频</span>}
+                              title={<span style={{ fontSize: 14 }}>入区音视频</span>}
                               description={<img className={styles.img} width={60} height={60} />}
                             />
                             <Step
-                              title={<span style={{ fontSize: 14 }}>询讯问视频</span>}
+                              title={<span style={{ fontSize: 14 }}>询讯问音视频</span>}
                               description={<img className={styles.img} width={60} height={60} />}
                             />
                             <Step
-                              title={<span style={{ fontSize: 14 }}>离区视频</span>}
+                              title={<span style={{ fontSize: 14 }}>离区音视频</span>}
                               description={<img className={styles.img} width={60} height={60} />}
                             />
                           </Steps>

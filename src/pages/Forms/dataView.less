@@ -9,95 +9,104 @@
   align-items: center;
 
   .countButtonCurrent {
-	background-color: #FF6600;
+    background-color: #ff6600;
 
-	.countButtonTitle {
-	  background: #FF9900;
-	}
+    .countButtonTitle {
+      background: #ff9900;
+    }
   }
 
   .countButton {
-	background: #999;
+    background: #999;
 
-	.countButtonTitle {
-	  background: #CCC;
-	}
+    .countButtonTitle {
+      background: #ccc;
+    }
   }
 
-  .countButton, .countButtonCurrent {
-	height: 75px;
-	color: #fff;
-	display: flex;
-	margin-right: 16px;
-	cursor: pointer;
+  .countButton,
+  .countButtonCurrent {
+    height: 75px;
+    color: #fff;
+    display: flex;
+    margin-right: 16px;
+    cursor: pointer;
 
-	.countButtonTitle, .countButtonNumber, .bigCountButtonNumber {
-	  padding: 0 16px;
-	  height: 75px;
-	  display: flex;
-	  flex-direction: column;
-	  justify-content: center;
-	}
+    .countButtonTitle,
+    .countButtonNumber,
+    .bigCountButtonNumber {
+      padding: 0 16px;
+      height: 75px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-	.countButtonTitle {
-	  line-height: normal;
-	  text-align: center;
+    .countButtonTitle {
+      line-height: normal;
+      text-align: center;
+    }
 
-	}
+    .countButtonNumber,
+    .bigCountButtonNumber {
+      div {
+        height: 37px;
+        line-height: 37px;
+        text-align: center;
+      }
+    }
 
-	.countButtonNumber, .bigCountButtonNumber {
-	  div {
-		height: 37px;
-		line-height: 37px;
-		text-align: center;
-	  }
-	}
-
-	.bigCountButtonNumber {
-	  div {
-		text-align: center;
-		font-size: @font-size-lg;
-	  }
-	}
+    .bigCountButtonNumber {
+      div {
+        text-align: center;
+        font-size: @font-size-lg;
+      }
+    }
   }
 
   // 问题数据图表
   .warningCountButtonArea {
-	display: flex;
-	cursor: pointer;
+    display: flex;
+    cursor: pointer;
 
-	.warningCountButtonTitleBlue, .warningCountButtonNumberBlue {
-	  color: #0099FE;
-	}
+    .warningCountButtonTitleBlue,
+    .warningCountButtonNumberBlue {
+      color: #0099fe;
+    }
 
-	.warningCountButtonTitlePink, .warningCountButtonNumberPink {
-	  color: #FE0032;
-	}
+    .warningCountButtonTitlePink,
+    .warningCountButtonNumberPink {
+      color: #fe0032;
+    }
 
-	.warningCountButtonTitleBlue, .warningCountButtonNumberBlue, .warningCountButtonTitlePink, .warningCountButtonNumberPink {
-	  height: 100px;
-	  line-height: 100px;
-	  font-size: @font-size-lg;
-	}
+    .warningCountButtonTitleBlue,
+    .warningCountButtonNumberBlue,
+    .warningCountButtonTitlePink,
+    .warningCountButtonNumberPink {
+      height: 100px;
+      line-height: 100px;
+      font-size: @font-size-lg;
+    }
 
-	.warningCountButtonNumberBlue, .warningCountButtonNumberPink {
-	  width: 100px;
-	  position: relative;
-	  text-align: center;
-	  margin: 0 10px;
+    .warningCountButtonNumberBlue,
+    .warningCountButtonNumberPink {
+      width: 100px;
+      position: relative;
+      text-align: center;
+      margin: 0 10px;
 
-	  img {
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		left: 0;
-		top: 0;
-		animation: animated_div 5s linear infinite;
-		-webkit-animation: animated_div 5s linear infinite;
-		animation-direction: normal;
-		-webkit-animation-direction: normal;
-	  }
-	}
+      img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        animation: animated_div 5s linear infinite;
+        -webkit-animation: animated_div 5s linear infinite;
+        animation-direction: normal;
+        -webkit-animation-direction: normal;
+      }
+    }
   }
 }
 
@@ -105,66 +114,67 @@
   margin: 16px 16px 16px;
 
   .cardBox {
-	border: 1px solid #e8e8e8;
-	width: 100%;
-	height: 300px;
-	background: @body-background;
-	padding: 16px;
+    border: 1px solid #e8e8e8;
+    width: 100%;
+    height: 300px;
+    background: @body-background;
+    padding: 16px;
   }
 
   .leftNunList {
-	width: 200px;
-	float: right;
-	padding: 40px 0;
-	line-height: 30px;
+    width: 200px;
+    float: right;
+    padding: 40px 0;
+    line-height: 30px;
   }
 
   .leftNunListRy {
-	width: 200px;
-	float: right;
-	line-height: 20px;
-	text-align: center;
+    width: 200px;
+    float: right;
+    line-height: 20px;
+    text-align: center;
   }
 
-  .leftGo, .rightGo {
-	position: absolute;
-	font-size: 30px;
-	color: #ccc;
-	cursor: pointer;
-	z-index: 999;
-	top: 155px;
+  .leftGo,
+  .rightGo {
+    position: absolute;
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+    z-index: 999;
+    top: 155px;
   }
 
   .leftGo {
-	left: 24px;
+    left: 24px;
   }
 
   .rightGo {
-	right: 230px;
+    right: 230px;
   }
 
   .rightCharts {
-	width: ~'calc(100% - 200px)';
-	float: left;
-	height: 315px;
-	padding-left: 16px;
-	position: relative;
-	z-index: 99;
+    width: ~'calc(100% - 200px)';
+    float: left;
+    height: 315px;
+    padding-left: 16px;
+    position: relative;
+    z-index: 99;
   }
 
   @media screen and (max-width: @screen-xxl) {
-	.rightCharts {
-	  width: ~'calc(100% - 230px)';
-	}
+    .rightCharts {
+      width: ~'calc(100% - 230px)';
+    }
   }
 
   .cardBoxzk {
-	border: 1px solid #e8e8e8;
-	width: 100%;
-	height: 300px;
-	background: @body-background;
-	overflow-y: auto;
-	overflow-x: hidden;
+    border: 1px solid #e8e8e8;
+    width: 100%;
+    height: 300px;
+    background: @body-background;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 
@@ -177,37 +187,37 @@
   z-index: 1001;
 
   .listPageHeader {
-	background: #fff;
-	padding: 16px 24px;
-	border-top: none;
+    background: #fff;
+    padding: 16px 24px;
+    border-top: none;
 
-	a {
-	  font-size: @font-size-lg;
-	  color: @heading-color;
-	  line-height: 26px;
+    a {
+      font-size: @font-size-lg;
+      color: @heading-color;
+      line-height: 26px;
 
-	  &:hover {
-		color: @link-active-color;
-	  }
-	}
+      &:hover {
+        color: @link-active-color;
+      }
+    }
 
-	.listPageHeaderCurrent {
-	  //font-size: @font-size-lg;
-	  font-weight: bold;
-	  color: @primary-color;
-	}
+    .listPageHeaderCurrent {
+      //font-size: @font-size-lg;
+      font-weight: bold;
+      color: @primary-color;
+    }
 
-	span {
-	  padding: 0 8px;
-	}
+    span {
+      padding: 0 8px;
+    }
 
-	.typeButtonsArea {
-	  float: right;
+    .typeButtonsArea {
+      float: right;
 
-	  button {
-		margin-right: 16px;
-	  }
-	}
+      button {
+        margin-right: 16px;
+      }
+    }
   }
 }
 
@@ -223,10 +233,11 @@
 // 涉案物品需要结束
 .policeDataView {
   margin-bottom: 48px;
-  width: 100%;
+  //width: 100%;
 }
 
-.caseDataView, .xzCaseDataView {
+.caseDataView,
+.xzCaseDataView {
   margin-bottom: 48px;
 }
 
@@ -248,21 +259,21 @@
 
 @-webkit-keyframes animated_div {
   0% {
-	-webkit-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
   }
   100% {
-	-webkit-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
   }
 }
 
 .evalDataView {
   .listPageRow {
-	margin: 0;
+    margin: 0;
   }
 
   .cardBox {
-	height: 350px;
-	border-bottom: 0;
+    height: 350px;
+    border-bottom: 0;
   }
 }
 
@@ -270,7 +281,7 @@
   text-align: right;
 
   .nameCenter {
-	text-align: center;
+    text-align: center;
   }
 }
 
@@ -287,15 +298,16 @@
   overflow: hidden;
 
   :global {
-	.anticon-caret-up, .anticon-caret-down {
-	  color: #ccc;
-	  font-size: 18px;
-	}
+    .anticon-caret-up,
+    .anticon-caret-down {
+      color: #ccc;
+      font-size: 18px;
+    }
 
-	.anticon-caret-down {
-	  position: relative;
-	  top: -10px;
-	}
+    .anticon-caret-down {
+      position: relative;
+      top: -10px;
+    }
   }
 }
 

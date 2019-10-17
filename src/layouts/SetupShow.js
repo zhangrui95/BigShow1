@@ -15,6 +15,7 @@ import AjNum from '../components/Show/bigScreenDisplay/AjNum';
 import PoliceSituationWarningCount from '../components/Show/bigScreenDisplay/PoliceSituationWarningCount';
 import ShowNumber from '../components/Show/ShowNumber';
 import AdministrativeCaseWarning from '../components/Show/bigScreenDisplay/AdministrativeCaseWarning';
+import {Icon} from 'antd';
 
 class SetupShow extends React.PureComponent {
   constructor(porps) {
@@ -75,9 +76,13 @@ class SetupShow extends React.PureComponent {
       map,
     })
   }
+  goBack = () =>{
+    history.go(-1);
+  }
   render() {
     return (
       <div className={styles.SCMDataShow}>
+        <div className={styles.goBack} onClick={this.goBack}><Icon type="left" /> 返回</div>
         <div className={styles.header}>
           <img src={headerLeftImg} alt="" />
           {/*<img className={styles.showTitle} src={headerTitleImg} alt="智慧案件管理系统"/>*/}

@@ -8,7 +8,7 @@ import React, { Component, Fragment,PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './DeviceServiceManagement.less';
 import EquipmentUnitTable from './EquipmentUnitTable';
-import { Row, Col, Form, Input, Button, Card, Tree, message, Modal, Radio } from 'antd';
+import { Row, Col, Form, Input, Button, Card, Tree, message, Modal, Radio, Badge, Tooltip } from 'antd';
 const FormItem = Form.Item;
 const TreeNode = Tree.TreeNode;
 const confirm = Modal.confirm;
@@ -51,6 +51,19 @@ export class DeviceStatus extends PureComponent {
             showCount: 10
         }
         this.equipmentListQuery(params);
+        const that = this;
+        window.setInterval(function(){
+            const paramsInterval = {
+                currentPage: that.state.currentS,
+                pd: {
+                    ha_id: that.state.ha_id,
+                    key_word: '',
+                    key_status: null,
+                },
+                showCount: 10
+            }
+            that.equipmentListQuery(paramsInterval)
+        }, 10000)
     }
 
     // 设备单元列表
@@ -110,6 +123,10 @@ export class DeviceStatus extends PureComponent {
                 <Col md={24} lg={24}>
                     <Card>
                         <div className={styles.tableList}>
+                            <div className={styles.systemStatus}><Tooltip title="系统正常"><Badge color="#87d068" title="系统正常" text="案管" /></Tooltip></div>
+                            <div className={styles.systemStatus}><Tooltip title="系统正常"><Badge color="#87d068" title="系统正常" text="办案区" /></Tooltip></div>
+                            <div className={styles.systemStatus}><Tooltip title="系统正常"><Badge color="#87d068" title="系统正常" text="卷宗" /></Tooltip></div>
+                            <div className={styles.systemStatus}><Tooltip title="系统正常"><Badge color="#87d068" title="系统正常" text="涉案财物" /></Tooltip></div>
                             <div className={styles.tableListForm}>
                                 <Button type='primary' onClick={() => this.refreshTable()}>刷新</Button>
                             </div>

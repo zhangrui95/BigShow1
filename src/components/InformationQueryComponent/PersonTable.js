@@ -1,7 +1,7 @@
 /*
 * 综合信息查询人员表格
 * author：jhm
-* 20191018
+* 20191016
 * */
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
@@ -46,11 +46,9 @@ class PersonTable extends PureComponent {
         width: '15%',
         render: text => {
           if (text) {
-            let arry = text.split(',');
-            const num = arry.length - 1;
             return (
-              <Ellipsis tooltip lines={2}>
-                {arry[num]}
+              <Ellipsis tooltip length="8">
+                {text}
               </Ellipsis>
             );
           }
