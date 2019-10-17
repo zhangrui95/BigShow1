@@ -19,7 +19,10 @@ import {
   Tabs,
   Radio,
   message,
-  Cascader, Table,Tag,Modal
+  Cascader,
+  Table,
+  Tag,
+  Modal,
 } from 'antd';
 import BasicFromTable from '../../components/AudioManage/RenderTable';
 import styles from './BasicForm.less';
@@ -80,9 +83,9 @@ const dataYj = [
     badw: '第一派出所',
     bar: '张三',
     ajlb: '侵财案件',
-    yjlb:'询（讯）问音视频上传超期',
-    xxzt:'未督办',
-    fknr:'',
+    yjlb: '询（讯）问音视频上传超期',
+    xxzt: '未督办',
+    fknr: '',
   },
   {
     key: '1',
@@ -92,9 +95,9 @@ const dataYj = [
     badw: '第一派出所',
     bar: '张三',
     ajlb: '侵财案件',
-    yjlb:'接处警音视频上传超期',
-    xxzt:'未督办',
-    fknr:'',
+    yjlb: '接处警音视频上传超期',
+    xxzt: '未督办',
+    fknr: '',
   },
   {
     key: '2',
@@ -104,9 +107,9 @@ const dataYj = [
     badw: '第二派出所',
     bar: '王肥肥',
     ajlb: '两抢一盗',
-    yjlb:'询（讯）问音视频上传超期',
-    xxzt:'发起督办',
-    fknr:'',
+    yjlb: '询（讯）问音视频上传超期',
+    xxzt: '发起督办',
+    fknr: '',
   },
   {
     key: '3',
@@ -116,10 +119,10 @@ const dataYj = [
     badw: '第二派出所',
     bar: '王肥肥',
     ajlb: '两抢一盗',
-    yjlb:'音视频未关联案件',
-    fknr:'24小时内解决',
-    xxzt:'已反馈'
-  }
+    yjlb: '音视频未关联案件',
+    fknr: '24小时内解决',
+    xxzt: '已反馈',
+  },
 ];
 let socket = '';
 @connect(({ policeData, loading, common }) => ({
@@ -129,7 +132,6 @@ let socket = '';
   // loading: loading.models.alarmManagement,
 }))
 @Form.create()
-
 class BasicForms extends PureComponent {
   state = {
     data: data,
@@ -137,8 +139,8 @@ class BasicForms extends PureComponent {
     showDataView: '0', // 控制显示图表或者列表（true显示图表）
     jjdw: '150621000000',
     visible: false,
-    record:'',
-    index:0,
+    record: '',
+    index: 0,
   };
 
   componentDidMount() {
@@ -151,18 +153,22 @@ class BasicForms extends PureComponent {
       query: query,
     });
     socket.on('pub-message-destroy', function(data) {
-      if(data){
+      if (data) {
         let dataYj = [...that.state.dataYj];
         dataYj[that.state.index].xxzt = '已反馈';
-        let news = dataYj[that.state.index].fknr = data[0]&&data[0].xxxs_ary[1]&&data[0].xxxs_ary[1].msg ? data[0].xxxs_ary[1].msg.split('：') : 0;
-        dataYj[that.state.index].fknr = data[0]&&data[0].xxxs_ary[1]&&data[0].xxxs_ary[1].msg ? news[1] : '反馈结果';
+        let news = (dataYj[that.state.index].fknr =
+          data[0] && data[0].xxxs_ary[1] && data[0].xxxs_ary[1].msg
+            ? data[0].xxxs_ary[1].msg.split('：')
+            : 0);
+        dataYj[that.state.index].fknr =
+          data[0] && data[0].xxxs_ary[1] && data[0].xxxs_ary[1].msg ? news[1] : '反馈结果';
         that.setState({
           dataYj,
         });
       }
     });
   }
-// 接警树
+  // 接警树
   jJTreeSelectChange = (val = '') => {
     // 设置手动选择接警单位
     this.setState({
@@ -175,9 +181,9 @@ class BasicForms extends PureComponent {
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) return;
       let list = '';
-      if(this.state.showDataView === '2'){
-        list = this.state.dataYj;
-      }else if(this.state.showDataView === '1'){
+      if (this.state.showDataView === '2') {
+        list = dataYj;
+      } else if (this.state.showDataView === '1') {
         list = data;
       }
       if (fieldsValue.ajbh) {
@@ -198,11 +204,11 @@ class BasicForms extends PureComponent {
       if (fieldsValue.ajlb) {
         list = list.filter(item => item.ajlb.indexOf(fieldsValue.ajlb) > -1);
       }
-      if(this.state.showDataView === '2'){
+      if (this.state.showDataView === '2') {
         this.setState({
           dataYj: list,
         });
-      }else{
+      } else {
         this.setState({
           data: list,
         });
@@ -218,7 +224,7 @@ class BasicForms extends PureComponent {
       dataYj,
     });
   };
-// 渲染机构树
+  // 渲染机构树
   renderloop = data =>
     data.map(item => {
       if (item.childrenList && item.childrenList.length) {
@@ -237,7 +243,7 @@ class BasicForms extends PureComponent {
     });
   };
   // 改变显示图表或列表
-  changeListPageHeader = (showDataViewType) => {
+  changeListPageHeader = showDataViewType => {
     this.setState({
       showDataView: showDataViewType,
     });
@@ -337,14 +343,14 @@ class BasicForms extends PureComponent {
     );
   }
 
-  getDb = (record,index) => {
+  getDb = (record, index) => {
     this.setState({
       visible: true,
-      record:record,
-      index:index,
+      record: record,
+      index: index,
     });
-  }
-  handleOk = () =>{
+  };
+  handleOk = () => {
     let msg = [
       {
         read: 0,
@@ -439,18 +445,18 @@ class BasicForms extends PureComponent {
     });
     message.success('督办成功');
     this.handleCancel();
-  }
-  handleCancel = () =>{
+  };
+  handleCancel = () => {
     this.setState({
       visible: false,
-      fk:'',
+      fk: '',
     });
-  }
-  getInput = (e) =>{
+  };
+  getInput = e => {
     this.setState({
-      fk:e.target.value,
-    })
-  }
+      fk: e.target.value,
+    });
+  };
   render() {
     const { typeButtons, selectedDateVal, jjdw, showDataView } = this.state;
     const depTree = [
@@ -532,76 +538,99 @@ class BasicForms extends PureComponent {
       {
         title: '预警类别',
         dataIndex: 'yjlb',
-      },{
+      },
+      {
         title: '反馈结果',
         dataIndex: 'fknr',
-      }, {
+      },
+      {
         title: '消息状态',
         dataIndex: 'xxzt',
         render: text => {
-          return  <Tag color={text === '未督办' ? 'red' : text === '已反馈' ? 'green' : text === '发起督办' ? "blue" : 'orange'}>{text}</Tag>
+          return (
+            <Tag
+              color={
+                text === '未督办'
+                  ? 'red'
+                  : text === '已反馈'
+                    ? 'green'
+                    : text === '发起督办'
+                      ? 'blue'
+                      : 'orange'
+              }
+            >
+              {text}
+            </Tag>
+          );
         },
       },
       {
         title: '操作',
         key: 'action',
-        render: (text, record,index) => {
-          return <a onClick={()=>this.getDb(record,index)}>{record.xxzt === '未督办' ? '督办' : ''}</a>
-        }
-      }
+        render: (text, record, index) => {
+          return (
+            <a onClick={() => this.getDb(record, index)}>
+              {record.xxzt === '未督办' ? '督办' : ''}
+            </a>
+          );
+        },
+      },
     ];
     return (
       <div>
         <div className={styles.listPageWrap}>
           <div className={styles.listPageHeader} style={{ height: 65 }}>
-            {
-              showDataView === '0' ? (
-                <a className={styles.listPageHeaderCurrent}><span>●</span>音视频统计</a>
-              ) : (
-                <a onClick={() => this.changeListPageHeader('0')}>音视频统计</a>
-              )
-            }
+            {showDataView === '0' ? (
+              <a className={styles.listPageHeaderCurrent}>
+                <span>●</span>
+                音视频统计
+              </a>
+            ) : (
+              <a onClick={() => this.changeListPageHeader('0')}>音视频统计</a>
+            )}
             <span>|</span>
-            {
-              showDataView === '1' ? (
-                <a className={styles.listPageHeaderCurrent}><span>●</span>音视频列表</a>
-              ) : (
-                <a onClick={() => this.changeListPageHeader('1')}>音视频列表</a>
-              )
-            }
+            {showDataView === '1' ? (
+              <a className={styles.listPageHeaderCurrent}>
+                <span>●</span>
+                音视频列表
+              </a>
+            ) : (
+              <a onClick={() => this.changeListPageHeader('1')}>音视频列表</a>
+            )}
             <span>|</span>
-            {
-              showDataView === '2' ? (
-                <a className={styles.listPageHeaderCurrent}><span>●</span>音视频预警列表</a>
-              ) : (
-                <a onClick={() => this.changeListPageHeader('2')}>音视频预警列表</a>
-              )
-            }
+            {showDataView === '2' ? (
+              <a className={styles.listPageHeaderCurrent}>
+                <span>●</span>
+                音视频预警列表
+              </a>
+            ) : (
+              <a onClick={() => this.changeListPageHeader('2')}>音视频预警列表</a>
+            )}
             <div
               className={styles.typeButtonsArea}
-              style={showDataView === '0' ? {} : { display:'none' }}
+              style={showDataView === '0' ? {} : { display: 'none' }}
             >
-            <span>
-              <span style={{ paddingRight: 50 }}>
-                <span>管辖单位：</span>
-                <span>
-                  <TreeSelect
-                    showSearch
-                    style={{ width: 365 }}
-                    defaultValue="150621000000"
-                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    placeholder="请选择机构"
-                    allowClear
-                    key="jjSelect"
-                    onChange={this.jJTreeSelectChange}
-                    treeNodeFilterProp="title"
-                    treeDefaultExpandAll
-                  >
-                    {depTree && depTree.length > 0 ? this.renderloop(depTree) : null}
-                  </TreeSelect>
+              <span>
+                <span style={{ paddingRight: 50 }}>
+                  <span>管辖单位：</span>
+                  <span>
+                    <TreeSelect
+                      showSearch
+                      style={{ width: 365 }}
+                      defaultValue="150621000000"
+                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                      placeholder="请选择机构"
+                      allowClear
+                      key="jjSelect"
+                      onChange={this.jJTreeSelectChange}
+                      treeNodeFilterProp="title"
+                      treeDefaultExpandAll
+                    >
+                      {depTree && depTree.length > 0 ? this.renderloop(depTree) : null}
+                    </TreeSelect>
+                  </span>
                 </span>
               </span>
-            </span>
               <Button
                 type="primary"
                 shape="circle"
@@ -634,11 +663,7 @@ class BasicForms extends PureComponent {
           <div style={showDataView === '2' ? { display: 'block' } : { display: 'none' }}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Table
-                size={'middle'}
-                dataSource={this.state.dataYj}
-                columns={columns1}
-              />
+              <Table size={'middle'} dataSource={this.state.dataYj} columns={columns1} />
             </div>
           </div>
         </div>
@@ -653,13 +678,14 @@ class BasicForms extends PureComponent {
         >
           <div className={styles.left}>预警类别：接处警音视频上传超期</div>
           <div className={styles.left}>
-            责任人：<Select style={{ width: 120 }} defaultValue="张三">
-                       <Select.Option value="张三">张三</Select.Option>
-                    </Select>
+            责任人：
+            <Select style={{ width: 120 }} defaultValue="张三">
+              <Select.Option value="张三">张三</Select.Option>
+            </Select>
           </div>
           <div>
-            <div style={{marginBottom:'10px'}}>整改意见：</div>
-            <TextArea  rows={4} onChange={this.getInput} value={this.state.fk}/>
+            <div style={{ marginBottom: '10px' }}>整改意见：</div>
+            <TextArea rows={4} onChange={this.getInput} value={this.state.fk} />
           </div>
         </Modal>
       </div>
