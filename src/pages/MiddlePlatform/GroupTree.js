@@ -35,7 +35,6 @@ class GroupTree extends PureComponent {
 
   // 点击树节点触发
   treeNodeClick = (selectedKeys, e) => {
-
     if (selectedKeys.length > 0) {
         const {
             key,
@@ -122,7 +121,7 @@ class GroupTree extends PureComponent {
             defaultExpandedKeys={['0']}
             defaultSelectedKeys={selectedKeys}
           >
-            <TreeNode key={0} title={'全部'}>
+            <TreeNode key='0' title={'全部'}>
               {this.props.data.length > 0 ? loop(this.props.data) : ''}
             </TreeNode>
           </Tree>

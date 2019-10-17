@@ -30,12 +30,12 @@ export default class Success extends Component {
         },
       },
       {
-        title: '卷宗名称',
+        title: '名称',
         dataIndex: 'dossier_name',
         key: '3',
       },
       {
-        title: '卷宗类别',
+        title: '分类',
         dataIndex: 'dossier_categorymc',
         key: '4',
       },
