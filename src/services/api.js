@@ -144,3 +144,10 @@ export async function getServiceByHaIdType(params) {
     body: params,
   });
 }
+
+export async function smartLinkeyLoginUrl(param) {
+  return request('http://127.0.0.1:1234/auto_login', {
+    method: 'POST',
+    body: param,
+  });
+}

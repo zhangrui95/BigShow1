@@ -350,7 +350,29 @@ class BasicForms extends PureComponent {
       index: index,
     });
   };
+  loginSmartLinkey = () => {
+    let smartUrl = 'http://127.0.0.1:1234';
+    let creds = {
+      idcard: '410603198310181017',
+      token:
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZjllNWMyYi03MTY0LTQ5NzctODliMC01YWY0ZTVjZWVjYTUiLCJpYXQiOjE1NzEyODQxNzQsInN1YiI6IjEyMjQiLCJpc3MiOiJTZWN1cml0eSBDZW50ZXIiLCJkZXBhcnRtZW50Ijp7ImlkIjozMjg0LCJwYXJlbnRJZCI6MzI1OSwiZGVwdGgiOjIsIm5hbWUiOiLpuaTlo4HluILlhazlronlsYDpuaTlsbHljLrliIblsYDmiafms5Xmiafnuqrnm5HnnaPlrqQiLCJjb2RlIjoiNDEwNjU2MTgwMDAwIn0sImdvdmVybm1lbnQiOltdLCJpZCI6MTIyNCwiaWRDYXJkIjoiNDEwNjAzMTk4MzEwMTgxMDE3IiwicGNhcmQiOiIwNDg5MDEiLCJuYW1lIjoi5a2Z5bCP5rW3Iiwiam9iIjpbeyJjb2RlIjoiMjAwMDAxIiwibmFtZSI6IuawkeitpiJ9XSwiY29udGFjdCI6IjEzMTIzNDU2Nzg5IiwiaXNBZG1pbiI6MCwiZXhwIjoxNTczMzU3Nzc0fQ.XC3IdoaLXf69Ah_6bHs5RMU1uau5wt8XOvXs6QHCabc',
+    };
+    if (smartUrl) {
+      this.props.dispatch({
+        type: 'login/fetSmartlinKeyLogin',
+        payload: creds,
+        callback: res => {
+          setTimeout(() => {
+            if (res && !res.debug) {
+              message.warn('打开smartLinKey客户端超时，请开启客户端或下载安装');
+            }
+          }, 2000);
+        },
+      });
+    }
+  };
   handleOk = () => {
+    this.loginSmartLinkey();
     let msg = [
       {
         read: 0,
