@@ -9,10 +9,15 @@ import echarts from 'echarts/lib/echarts';
 import bar from 'echarts/lib/chart/bar';
 import title from 'echarts/lib/component/title';
 import tooltip from 'echarts/lib/component/tooltip';
+import styles from './bigScreenDisplay.less';
 
 let myChart;
 
 export default class DossierCount extends PureComponent {
+  state={
+    tabList:['讯/询问室总数','候问室总数'],
+    idx: 0,
+  }
   componentDidMount() {
     this.showEchart();
     this.getDossierCount();
@@ -22,21 +27,26 @@ export default class DossierCount extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
       if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
-        this.getDossierCount();
+        this.getDossierCount(this.state.idx);
       }
     }
   }
 
   // 获取卷宗数量
-  getDossierCount = () => {
+  getDossierCount = (idx) => {
     let num = 0;
     const xData = [];
     const barData1 = [];
     const barData2 = [];
-    const dataList = [
+    let dataList = [
       { name: '询问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
       { name: '讯问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
     ];
+    if(idx&&idx === 1){
+      dataList = [
+        { name: '候问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
+      ];
+    }
 
     for (let i = 0; i < dataList.length; i++) {
       xData.push(dataList[i].name);
@@ -58,13 +68,18 @@ export default class DossierCount extends PureComponent {
       ],
     });
   };
+  getTab = (idx) =>{
+    this.getDossierCount(idx);
+    this.setState({
+      idx:idx,
+    });
+  }
 
   showEchart = () => {
     myChart = echarts.init(document.getElementById('DossierCount'));
 
     const option = {
       title: {
-        text: '讯/询问室总数',
         textStyle: {
           color: '#66ccff',
           fontSize: 20,
@@ -172,6 +187,15 @@ export default class DossierCount extends PureComponent {
   };
 
   render() {
-    return <div id="DossierCount" style={{ height: '100%', width: '100%' }} />;
+    return <div  style={{ height: '100%', width: '100%',position:'relative' }}>
+      <div className={styles.cardTitleBox}>
+        {
+          this.state.tabList.map((item,idx)=>{
+            return <div className={this.state.idx === idx ? styles.cardTitles : styles.cardTitles + ' ' + styles.cardTitleGray} onClick={()=>this.getTab(idx)}>{item}</div>
+          })
+        }
+      </div>
+      <div id="DossierCount" style={{ height: '100%', width: '100%' }} />
+    </div>
   }
 }

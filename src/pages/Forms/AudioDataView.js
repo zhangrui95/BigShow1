@@ -22,6 +22,7 @@ let policeEchartLine;
 let policeThreePie1;
 let policeThreePie2;
 let sJCountEchartBar;
+let scqkCountEchartBar;
 const colors1 = [
   '#259DF4',
   '#40537E',
@@ -69,6 +70,7 @@ export default class AudioDataView extends PureComponent {
     this.getHandleResult(jjdw, searchType);
     this.showSJCountEchartBar();
     this.getSJCount(jjdw, searchType);
+    this.showScqkCountEchartBar();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,6 +80,7 @@ export default class AudioDataView extends PureComponent {
         this.getPoliceSituationCount(jjdw, searchType);
         this.getHandleResult(jjdw, searchType);
         this.getSJCount(jjdw, searchType);
+        this.showScqkCountEchartBar();
       }
     }
   }
@@ -385,91 +388,6 @@ export default class AudioDataView extends PureComponent {
   showSJCountEchartBar = () => {
     const that = this;
     sJCountEchartBar = echarts.init(document.getElementById('sjsl'));
-    // const option = {
-    //   color: ['#3398DB'],
-    //   title: {
-    //     text: '上传超期预警、上传超期告警',
-    //     textStyle: {
-    //       fontSize: 16,
-    //       fontWeight: 'normal',
-    //     },
-    //     padding: 8,
-    //   },
-    //   xAxis: {
-    //     type: 'category',
-    //     axisLine: { show: false },
-    //     data: [],
-    //     axisTick: {
-    //       alignWithLabel: true,
-    //       interval: 0,
-    //     },
-    //     axisLabel: {
-    //       interval: 0,
-    //     },
-    //   },
-    //   yAxis: {
-    //     taxisLine: {
-    //       show: false,
-    //     },
-    //     axisTick: {
-    //       show: false,
-    //     },
-    //     axisLine: {
-    //       show: false,
-    //     },
-    //     axisLabel: {
-    //       textStyle: {
-    //         color: '#999',
-    //       },
-    //     },
-    //   },
-    //   series: [
-    //     {
-    //       // For shadow
-    //       type: 'bar',
-    //       itemStyle: {
-    //         normal: { color: 'rgba(0,0,0,0)' },
-    //         emphasis: { color: 'rgba(0,0,0,0.05)' },
-    //       },
-    //       barGap: '-100%',
-    //       barCategoryGap: '40%',
-    //       data: [],
-    //       animation: false,
-    //     },
-    //     {
-    //       type: 'bar',
-    //       // barWidth: '60%',
-    //       data: [],
-    //       label: {
-    //         normal: {
-    //           show: true,
-    //           position: 'top',
-    //           formatter: '{c}',
-    //           textStyle: {
-    //             fontSize: 16,
-    //             color: '#000',
-    //           },
-    //         },
-    //       },
-    //       itemStyle: {
-    //         normal: {
-    //           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-    //             { offset: 0, color: '#83bff6' },
-    //             { offset: 0.5, color: '#188df0' },
-    //             { offset: 1, color: '#188df0' },
-    //           ]),
-    //         },
-    //         emphasis: {
-    //           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-    //             { offset: 0, color: '#2378f7' },
-    //             { offset: 0.7, color: '#2378f7' },
-    //             { offset: 1, color: '#83bff6' },
-    //           ]),
-    //         },
-    //       },
-    //     },
-    //   ],
-    // };
     const option = {
       legend: {},
       tooltip: {},
@@ -517,6 +435,61 @@ export default class AudioDataView extends PureComponent {
       ]
     }
     sJCountEchartBar.setOption(option);
+  };
+  // 警情数量柱状图
+  showScqkCountEchartBar = () => {
+    const that = this;
+    scqkCountEchartBar = echarts.init(document.getElementById('scqk'));
+    const option = {
+      tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+          type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+      },
+      legend: {
+        data:['直接访问','联盟广告']
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis : [
+        {
+          type : 'category',
+          data : ['八类案件', '侵财案件', '两抢一盗']
+        }
+      ],
+      yAxis : [
+        {
+          type : 'value'
+        }
+      ],
+      series : [
+        {
+          name:'已上传总数',
+          type:'bar',
+          stack: '总数',
+          data:[Math.floor(Math.random()*(100 - 1) + 1), Math.floor(Math.random()*(200 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
+          itemStyle: {
+            color: '#fed501',
+          }
+        },
+        {
+          name:'未上传总数',
+          type:'bar',
+          stack: '总数',
+          data:[ Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(200 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
+          itemStyle: {
+            color: '#188df0',
+          }
+        },
+
+      ]
+    };
+    scqkCountEchartBar.setOption(option);
   };
 
   //处置结果环形饼状图
@@ -612,6 +585,11 @@ export default class AudioDataView extends PureComponent {
         <Row gutter={rowLayout} className={styles.listPageRow}>
           <Col span={24}>
             <div id="jqsl" className={styles.cardBox} />
+          </Col>
+        </Row>
+        <Row gutter={rowLayout} className={styles.listPageRow}>
+          <Col span={24}>
+            <div id="scqk" className={styles.cardBox} />
           </Col>
         </Row>
       </div>
