@@ -440,6 +440,12 @@ export default class AudioDataView extends PureComponent {
   showScqkCountEchartBar = () => {
     const that = this;
     scqkCountEchartBar = echarts.init(document.getElementById('scqk'));
+    let num01 = Math.floor(Math.random()*(100 - 1) + 1);
+    let num02 = Math.floor(Math.random()*(100 - 1) + 1);
+    let num03 = Math.floor(Math.random()*(100 - 1) + 1);
+    let num11 = Math.floor(Math.random()*(100 - 1) + 1);
+    let num12 = Math.floor(Math.random()*(100 - 1) + 1);
+    let num13 = Math.floor(Math.random()*(100 - 1) + 1);
     const option = {
       title: {
         text: '音视频上传情况',
@@ -479,7 +485,7 @@ export default class AudioDataView extends PureComponent {
         {
           name:'已上传总数',
           type:'bar',
-          data:[Math.floor(Math.random()*(100 - 1) + 1), Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
+          data:[num01, num02,  num03],
           itemStyle: {
             color: '#fed501',
           }
@@ -487,7 +493,7 @@ export default class AudioDataView extends PureComponent {
         {
           name:'未上传总数',
           type:'bar',
-          data:[ Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
+          data:[ num11,  num12,  num13],
           itemStyle: {
             color: '#188df0',
           }
@@ -495,7 +501,7 @@ export default class AudioDataView extends PureComponent {
         {
           name:'总数',
           type:'bar',
-          data:[ Math.floor(Math.random()*(200 - 100) + 100),  Math.floor(Math.random()*(200 - 100) + 100),  Math.floor(Math.random()*(200 - 100) + 100)],
+          data:[ num01 + num11,  num02 + num12,  num03 + num13],
           itemStyle: {
             color: '#40537e',
           }
