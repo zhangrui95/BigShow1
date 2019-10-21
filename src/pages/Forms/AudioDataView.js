@@ -441,6 +441,14 @@ export default class AudioDataView extends PureComponent {
     const that = this;
     scqkCountEchartBar = echarts.init(document.getElementById('scqk'));
     const option = {
+      title: {
+        text: '音视频上传情况',
+        textStyle: {
+          fontSize: 16,
+          fontWeight: 'normal',
+        },
+        padding: 8,
+      },
       tooltip : {
         trigger: 'axis',
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -448,7 +456,7 @@ export default class AudioDataView extends PureComponent {
         }
       },
       legend: {
-        data:['直接访问','联盟广告']
+        data:['已上传总数','未上传总数']
       },
       grid: {
         left: '3%',
