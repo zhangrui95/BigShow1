@@ -456,7 +456,7 @@ export default class AudioDataView extends PureComponent {
         }
       },
       legend: {
-        data:['已上传总数','未上传总数']
+        data:['已上传总数','未上传总数','总数']
       },
       grid: {
         left: '3%',
@@ -464,13 +464,13 @@ export default class AudioDataView extends PureComponent {
         bottom: '3%',
         containLabel: true
       },
-      xAxis : [
+      yAxis : [
         {
-          type : 'category',
+          type: 'category',
           data : ['八类案件', '侵财案件', '两抢一盗']
         }
       ],
-      yAxis : [
+      xAxis : [
         {
           type : 'value'
         }
@@ -479,8 +479,7 @@ export default class AudioDataView extends PureComponent {
         {
           name:'已上传总数',
           type:'bar',
-          stack: '总数',
-          data:[Math.floor(Math.random()*(100 - 1) + 1), Math.floor(Math.random()*(200 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
+          data:[Math.floor(Math.random()*(100 - 1) + 1), Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
           itemStyle: {
             color: '#fed501',
           }
@@ -488,10 +487,17 @@ export default class AudioDataView extends PureComponent {
         {
           name:'未上传总数',
           type:'bar',
-          stack: '总数',
-          data:[ Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(200 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
+          data:[ Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1),  Math.floor(Math.random()*(100 - 1) + 1)],
           itemStyle: {
             color: '#188df0',
+          }
+        },
+        {
+          name:'总数',
+          type:'bar',
+          data:[ Math.floor(Math.random()*(200 - 100) + 100),  Math.floor(Math.random()*(200 - 100) + 100),  Math.floor(Math.random()*(200 - 100) + 100)],
+          itemStyle: {
+            color: '#40537e',
           }
         },
 
