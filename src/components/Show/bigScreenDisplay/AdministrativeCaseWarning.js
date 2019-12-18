@@ -16,7 +16,7 @@ let myChart;
 
 export default class AdministrativeCaseWarning extends PureComponent {
   state={
-    tabList:['行政案卷数量','刑事案卷数量'],
+    tabList:['行政案件数量','刑事案件数量'],
     idx: 0,
   }
   componentDidMount() {
@@ -43,8 +43,8 @@ export default class AdministrativeCaseWarning extends PureComponent {
   getAdministrativeCaseWarning = () => {
     let data = {
       list: [
-        { name: '入柜', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
-        { name: '出柜', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
+        { name: '在办', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
+        { name: '办结', count:  Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
       ],
     };
     const { shadeColors } = this.props;

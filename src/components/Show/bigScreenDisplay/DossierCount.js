@@ -39,12 +39,12 @@ export default class DossierCount extends PureComponent {
     const barData1 = [];
     const barData2 = [];
     let dataList = [
-      { name: '询问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
-      { name: '讯问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
+      { name: '询问室', count1: 1, count2: 3 },
+      { name: '讯问室', count1: 5, count2: 3 },
     ];
     if(idx&&idx === 1){
       dataList = [
-        { name: '候问室', count1: Math.floor(Math.random()*(500 - 1) + 1), count2: Math.floor(Math.random()*(500 - 1) + 1) },
+        { name: '候问室', count1: 3, count2:5 },
       ];
     }
 

@@ -82,7 +82,7 @@ class SetupShow extends React.PureComponent {
   render() {
     return (
       <div className={styles.SCMDataShow}>
-        <div className={styles.goBack} onClick={this.goBack}><Icon type="left" /> 返回</div>
+        {/*<div className={styles.goBack} onClick={this.goBack}><Icon type="left" /> 返回</div>*/}
         <div className={styles.header}>
           <img src={headerLeftImg} alt="" />
           {/*<img className={styles.showTitle} src={headerTitleImg} alt="智慧案件管理系统"/>*/}
@@ -120,6 +120,7 @@ class SetupShow extends React.PureComponent {
               {
                 this.state.map ?  <ChinaMap {...this.state} {...this.props} setAreaCode={this.setAreaCode} getMap={this.getMap}/> : <ShowNumber {...this.state} {...this.props} getMap={this.getMap}/>
               }
+              {/*<ShowNumber {...this.state} {...this.props} getMap={this.getMap} setAreaCode={this.setAreaCode}/>*/}
             </div>
             <div className={styles.longCard}>
               <PoliceSituationToCaseCount {...this.props} {...this.state} />

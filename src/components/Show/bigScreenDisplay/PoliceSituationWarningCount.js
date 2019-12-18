@@ -51,17 +51,17 @@ export default class PoliceSituationWarningCount extends PureComponent {
     const { notHandleNum, noResultNum } = this.state;
     return (
       <div id="PoliceSituationWarningCount" style={{ height: '100%', width: '100%' }}>
-        <h4 className={styles.cardTitle}>办案场所数量</h4>
+        <h4 className={styles.cardTitle}>办案区在区人数</h4>
         <div className={styles.cardContent}>
           <div className={styles.animateArea}>
             <img src={img1} alt="" />
             <div className={styles.pWarningCoutNum}>{noResultNum}</div>
-            <div className={styles.pWarningCoutName}>办案中心</div>
+            <div className={styles.pWarningCoutName}>办案民警</div>
           </div>
           <div className={styles.animateArea}>
             <img src={img2} alt="" />
             <div className={styles.pWarningCoutNum}>{notHandleNum}</div>
-            <div className={styles.pWarningCoutName}>办案区</div>
+            <div className={styles.pWarningCoutName}>涉案人员</div>
           </div>
         </div>
       </div>

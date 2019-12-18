@@ -15,7 +15,7 @@ import videoShow from '../../../assets/show/video_show.JPG';
 
 export default class HandingVideoAreaPlaying extends PureComponent {
   state={
-    tabList:['办案区视频','执法办案场所','执法记录仪','涉案财物场所'],
+    tabList:['执法办案场所','执法记录仪','涉案财物场所'],
     idx: 0,
     video:video0,
   }
@@ -73,7 +73,7 @@ export default class HandingVideoAreaPlaying extends PureComponent {
                 <div className={styles.cardTitleBox}>
                   {
                     this.state.tabList.map((item,idx)=>{
-                      return <div className={this.state.idx === idx ? styles.cardTitles : styles.cardTitles + ' ' + styles.cardTitleGray} onClick={()=>this.getTab(idx)}>{item}</div>
+                      return <div className={this.state.idx === idx ? styles.cardTitles : styles.cardTitles + ' ' + styles.cardTitleGray} onClick={()=>this.getTab(idx + 1)}>{item}</div>
                     })
                   }
                 </div>

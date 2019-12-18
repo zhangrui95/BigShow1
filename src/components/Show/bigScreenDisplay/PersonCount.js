@@ -34,11 +34,11 @@ export default class PersonCount extends PureComponent {
   getPersonCount = () => {
     let data = {
       list: [
-        { name: '场所一', count: Math.floor(Math.random()*(1000 - 100) + 100) },
-        { name: '场所二', count: Math.floor(Math.random()*(1000 - 100) + 100)},
-        { name: '场所三', count: Math.floor(Math.random()*(1000 - 100) + 100) },
-        { name: '场所四', count: Math.floor(Math.random()*(2000 - 100) + 100) },
-        { name: '场所五', count: Math.floor(Math.random()*(1000 - 100) + 100)},
+        { name: '信息采集室', count: Math.floor(Math.random()*(1000 - 100) + 100) },
+        { name: '辨认室', count: Math.floor(Math.random()*(1000 - 100) + 100)},
+        { name: '询问室', count: Math.floor(Math.random()*(1000 - 100) + 100) },
+        { name: '讯问室', count: Math.floor(Math.random()*(2000 - 100) + 100) },
+        { name: '尿检室', count: Math.floor(Math.random()*(1000 - 100) + 100)},
       ],
     };
     const yData = [];
@@ -77,7 +77,7 @@ export default class PersonCount extends PureComponent {
 
     const option = {
       title: {
-        text: '在用办案场所人数',
+        text: '功能室使用情况',
         textStyle: {
           color: '#66ccff',
           fontSize: 20,

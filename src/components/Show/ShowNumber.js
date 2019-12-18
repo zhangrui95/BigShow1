@@ -18,12 +18,11 @@ let index = 0;
 export default class ShowNumber extends PureComponent {
   state = {
     transformProp: '',
-    pcslist: [{
-      name:'派出所'
-    }],
+    pcslist: [{ name:'松北分局办案中心'},{ name:'中源派出所'},{ name:'祥安派出所'},{ name:'松浦派出所'},{ name:'万宝派出所'},{ name:'太阳岛派出所'},{ name:'对青山派出所'},{ name:'乐业派出所'},{ name:'台屯派出所'},{ name:'李家派出所'}],
     data: [],
     ajzs: '98',
     depNum: '',
+    numList:['7','9','3','2','5','4','2'],
     // groupList: getUserInfos().groupList,
     orglist: [],
   };
@@ -34,6 +33,23 @@ export default class ShowNumber extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
+      if(nextProps.currentDateType !== this.props.currentDateType){
+        console.log('11',nextProps.currentDateType)
+        // this.props.setAreaCode(Math.random()*(10000 - 1) + 1);
+        if(nextProps.currentDateType  === 'day'){
+          this.setState({
+            numList:['7','9','3','2','5','4','2'],
+          });
+        }else if(nextProps.currentDateType  === 'week'){
+          this.setState({
+            numList:['17','19','12','11','14','13','12'],
+          });
+        }else{
+          this.setState({
+            numList:['45','19','32','82','95','24','11'],
+          });
+        }
+      }
       if (nextProps.selectDate !== null && this.props.selectDate !== nextProps.selectDate) {
         this.getNum(
           nextProps.selectDate[0],
@@ -125,6 +141,7 @@ export default class ShowNumber extends PureComponent {
     //         }); //标记为管辖机构
     //         data = this.uniqueByKey(data.concat(this.state.groupList), 'code');
     //       }
+    //       let data =  this.state.pcslist;
     //       if (data && data.length < 10 && data.length > 2) {
     //         //保证数据成圆环展示
     //         data = data.concat(data).concat(data);
@@ -182,57 +199,61 @@ export default class ShowNumber extends PureComponent {
   };
 
   getNext = num => {
-    // index = index + num;
-    // if (Math.abs(index) > this.state.pcslist.length - 1) {
-    //   index = 0;
-    // }
-    // let tan =
-    //   this.state.pcslist.length > 0
-    //     ? Math.tan((180 / this.state.pcslist.length) * (Math.PI / 180))
-    //     : 1;
-    // let r = this.state.pcslist.length > 2 ? Math.round(130 / tan) : 450;
-    // theta += (360 / this.state.pcslist.length) * num * -1;
-    // let id = '',
-    //   name = '',
-    //   nextId = '',
-    //   preId = '';
-    // if (index > -1) {
-    //   id = this.state.pcslist[index].code;
-    //   nextId = this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1]
-    //     ? this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1].code
-    //     : null;
-    //   preId = this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1]
-    //     ? this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1].code
-    //     : null;
-    //   name = this.state.pcslist[index].name;
-    //   this.getDepts(id, this.state.pcslist[index].orgGxType);
-    // } else {
-    //   id = this.state.pcslist[this.state.pcslist.length + index].code;
-    //   nextId = this.state.pcslist[
-    //     this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
-    //       ? 0
-    //       : this.state.pcslist.length + index + 1
-    //   ]
-    //     ? this.state.pcslist[
-    //         this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
-    //           ? 0
-    //           : this.state.pcslist.length + index + 1
-    //       ].code
-    //     : null;
-    //   preId = this.state.pcslist[this.state.pcslist.length + index - 1]
-    //     ? this.state.pcslist[this.state.pcslist.length + index - 1].code
-    //     : null;
-    //   name = this.state.pcslist[this.state.pcslist.length + index].name;
-    //   this.getDepts(id, this.state.pcslist[this.state.pcslist.length + index].orgGxType);
-    // }
-    // this.setState({
-    //   transformProp: 'translateZ( -' + r + 'px ) rotateY(' + theta + 'deg)',
-    //   id: id,
-    //   name: name,
-    //   nextId: nextId,
-    //   preId: preId,
-    //   index: index,
-    // });
+    this.setState({
+      numList:[Math.floor(Math.random()*(10 - 1) + 1),Math.floor(Math.random()*(10 - 1) + 1),Math.floor(Math.random()*(10 - 1) + 1),Math.floor(Math.random()*(10 - 1) + 1),Math.floor(Math.random()*(10 - 1) + 1),Math.floor(Math.random()*(10 - 1) + 1),Math.floor(Math.random()*(10 - 1) + 1)],
+    });
+    this.props.setAreaCode(Math.random()*(10000 - 1) + 1);
+    index = index + num;
+    if (Math.abs(index) > this.state.pcslist.length - 1) {
+      index = 0;
+    }
+    let tan =
+      this.state.pcslist.length > 0
+        ? Math.tan((180 / this.state.pcslist.length) * (Math.PI / 180))
+        : 1;
+    let r = this.state.pcslist.length > 2 ? Math.round(130 / tan) : 450;
+    theta += (360 / this.state.pcslist.length) * num * -1;
+    let id = '',
+      name = '',
+      nextId = '',
+      preId = '';
+    if (index > -1) {
+      id = this.state.pcslist[index].code;
+      nextId = this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1]
+        ? this.state.pcslist[index + 1 > this.state.pcslist.length - 1 ? 0 : index + 1].code
+        : null;
+      preId = this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1]
+        ? this.state.pcslist[index - 1 < 0 ? this.state.pcslist.length - 1 : index - 1].code
+        : null;
+      name = this.state.pcslist[index].name;
+      this.getDepts(id, this.state.pcslist[index].orgGxType);
+    } else {
+      id = this.state.pcslist[this.state.pcslist.length + index].code;
+      nextId = this.state.pcslist[
+        this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
+          ? 0
+          : this.state.pcslist.length + index + 1
+      ]
+        ? this.state.pcslist[
+            this.state.pcslist.length + index + 1 > this.state.pcslist.length - 1
+              ? 0
+              : this.state.pcslist.length + index + 1
+          ].code
+        : null;
+      preId = this.state.pcslist[this.state.pcslist.length + index - 1]
+        ? this.state.pcslist[this.state.pcslist.length + index - 1].code
+        : null;
+      name = this.state.pcslist[this.state.pcslist.length + index].name;
+      this.getDepts(id, this.state.pcslist[this.state.pcslist.length + index].orgGxType);
+    }
+    this.setState({
+      transformProp: 'translateZ( -' + r + 'px ) rotateY(' + theta + 'deg)',
+      id: id,
+      name: name,
+      nextId: nextId,
+      preId: preId,
+      index: index,
+    });
   };
 
   changeAnimate = (type, idx) => {
@@ -248,6 +269,10 @@ export default class ShowNumber extends PureComponent {
         : 1;
     let r =
       Math.round(130 / tan) > 0 && this.state.pcslist.length > 2 ? Math.round(130 / tan) : 450;
+    let number ='0';
+    this.state.numList.map((item)=>{
+      number = parseInt(number) + parseInt(item);
+    })
     return (
       <div className={styles.allNumCard}>
         <div className={styles.back} onClick={()=>this.props.getMap(true)}>返回</div>
@@ -261,8 +286,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 3)}
         >
           <div className={styles.yhCenter}>
-            <div className={styles.num}>{5}</div>
-            <div className={styles.name}>执法监督报警数</div>
+            <div className={styles.num}>{this.state.numList[0]}</div>
+            <div className={styles.name}>办案区告警数</div>
           </div>
         </div>
         <div
@@ -272,8 +297,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 4)}
         >
           <div className={styles.yhCenter} style={{ width: '100px', height: '100px' }}>
-            <div className={styles.num}>{28}</div>
-            <div className={styles.name}>在用办案场所人数</div>
+            <div className={styles.num}>{this.state.numList[1]}</div>
+            <div className={styles.name}>功能室使用情况</div>
           </div>
         </div>
         <div
@@ -283,7 +308,7 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 6)}
         >
           <div className={styles.yhCenter} style={{ width: '100px', height: '100px' }}>
-            <div className={styles.num}>{56}</div>
+            <div className={styles.num}>{this.state.numList[2]}</div>
             <div className={styles.name}>涉案财物数量</div>
           </div>
         </div>
@@ -294,8 +319,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 1)}
         >
           <div className={styles.yhCenter} style={{ width: '95px', height: '95px' }}>
-            <div className={styles.num}>{2}</div>
-            <div className={styles.name}>案卷数量</div>
+            <div className={styles.num}>{this.state.numList[3]}</div>
+            <div className={styles.name}>案件数量</div>
           </div>
         </div>
         <div
@@ -305,8 +330,8 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 7)}
         >
           <div className={styles.yhCenter}>
-            <div className={styles.num}>{4}</div>
-            <div className={styles.name}>视频场所</div>
+            <div className={styles.num}>{this.state.numList[4]}</div>
+            <div className={styles.name}>场所监控点数</div>
           </div>
         </div>
         <div
@@ -316,7 +341,7 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 2)}
         >
           <div className={styles.yhCenters}>
-            <div className={styles.num}>{8}</div>
+            <div className={styles.num}>{this.state.numList[5]}</div>
             <div className={styles.name}>询/讯问室总数</div>
           </div>
         </div>
@@ -333,15 +358,15 @@ export default class ShowNumber extends PureComponent {
           onMouseLeave={() => this.changeAnimate(false, 5)}
         >
           <div className={styles.yhCenters} style={{ width: '100px', height: '100px' }}>
-            <div className={styles.num}>{7}</div>
+            <div className={styles.num}>{this.state.numList[6]}</div>
             <div className={styles.name}>办案区数</div>
           </div>
         </div>
         <div
           className={styles.allNumBox}
-          style={{ left: '-' + (70 * this.state.ajzs.split('').length) / 2 + 'px' }}
+          style={{ left: '-' + (70 * number.toString().split('').length) / 2 + 'px' }}
         >
-          {this.state.ajzs.split('').map(item => {
+          {number.toString().split('').map(item => {
             return <div className={styles.numBg}>{item}</div>;
           })}
         </div>
@@ -367,7 +392,7 @@ export default class ShowNumber extends PureComponent {
                             idx * (360 / this.state.pcslist.length) +
                             'deg) translateZ( ' +
                             r +
-                            'px ) rotateZ(-6deg) translateY(-12px)'
+                            'px ) rotateZ(0deg) translateY(0px)'
                           : this.state.pcslist.length > 1 && this.state.preId === event.code
                             ? 'rotateY(' +
                               idx * (360 / this.state.pcslist.length) +

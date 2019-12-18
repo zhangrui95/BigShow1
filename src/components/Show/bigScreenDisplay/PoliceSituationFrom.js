@@ -33,10 +33,10 @@ export default class PoliceSituationFrom extends PureComponent {
   getPoliceSituationFrom = () => {
     let data = {
       list: [
-        { name: '办案区', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
-        { name: '卷宗', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
-        { name: '涉案物品', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '003' },
-        { name: '警情', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '004' },
+        { name: '违反流程', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '001' },
+        { name: '男女混关', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '002' },
+        { name: '滞留超期', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '003' },
+        { name: '无人看管', count: Math.floor(Math.random()*(100 - 1) + 1), jjly_dm: '004' },
       ],
     };
     const xData = [];
@@ -76,7 +76,7 @@ export default class PoliceSituationFrom extends PureComponent {
 
     const option = {
       title: {
-        text: '执法监督报警数',
+        text: '办案区告警数',
         textStyle: {
           color: '#66ccff',
           fontSize: 20,
