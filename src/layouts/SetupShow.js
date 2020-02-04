@@ -218,7 +218,31 @@ class SetupShow extends React.PureComponent {
     fileReader.readAsBinaryString(files[0]);
   }
   render() {
-    const {form: { getFieldDecorator }} = this.props
+    const {form: { getFieldDecorator }} = this.props;
+    let dataSource = this.state.listBar;
+
+    const columns = [
+      {
+        title: '地区',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '来自疫区',
+        dataIndex: 'count1',
+        key: 'count1',
+      },
+      {
+        title: '疑似病例',
+        dataIndex: 'count2',
+        key: 'count2',
+      },
+      {
+        title: '确诊病例',
+        dataIndex: 'count3',
+        key: 'count3',
+      },
+    ];
     return (
       <div className={styles.SCMDataShow}>
         {/*<div className={styles.goBack} onClick={this.goBack}><Icon type="left" /> 返回</div>*/}
@@ -273,7 +297,7 @@ class SetupShow extends React.PureComponent {
           </div>
           <div className={styles.wrapRight}>
             <div className={styles.globalCardRight}>
-
+              <Table dataSource={dataSource} columns={columns} bordered pagination={false}/>
             </div>
           {/*<div className={styles.globalCard}>*/}
           {/*  <HandingVideoAreaPlaying {...this.props} {...this.state} />*/}
@@ -287,7 +311,8 @@ class SetupShow extends React.PureComponent {
           {/*</div>*/}
           </div>
           <div className={styles.wrapAll}>
-              <DossierCount {...this.props} {...this.state} />
+              {/*<DossierCount {...this.props} {...this.state} />*/}
+            <PoliceSituationToCaseCount {...this.props} {...this.state} />
           </div>
           <div className={styles.listBtn} onClick={this.showDrawer}>
             <Icon type="left" />

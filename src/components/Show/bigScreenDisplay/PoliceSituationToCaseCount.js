@@ -22,7 +22,7 @@ export default class PoliceSituationToCaseCount extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
       if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
-        this.getPoliceSituationToCaseCount();
+        // this.getPoliceSituationToCaseCount();
       }
     }
   }
@@ -33,11 +33,11 @@ export default class PoliceSituationToCaseCount extends PureComponent {
     const lineData1 = [];
     const lineData2 = [];
     const dataList = [
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '入库' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '调取' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '移送' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '归还' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), jjdw_mc: '处理' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5,time: '2020-02-04' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:4,count3:5,time: '2020-02-05' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5, time: '2020-02-06' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5, time: '2020-02-07' },
+      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5, time: '2020-02-08' },
     ];
     let num = 0;
 
@@ -54,7 +54,7 @@ export default class PoliceSituationToCaseCount extends PureComponent {
           },
         },
         boundaryGap : false,
-        data : ['入库','调取','移送','归还','处理']
+        data : ['2020-02-04','2020-02-05','2020-02-06','2020-02-07','2020-02-08']
       },
       series: [
         {
@@ -75,7 +75,7 @@ export default class PoliceSituationToCaseCount extends PureComponent {
 
     const option = {
       title: {
-        text: '涉案财物数量',
+        text: ' ',
         textStyle: {
           color: '#66ccff',
           fontSize: 20,
@@ -108,7 +108,7 @@ export default class PoliceSituationToCaseCount extends PureComponent {
         {
           type : 'category',
           boundaryGap : false,
-          data : ['入库','调取','处理']
+          data : ['2020-02-04','2020-02-05','2020-02-08']
         }
       ],
       yAxis : [
