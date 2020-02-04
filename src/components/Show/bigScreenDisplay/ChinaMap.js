@@ -18,6 +18,7 @@ import china from '../mapData/china';
 import mudanjiang from '../mapData/mudanjiangNew';
 import hulunbeier from '../mapData/hulunbeier';
 import baishan from '../mapData/baishan';
+import pingnan from '../mapData/pingnan';
 import hebi from '../mapData/hebi';
 import erduosi from '../mapData/erduosi';
 import guiLin from '../mapData/gui_lin';
@@ -32,14 +33,30 @@ let intervalId;
 let count = 0; // 轮播索引
 
 // 市区数据
-const mapCityName = 'hebi';
-MapData = liaoning;
+const mapCityName = 'pingnan';
+MapData = pingnan;
 cityName = [
-  { name: '沈阳市', code: '410655', cp: [123.429096, 41.796767] },
-  { name: '大连市', code: '410656', cp: [121.618622, 38.91459] },
-  { name: '鞍山市', code: '410651', cp: [122.995632, 41.110626] },
-  { name: '抚顺市', code: '410622', cp: [123.921109, 41.875956] },
-  { name: '本溪市', code: '410621', cp: [123.770519, 41.297909] },
+  {name:"大新镇", code: '150302',cp:[]},
+  {name:"寺面镇", code: '150303',cp:[]},
+  {name:"马练瑶族乡", code: '150304',cp:[]},
+  {name:"大安镇", code: '150305',cp:[]},
+  {name:"官成镇", code: '150306',cp:[]},
+  {name:"思旺镇", code: '150307',cp:[]},
+  {name:"安怀镇", code: '150308',cp:[]},
+  {name:"上渡镇", code: '150309',cp:[]},
+  {name:"平南镇", code: '150310',cp:[]},
+  {name:"六陈镇", code: '150311',cp:[]},
+  { name: '大鹏镇', code: '150301',cp:[] },
+  {name:"同和镇", code: '150312',cp:[]},
+  {name:"国安瑶族乡", code: '150313',cp:[]},
+  {name:"平山镇", code: '150314',cp:[]},
+  {name:"大洲镇", code: '150315',cp:[]},
+  {name:"丹竹镇", code: '150316',cp:[]},
+  {name:"思界乡", code: '150317',cp:[]},
+  {name:"武林镇", code: '150318',cp:[]},
+  {name:"东华乡", code: '150319',cp:[]},
+  {name:"镇隆镇", code: '150320',cp:[]},
+  {name:"大坡镇", code: '150321',cp:[]}
 ];
 export default class ChinaMap extends PureComponent {
   state = {
@@ -92,6 +109,9 @@ export default class ChinaMap extends PureComponent {
           this.getCaseAndWarningCount(this.props.selectDate[0], this.props.selectDate[1], '');
           renderFlag = 1;
         }
+      }
+      if(nextProps.mapData !== this.props.mapData){
+        this.getMapData(this.props.selectDate[0], this.props.selectDate[1], MapData,nextProps.mapData);
       }
       if (
         nextProps.selectDate !== null &&
@@ -171,18 +191,16 @@ export default class ChinaMap extends PureComponent {
     }
   };
   // 获取地图数据
-  getMapData = (startTime, endTime, dataMap) => {
-    let data = [
-      { org: '210200', count:1896},
-      { org: '211100', count:2064 },
-      { org: '210500', count:832 },
-    ];
+  getMapData = (startTime, endTime, dataMap,mapData) => {
+    let data = mapData ? mapData : this.props.mapData;
     let arry = [];
     for (let i in dataMap.features) {
       let obj = null;
       arry.push({
         name: dataMap.features[i].properties.name,
-        value: this.getCityValueByCode(dataMap.features[i].id ? dataMap.features[i].id : Math.floor(Math.random()*(9999 - 1) + 1), data),
+        value: data[i]&&data[i].count ? data[i].count : 0,
+        value1: data[i]&&data[i].count1 ? data[i].count1 : 0,
+        value2: data[i]&&data[i].count2 ? data[i].count2 : 0,
         code: dataMap.features[i]&&dataMap.features[i].id ? dataMap.features[i].id : Math.floor(Math.random()*(9999 - 1) + 1),
         click: dataMap.features[i]&&dataMap.features[i].id ? true : false,
         cp: dataMap.features[i]&&dataMap.features[i].properties.cp ? dataMap.features[i].properties.cp : '',
@@ -203,7 +221,6 @@ export default class ChinaMap extends PureComponent {
     //     }
     // }
     // const res = this.convertData(arry.slice(0, 3))
-
     myChart.setOption({
       visualMap: {
         left: 'right',
@@ -326,6 +343,11 @@ export default class ChinaMap extends PureComponent {
     echarts.registerMap('MapData', data);
     const option = {
       // tooltip:{},
+      tooltip : {
+        formatter(params) {
+            return  "来自疫区:" +JSON.stringify(params.data.value1)+'<br/>'+"疑似病例:" +JSON.stringify(params.data.value2)+'<br/>'+"确诊病例:" +JSON.stringify(params.data.value);
+        }
+      },
       legend: {
         left: 'left',
         data: ['强', '中', '弱'],
@@ -356,12 +378,12 @@ export default class ChinaMap extends PureComponent {
         {
           type: 'map',
           map: 'MapData',
-          name: '案件总数',
-          zoom: 0.95,
+          // name: '案件总数',
+          zoom: 1.2,
           geoIndex: 1,
-          aspectScale: 0.75, // 长宽比
+          aspectScale: 1.5, // 长宽比
           showLegendSymbol: false, // 存在legend时显示
-          top: -10,
+          top: 60,
           // tooltip: {
           //     formatter: function (params) {
           //         if(params && params.data) return '当前选中城市：' + params.data.name;
@@ -443,15 +465,15 @@ export default class ChinaMap extends PureComponent {
     myChart.off('click');
     myChart.on('click', function(params) {
       that.props.setAreaCode(params.data.code);
-      if (params.data && params.data.click) {
-        let myData = require('../mapData/' + params.data.code);
-        that.showEchart(myData);
-        that.getMapData(that.props.selectDate[0], that.props.selectDate[1], myData);
-      } else {
-        // that.showEchart(MapData);
-        // that.getMapData(that.props.selectDate[0], that.props.selectDate[1], MapData);
-        that.props.getMap(false);
-      }
+      // if (params.data && params.data.click) {
+      //   let myData = require('../mapData/' + params.data.code);
+      //   that.showEchart(myData);
+      //   that.getMapData(that.props.selectDate[0], that.props.selectDate[1], myData);
+      // } else {
+      //   // that.showEchart(MapData);
+      //   // that.getMapData(that.props.selectDate[0], that.props.selectDate[1], MapData);
+      //   that.props.getMap(false);
+      // }
     });
   };
 

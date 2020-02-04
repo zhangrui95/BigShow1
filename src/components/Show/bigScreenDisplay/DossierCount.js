@@ -15,7 +15,7 @@ let myChart;
 
 export default class DossierCount extends PureComponent {
   state={
-    tabList:['讯/询问室总数','候问室总数'],
+    // tabList:['讯/询问室总数','候问室总数'],
     idx: 0,
   }
   componentDidMount() {
@@ -38,21 +38,43 @@ export default class DossierCount extends PureComponent {
     const xData = [];
     const barData1 = [];
     const barData2 = [];
-    let dataList = [
-      { name: '询问室', count1: 1, count2: 3 },
-      { name: '讯问室', count1: 5, count2: 3 },
-    ];
-    if(idx&&idx === 1){
-      dataList = [
-        { name: '候问室', count1: 3, count2:5 },
-      ];
-    }
+    const barData3 = [];
+    let dataList = this.props.listBar;
+    // let dataList = [
+    //   { name: '大鹏镇', count1: 4,count2: 5, count3: 2 },
+    //   {name:"大新镇", count1: 3,count2: 5, count3: 2},
+    //   {name:"寺面镇", count1: 2,count2: 5, count3: 2},
+    //   {name:"马练瑶族乡", count1: 1,count2: 5, count3: 2},
+    //   {name:"大安镇", count1: 5,count2: 5, count3: 2},
+    //   {name:"官成镇", count1:  6,count2: 5, count3: 2},
+    //   {name:"思旺镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"安怀镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"上渡镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"平南镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"六陈镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"同和镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"国安瑶族乡", count1: 1,count2: 5, count3: 2},
+    //   {name:"平山镇", count1: 1,count2: 5, count3: 2},
+    //   {name:"大洲镇",count1: 0,count2: 5, count3: 2},
+    //   {name:"丹竹镇", count1: 0,count2: 5, count3: 2},
+    //   {name:"思界乡", count1: 2,count2: 5, count3: 2},
+    //   {name:"武林镇", count1: 2,count2: 5, count3: 2},
+    //   {name:"东华乡", count1: 0,count2: 5, count3: 2},
+    //   {name:"镇隆镇", count1: 2,count2: 5, count3: 2},
+    //   {name:"大坡镇", count1: 2,count2: 5, count3: 2}
+    // ];
+    // if(idx&&idx === 1){
+    //   dataList = [
+    //     { name: '候问室', count1: 3, count2:5 },
+    //   ];
+    // }
 
     for (let i = 0; i < dataList.length; i++) {
       xData.push(dataList[i].name);
-      barData1.push(dataList[i].count1);
-      barData2.push(dataList[i].count2);
-      num = num + parseInt(dataList[i].count1) + parseInt(dataList[i].count2);
+      barData1.push(dataList[i].count1 ? dataList[i].count1 : 0);
+      barData2.push(dataList[i].count2 ? dataList[i].count2 : 0);
+      barData3.push(dataList[i].count3 ? dataList[i].count3 : 0);
+      // num = num + parseInt(dataList[i].count1) + parseInt(dataList[i].count2)+ parseInt(dataList[i].count3);
     }
     myChart.setOption({
       xAxis: {
@@ -64,6 +86,9 @@ export default class DossierCount extends PureComponent {
         },
         {
           data: barData2,
+        },
+        {
+          data: barData3,
         },
       ],
     });
@@ -134,50 +159,26 @@ export default class DossierCount extends PureComponent {
       ],
       series: [
         {
-          name: '使用中',
+          name: '来自疫区',
           type: 'bar',
           itemStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#ff0062', // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: '#ff4d98', // 100% 处的颜色
-                },
-              ],
-            },
+            color: ['#7106c1'],
           },
           data: [],
         },
         {
-          name: '空闲中',
+          name: '疑似病例',
           type: 'bar',
           itemStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#009bcd', // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: '#00e3ff', // 100% 处的颜色
-                },
-              ],
-            },
+            color: ['#ff9800'],
+          },
+          data: [],
+        },
+        {
+          name: '确诊病例',
+          type: 'bar',
+          itemStyle: {
+            color: ['#fe0032'],
           },
           data: [],
         },
@@ -188,13 +189,6 @@ export default class DossierCount extends PureComponent {
 
   render() {
     return <div  style={{ height: '100%', width: '100%',position:'relative' }}>
-      <div className={styles.cardTitleBox}>
-        {
-          this.state.tabList.map((item,idx)=>{
-            return <div className={this.state.idx === idx ? styles.cardTitles : styles.cardTitles + ' ' + styles.cardTitleGray} onClick={()=>this.getTab(idx)}>{item}</div>
-          })
-        }
-      </div>
       <div id="DossierCount" style={{ height: '100%', width: '100%' }} />
     </div>
   }
