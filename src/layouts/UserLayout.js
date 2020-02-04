@@ -36,9 +36,9 @@ class UserLayout extends React.PureComponent {
   // getPageTitle() {
   //   const { routerData, location } = this.props;
   //   const { pathname } = location;
-  //   let title = '平南县肺炎疫情防控管理系统';
+  //   let title = '平南县公安局肺炎疫情防控管理系统';
   //   if (routerData[pathname] && routerData[pathname].name) {
-  //     title = `${routerData[pathname].name} - 平南县肺炎疫情防控管理系统`;
+  //     title = `${routerData[pathname].name} - 平南县公安局肺炎疫情防控管理系统`;
   //   }
   //   return title;
   // }
@@ -53,7 +53,7 @@ class UserLayout extends React.PureComponent {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>平南县肺炎疫情防控管理系统</span>
+                <span className={styles.title}>平南县公安局肺炎疫情防控管理系统</span>
               </Link>
             </div>
           </div>

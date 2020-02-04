@@ -72,7 +72,7 @@
         padding: 15px 30px;
       }
       .globalCards{
-        height: 200px;
+        height: 210px;
         width: 360px;
         padding: 15px 30px;
         color: #fff;
@@ -86,12 +86,16 @@
           border-top: 1px solid #fff;
           line-height:50px;
           font-size: 28px;
+          margin-top: 8px;
+        }
+        .zdry{
+          font-size: 24px;
         }
       }
 
       .mapCard,
       .longCard {
-        width: 925px;
+        width: 905px;
       }
 
       .mapCard {
@@ -177,8 +181,8 @@
 }
 .titleName {
   color: #00ffff;
-  font-size: 38px;
-  margin: 0 30px;
+  font-size: 34px;
+  margin: 0 8px;
   .ffbasic();
 }
 .nextBtn {
@@ -223,88 +227,91 @@
     }
   }
 }
-.showJt {
-  width: 50px;
-  position: absolute;
-  bottom: 65px;
-  margin-left: 50%;
-  left: -25px;
-  z-index: 10;
-}
-
-.yhbjImg {
-  position: absolute;
-  margin-left: 50%;
-  left: -258px;
-  z-index: 9;
-}
-
-.yhdImg {
-  position: absolute;
-  margin-left: 50%;
-  left: -397.5px;
-  bottom: 10px;
-}
-
-@font-face {
-  font-family: 'numFont';
-  src: url(@numFont) format('truetype');
-}
-
-.allNumBox {
-  position: absolute;
-  margin-left: 50%;
-  top: 230px;
-  z-index: 99;
-
-  .numBg {
-    background: url('../assets/show/szd.png') no-repeat;
-    font-family: 'numFont';
-    width: 70px;
-    height: 100px;
-    float: left;
-    font-size: 72px;
-    line-height: 100px;
-    text-align: center;
-    color: #000;
+ .RowStyle{
+    background: rgba(127, 214, 255, 0.25);
   }
-}
-
-.yhBox {
-  width: 126px;
-  height: 126px;
-  border-radius: 120px;
-  border: 3px solid #4ea6fd;
-  position: absolute;
-  z-index: 100;
-  cursor: pointer;
-}
-
-.yhCenter {
-  width: 110px;
-  height: 110px;
-  border-radius: 110px;
-  background: #017eff;
-  margin: 5px;
-
-  .num {
-    text-align: center;
-    width: 100%;
-    font-size: 34px;
-    font-family: 'numFont';
-    height: 36px;
-    line-height: 40px;
-    float: left;
-    margin-top: 15px;
+  .showJt {
+    width: 50px;
+    position: absolute;
+    bottom: 65px;
+    margin-left: 50%;
+    left: -25px;
+    z-index: 10;
   }
 
-  .name {
-    color: #02feff;
-    width: 80%;
-    margin: 0 10%;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 900;
+  .yhbjImg {
+    position: absolute;
+    margin-left: 50%;
+    left: -258px;
+    z-index: 9;
+  }
+
+  .yhdImg {
+    position: absolute;
+    margin-left: 50%;
+    left: -397.5px;
+    bottom: 10px;
+  }
+
+  @font-face {
+    font-family: 'numFont';
+    src: url(@numFont) format('truetype');
+  }
+
+  .allNumBox {
+    position: absolute;
+    margin-left: 50%;
+    top: 230px;
+    z-index: 99;
+
+    .numBg {
+      background: url('../assets/show/szd.png') no-repeat;
+      font-family: 'numFont';
+      width: 70px;
+      height: 100px;
+      float: left;
+      font-size: 72px;
+      line-height: 100px;
+      text-align: center;
+      color: #000;
+    }
+  }
+
+  .yhBox {
+    width: 126px;
+    height: 126px;
+    border-radius: 120px;
+    border: 3px solid #4ea6fd;
+    position: absolute;
+    z-index: 100;
+    cursor: pointer;
+  }
+
+  .yhCenter {
+    width: 110px;
+    height: 110px;
+    border-radius: 110px;
+    background: #017eff;
+    margin: 5px;
+
+    .num {
+      text-align: center;
+      width: 100%;
+      font-size: 34px;
+      font-family: 'numFont';
+      height: 36px;
+      line-height: 40px;
+      float: left;
+      margin-top: 15px;
+    }
+
+    .name {
+      color: #02feff;
+      width: 80%;
+      margin: 0 10%;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
     line-height: 18px;
   }
 }

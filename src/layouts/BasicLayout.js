@@ -180,13 +180,13 @@ class BasicLayout extends React.PureComponent {
     const currRouterData = this.matchParamsPath(pathname);
 
     if (!currRouterData) {
-      return '平南县肺炎疫情防控管理系统';
+      return '平南县公安局肺炎疫情防控管理系统';
     }
     const message = formatMessage({
       id: currRouterData.locale || currRouterData.name,
       defaultMessage: currRouterData.name,
     });
-    return `${message} - 平南县肺炎疫情防控管理系统`;
+    return `${message} - 平南县公安局肺炎疫情防控管理系统`;
   };
 
   getLayoutStyle = () => {

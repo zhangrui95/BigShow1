@@ -159,7 +159,7 @@ export default class DossierCount extends PureComponent {
       ],
       series: [
         {
-          name: '来自疫区',
+          name: '重点人员',
           type: 'bar',
           itemStyle: {
             color: ['#7106c1'],

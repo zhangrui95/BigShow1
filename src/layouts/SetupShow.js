@@ -3,12 +3,12 @@ import styles from './SetupShow.less';
 import headerLeftImg from '../assets/show/header_left.png';
 import headerTitleImg from '../assets/show/showTitle.png';
 import headerRightImg from '../assets/show/header_right.png';
-import moment from 'moment/moment';
+import moment from 'moment';
 import ChinaMap from '../components/Show/bigScreenDisplay/ChinaMap';
 import PoliceSituationToCaseCount from '../components/Show/bigScreenDisplay/PoliceSituationToCaseCount';
 import PersonCount from '../components/Show/bigScreenDisplay/PersonCount';
 import PoliceSituationFrom from '../components/Show/bigScreenDisplay/PoliceSituationFrom';
-import HandingVideoAreaPlaying from '../components/Show/bigScreenDisplay/HandingVideoAreaPlaying';
+// import HandingVideoAreaPlaying from '../components/Show/bigScreenDisplay/HandingVideoAreaPlaying';
 import DossierCount from '../components/Show/bigScreenDisplay/DossierCount';
 import CaseItemWarningCount from '../components/Show/bigScreenDisplay/CaseItemWarningCount';
 import AjNum from '../components/Show/bigScreenDisplay/AjNum';
@@ -17,13 +17,17 @@ import ShowNumber from '../components/Show/ShowNumber';
 import AdministrativeCaseWarning from '../components/Show/bigScreenDisplay/AdministrativeCaseWarning';
 import {Icon,DatePicker,Form, Col, Row, Input,Drawer,Button,Table} from 'antd';
 import * as XLSX from 'xlsx';
-import cookie from 'react-cookies'
+const electron = window.electron;
+const ipcRenderer = electron.ipcRenderer;
+const dialog = electron.remote.dialog;
+// import cookie from 'react-cookies'
 @Form.create()
 class SetupShow extends React.PureComponent {
   constructor(porps) {
     super(porps);
     this.state = {
       nowTime: moment().format('YYYY-MM-DD HH:mm'),
+      dateString: moment().format('YYYY-MM-DD'),
       selectDate: [moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
       mapLoopTime: 3,
       currentDateType: 'day',
@@ -41,7 +45,7 @@ class SetupShow extends React.PureComponent {
       ],
       map: true,
       visible: false,
-      listBar: cookie.load('listBar') ? JSON.parse(cookie.load('listBar')) : [
+      listBar: [
         {name:"大新镇", count1: 0,count2: 0, count3: 0},
         {name:"寺面镇", count1: 0,count2: 0, count3: 0},
         {name:"马练瑶族乡", count1: 0,count2: 0, count3: 0},
@@ -64,13 +68,13 @@ class SetupShow extends React.PureComponent {
         {name:"镇隆镇", count1: 0,count2: 0, count3: 0},
         {name:"大坡镇", count1: 0,count2: 0, count3: 0}
       ],
-      lzyqNum:cookie.load('lzyqNum') ? cookie.load('lzyqNum') :0,
-      ysblNum:cookie.load('ysblNum') ? cookie.load('ysblNum') :0,
-      qzblNum:cookie.load('qzblNum') ? cookie.load('qzblNum') :0,
-      lzyqXzNum:cookie.load('lzyqXzNum') ? cookie.load('lzyqXzNum') :0,
-      ysblXzNum:cookie.load('ysblXzNum') ? cookie.load('ysblXzNum') :0,
-      qzblXzNum:cookie.load('qzblXzNum') ? cookie.load('qzblXzNum') :0,
-      mapData:cookie.load('mapData') ? JSON.parse(cookie.load('mapData')) :[],
+      lzyqNum:0,
+      ysblNum:0,
+      qzblNum:0,
+      lzyqXzNum:0,
+      ysblXzNum:0,
+      qzblXzNum:0,
+      mapData:[],
       listMap:[
       {name:"大新镇", code: '150302',cp:[]},
       {name:"寺面镇", code: '150303',cp:[]},
@@ -93,57 +97,219 @@ class SetupShow extends React.PureComponent {
       {name:"东华乡", code: '150319',cp:[]},
       {name:"镇隆镇", code: '150320',cp:[]},
       {name:"大坡镇", code: '150321',cp:[]}
-    ]
+    ],
+      timeList:[{ count1: 0, count2:0,count3:0,time: moment().format('YYYY-MM-DD') }],
+      lzyqNumOld:0,
+      ysblNumOld:0,
+      qzblNumOld:0,
+      qyryNum:0,
+      qnryNum:0,
+      isNoyesterday:true,
     };
   }
   componentDidMount() {
     // this.getScreenConfig();
+    ipcRenderer.send('get-data',{key_name:'dataList'});
+    ipcRenderer.on('get-data-reply', this.getList);
     this.showNowTime();
   }
+  getList = (event, data) => {
+    let yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    let dataList = data&&data!==undefined ? data : null;
+    if(dataList){
+      let lzyqNumOld = 0;
+      let ysblNumOld = 0;
+      let qzblNumOld = 0;
+      if(dataList.timeList){
+        dataList.timeList.map((item)=>{
+          if(item.time === yesterday){
+            lzyqNumOld = item.count1;
+            ysblNumOld = item.count2;
+            qzblNumOld = item.count3;
+            this.setState({
+              isNoyesterday:false,
+            })
+          }
+        })
+      }
+      let lzyqXzNum = dataList.lzyqNum - lzyqNumOld;
+      let ysblXzNum = dataList.ysblNum - ysblNumOld;
+      let qzblXzNum = dataList.qzblNum - qzblNumOld;
+      this.setState({
+        dataList:dataList,
+        listBar:dataList&&dataList.listBar ? dataList.listBar : [
+          {name:"大新镇", count1: 0,count2: 0, count3: 0},
+          {name:"寺面镇", count1: 0,count2: 0, count3: 0},
+          {name:"马练瑶族乡", count1: 0,count2: 0, count3: 0},
+          {name:"大安镇", count1: 0,count2: 0, count3: 0},
+          {name:"官成镇", count1: 0,count2: 0, count3: 0},
+          {name:"思旺镇", count1: 0,count2: 0, count3: 0},
+          {name:"安怀镇", count1: 0,count2: 0, count3: 0},
+          {name:"上渡镇", count1: 0,count2: 0, count3: 0},
+          {name:"平南镇", count1: 0,count2: 0, count3: 0},
+          {name:"六陈镇", count1: 0,count2: 0, count3: 0},
+          { name: '大鹏镇', count1: 0,count2: 0, count3: 0 },
+          {name:"同和镇", count1: 0,count2: 0, count3: 0},
+          {name:"国安瑶族乡", count1: 0,count2: 0, count3: 0},
+          {name:"平山镇", count1: 0,count2: 0, count3: 0},
+          {name:"大洲镇",count1: 0,count2: 0, count3: 0},
+          {name:"丹竹镇", count1: 0,count2: 0, count3: 0},
+          {name:"思界乡", count1: 0,count2: 0, count3: 0},
+          {name:"武林镇", count1: 0,count2: 0, count3: 0},
+          {name:"东华乡", count1: 0,count2: 0, count3: 0},
+          {name:"镇隆镇", count1: 0,count2: 0, count3: 0},
+          {name:"大坡镇", count1: 0,count2: 0, count3: 0}
+        ],
+        lzyqNum:dataList&&dataList.lzyqNum ? dataList.lzyqNum : 0,
+        qyryNum:dataList&&dataList.qyryNum ? dataList.qyryNum : 0,
+        qnryNum:dataList&&dataList.qnryNum ? dataList.qnryNum : 0,
+        ysblNum:dataList&&dataList.ysblNum ? dataList.ysblNum : 0,
+        qzblNum:dataList&&dataList.qzblNum ? dataList.qzblNum : 0,
+        lzyqXzNum,
+        ysblXzNum,
+        qzblXzNum,
+        mapData:dataList&&dataList.mapData ? dataList.mapData : [],
+        timeList:dataList&&dataList.timeList ? dataList.timeList : [{ count1: 0, count2:0,count3:0,time: moment().format('YYYY-MM-DD') }],
+        lzyqNumOld,
+        ysblNumOld ,
+        qzblNumOld,
+      });
+    }
+  };
   showDrawer = () => {
     this.setState({
       visible: true,
     });
   };
+  showOpenDialogHandler = () => {
+    var options = {
+      defaultPath: 'D:\\',
+      filters: [{ name: 'Execute', extensions: ['xlsx','xls'] }],
+      properties: ['openFile'],
+    };
+
+    dialog.showOpenDialog(options, fileNames => {
+      // fileNames is an array that contains all the selected
+      this.setState({
+        exeName: '',
+      });
+      if (fileNames === undefined) {
+        return;
+      } else {
+        fileNames.map(f => {
+          ipcRenderer.send('open-link', fileNames[0]);
+        });
+      }
+    });
+  };
+  sortKey=(array, key)=> {
+    return array.sort(function(a, b) {
+      var x = a[key];
+      var y = b[key];
+      return x > y ? -1 : x < y ? 1 : 0;
+    });
+  }
   onOk = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let listBar = [];
+        let timeList = [...this.state.timeList];
         let lzyqNum = 0;
         let ysblNum = 0;
         let qzblNum = 0;
-        let lzyqNumOld = this.state.lzyqNum;
-        let ysblNumOld = this.state.ysblNum;
-        let qzblNumOld = this.state.qzblNum;
+        let qyryNum = 0;
+        let qnryNum = 0;
+        let lzyqNumOld = this.state.lzyqNumOld;
+        let ysblNumOld = this.state.ysblNumOld;
+        let qzblNumOld = this.state.qzblNumOld;
         let mapData = [];
-          this.state.listMap.map((item,idx)=>{
-          listBar.push({name:item.name, count1: values['lzyq'+idx],count2: values['ysbl'+idx], count3: values['qzbl'+idx]});
-          lzyqNum = lzyqNum + parseInt(values['lzyq'+idx]);
+        let isToday = false;
+        this.state.listMap.map((item,idx)=>{
+          let count = parseInt(values['qyry'+idx]) + parseInt(values['qnry'+idx]);
+            listBar.push({name:item.name, count:count,count0: values['qyry'+idx], count1: values['qnry'+idx],
+            count2: values['ysbl'+idx], count3: values['qzbl'+idx],
+            count4: values['yxgl'+idx], count5: values['jjgl'+idx],
+            count6: values['mqjcz'+idx], count7: values['zlyqry'+idx],
+            count8: values['zdryxs'+idx], count9: values['fbglyqd'+idx],
+          });
+          lzyqNum = lzyqNum + count;
           ysblNum = ysblNum + parseInt(values['ysbl'+idx]);
+          qyryNum = qyryNum + parseInt(values['qyry'+idx]);
+          qnryNum = qnryNum + parseInt(values['qnry'+idx]);
           qzblNum = qzblNum + parseInt(values['qzbl'+idx]);
-          mapData.push({ name:item.name,org: item.code, count:qzblNum, count1:lzyqNum, count2:ysblNum});
+          timeList.map((event,index)=>{
+            if(event.time === this.state.dateString){
+              isToday = true;
+            }
+          });
+          mapData.push({ name:item.name,org: item.code, count:parseInt(values['qzbl'+idx]), count1:count, count2:parseInt(values['ysbl'+idx])});
+        });
+        if(isToday){
+          timeList[timeList.length - 1] = {time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum};
+        }else{
+          timeList.push({time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum});
+        }
+        timeList.sort(function(a,b){
+          return Date.parse(a.time) - Date.parse(b.time);//时间正序
         });
           let lzyqXzNum = lzyqNum - lzyqNumOld;
           let ysblXzNum = ysblNum - ysblNumOld;
           let qzblXzNum = qzblNum - qzblNumOld;
-          cookie.save('listBar',JSON.stringify(listBar), {maxAge: 31536000});
-          cookie.save('mapData',JSON.stringify(mapData), {maxAge: 31536000});
-          cookie.save('lzyqNum',lzyqNum, {maxAge: 31536000});
-          cookie.save('ysblNum',ysblNum, {maxAge: 31536000});
-          cookie.save('qzblNum',qzblNum, {maxAge: 31536000});
-          cookie.save('lzyqXzNum',lzyqXzNum, {maxAge: 31536000});
-          cookie.save('ysblXzNum',ysblXzNum, {maxAge: 31536000});
-          cookie.save('qzblXzNum',qzblXzNum, {maxAge: 31536000});
-        this.setState({
-          listBar,
-          lzyqNum,
-          ysblNum,
-          qzblNum,
-          lzyqXzNum,
-          ysblXzNum,
-          qzblXzNum,
-          mapData,
-        });
+          // cookie.save('listBar',listBar, {maxAge: 31536000});
+          // cookie.save('mapData',mapData, {maxAge: 31536000});
+          // cookie.save('timeList',timeList, {maxAge: 31536000});
+          // cookie.save('lzyqNum',lzyqNum, {maxAge: 31536000});
+          // cookie.save('ysblNum',ysblNum, {maxAge: 31536000});
+          // cookie.save('qzblNum',qzblNum, {maxAge: 31536000});
+          // cookie.save('lzyqXzNum',lzyqXzNum, {maxAge: 31536000});
+          // cookie.save('ysblXzNum',ysblXzNum, {maxAge: 31536000});
+          // cookie.save('qzblXzNum',qzblXzNum, {maxAge: 31536000});
+        if(this.state.dateString === moment().format('YYYY-MM-DD')){
+          let dataList = {
+            listBar,
+            lzyqNum,
+            ysblNum,
+            qzblNum,
+            lzyqXzNum,
+            ysblXzNum,
+            qzblXzNum,
+            mapData,
+            timeList,
+            qnryNum,
+            qyryNum
+          }
+          ipcRenderer.send('set-data', {key_name:'dataList',value:dataList});
+          ipcRenderer.send('get-data',{key_name:'dataList'});
+          this.setState({
+            listBar,
+            lzyqNum,
+            ysblNum,
+            qzblNum,
+            lzyqXzNum,
+            ysblXzNum,
+            qzblXzNum,
+            mapData,
+            timeList,
+            dataList,
+            qnryNum,
+            qyryNum
+          });
+        }else{
+          let dataList = this.state.dataList;
+          if(dataList&&dataList.timeList){
+            dataList.timeList = timeList;
+          }else{
+            dataList = {
+              timeList,
+            }
+          }
+          ipcRenderer.send('set-data', {key_name:'dataList',value:dataList});
+          ipcRenderer.send('get-data',{key_name:'dataList'});
+          this.setState({
+            timeList,
+            dataList,
+          });
+        }
         this.onClose();
       }
     });
@@ -167,6 +333,11 @@ class SetupShow extends React.PureComponent {
       org: code,
     });
   };
+  setAreaName = name =>{
+    this.setState({
+      orgName: name,
+    });
+  }
   // 改变数据展示时间段
   changeCurrentDate = (dateType) => {
     let selectDate = [moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')];
@@ -217,6 +388,14 @@ class SetupShow extends React.PureComponent {
     // 以二进制方式打开文件
     fileReader.readAsBinaryString(files[0]);
   }
+  onChange=(date, dateString)=>{
+    this.setState({
+      dateString:dateString,
+    })
+  }
+  setRowClassName = (record) => {
+    return record.name === this.state.orgName ? styles.RowStyle : '';
+  }
   render() {
     const {form: { getFieldDecorator }} = this.props;
     let dataSource = this.state.listBar;
@@ -225,22 +404,80 @@ class SetupShow extends React.PureComponent {
       {
         title: '地区',
         dataIndex: 'name',
+        width:90,
         key: 'name',
       },
       {
-        title: '来自疫区',
-        dataIndex: 'count1',
-        key: 'count1',
+        title: '重点人员',
+        dataIndex: 'count',
+        key: 'count',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
       },
       {
         title: '疑似病例',
         dataIndex: 'count2',
         key: 'count2',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
       },
       {
         title: '确诊病例',
         dataIndex: 'count3',
         key: 'count3',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '医学隔离',
+        dataIndex: 'count4',
+        key: 'count4',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '居家隔离',
+        dataIndex: 'count5',
+        key: 'count5',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '密切接触者',
+        dataIndex: 'count6',
+        key: 'count6',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '滞留疫区人员',
+        dataIndex: 'count7',
+        key: 'count7',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '重点人员线索',
+        dataIndex: 'count8',
+        key: 'count8',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '封闭管理疫情点',
+        dataIndex: 'count9',
+        key: 'count9',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
       },
     ];
     return (
@@ -249,7 +486,7 @@ class SetupShow extends React.PureComponent {
         <div className={styles.header}>
           <img src={headerLeftImg} alt="" />
           {/*<img className={styles.showTitle} src={headerTitleImg} alt="智慧案件管理系统"/>*/}
-          <div className={styles.titleName}>平南县肺炎疫情防控管理系统</div>
+          <div className={styles.titleName}>平南县公安局肺炎疫情防控管理系统</div>
           <img src={headerRightImg} alt="" />
           <div className={styles.nowTime}>
             <span>
@@ -268,26 +505,27 @@ class SetupShow extends React.PureComponent {
         <div className={styles.wrap}>
           <div className={styles.wrapLeft}>
             {/*<input type='file' accept='.xlsx, .xls' onChange={this.onImportExcel} />*/}
-            <div className={styles.globalCards} style={{backgroundColor:'#7106c1'}}>
-                <div>来自疫区</div>
-                <div>{this.state.lzyqNum}人</div>
-                <div className={styles.borderTop}>较上日+{this.state.lzyqXzNum}人</div>
+            <div className={styles.globalCards} style={{backgroundColor:'#7106c1'}} onClick={this.showOpenDialogHandler.bind(this)}>
+                <div>重点人员</div>
+                <div className={styles.zdry}>区外人员：{this.state.qyryNum}人</div>
+                <div className={styles.zdry}>区内人员：{this.state.qnryNum}人</div>
+               {!this.state.isNoyesterday ? <div className={styles.borderTop}>较上日+{this.state.lzyqXzNum}人</div>:''}
             </div>
-            <div className={styles.globalCards} style={{backgroundColor:'#ff9800'}}>
+            <div className={styles.globalCards} style={{backgroundColor:'#ff9800'}} onClick={this.showOpenDialogHandler.bind(this)}>
               <div>疑似病例</div>
               <div>{this.state.ysblNum}人</div>
-              <div className={styles.borderTop}>较上日+{this.state.ysblXzNum}人</div>
+              {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.ysblXzNum}人</div>:''}
             </div>
-            <div className={styles.globalCards}>
+            <div className={styles.globalCards} onClick={this.showOpenDialogHandler.bind(this)}>
               <div>确诊病例</div>
               <div>{this.state.qzblNum}人</div>
-              <div className={styles.borderTop}>较上日+{this.state.qzblXzNum}人</div>
+              {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.qzblXzNum}人</div>:''}
             </div>
           </div>
           <div className={styles.wrapMiddle}>
             <div className={styles.mapCard}>
               {
-                this.state.map ?  <ChinaMap {...this.state} {...this.props} setAreaCode={this.setAreaCode} getMap={this.getMap}/> : <ShowNumber {...this.state} {...this.props} getMap={this.getMap}/>
+                this.state.map ?  <ChinaMap {...this.state} {...this.props} setAreaName={this.setAreaName} setAreaCode={this.setAreaCode} getMap={this.getMap}/> : <ShowNumber {...this.state} {...this.props} getMap={this.getMap}/>
               }
               {/*<ShowNumber {...this.state} {...this.props} getMap={this.getMap} setAreaCode={this.setAreaCode}/>*/}
             </div>
@@ -297,7 +535,7 @@ class SetupShow extends React.PureComponent {
           </div>
           <div className={styles.wrapRight}>
             <div className={styles.globalCardRight}>
-              <Table dataSource={dataSource} columns={columns} bordered pagination={false}/>
+              <Table dataSource={dataSource} columns={columns} bordered pagination={false} rowClassName={this.setRowClassName}/>
             </div>
           {/*<div className={styles.globalCard}>*/}
           {/*  <HandingVideoAreaPlaying {...this.props} {...this.state} />*/}
@@ -326,13 +564,33 @@ class SetupShow extends React.PureComponent {
             bodyStyle={{ paddingBottom: 80 }}
           >
             <Form layout="vertical" hideRequiredMark>
+              <Row gutter={16}>
+                <Col span={7} style={{textAlign:'right'}}>日期：</Col>
+                <Col span={17}>
+                  <Form.Item>
+                    {getFieldDecorator('time', {
+                      initialValue:moment(this.state.dateString, 'YYYY-MM-DD'),
+                    })(<DatePicker onChange={this.onChange} style={{width:'100%'}}/>)}
+                  </Form.Item>
+                </Col>
+              </Row>
               {
                 this.state.listMap.map((item,idx)=>{
                   return <Row gutter={16}>
                     <Col span={7} style={{textAlign:'right'}}>{item.name}：</Col>
                     <Col span={17}>
-                      <Form.Item label="来自疫区">
-                        {getFieldDecorator('lzyq'+idx, {
+                      <Form.Item label="区外人员">
+                        {getFieldDecorator('qyry'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count0 ? this.state.listBar[idx].count0 : 0,
+                          rules: [{ required: true, message: '请输入人数' }],
+                        })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="区内人员">
+                        {getFieldDecorator('qnry'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count1 ? this.state.listBar[idx].count1 : 0,
                           rules: [{ required: true, message: '请输入人数' }],
                         })(<Input placeholder="请输入人数" /> )}
                       </Form.Item>
@@ -341,6 +599,7 @@ class SetupShow extends React.PureComponent {
                     <Col span={17}>
                       <Form.Item label="疑似病例">
                         {getFieldDecorator('ysbl'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count2 ? this.state.listBar[idx].count2 : 0,
                           rules: [{ required: true, message: '请输入人数' }],
                         })(<Input placeholder="请输入人数" /> )}
                       </Form.Item>
@@ -349,8 +608,63 @@ class SetupShow extends React.PureComponent {
                     <Col span={17}>
                       <Form.Item label="确诊病例">
                         {getFieldDecorator('qzbl'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count3 ? this.state.listBar[idx].count3 : 0,
                           rules: [{ required: true, message: '请输入人数' }],
                         })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="医学隔离">
+                        {getFieldDecorator('yxgl'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count4 ? this.state.listBar[idx].count4 : 0,
+                          rules: [{ required: true, message: '请输入人数' }],
+                        })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="居家隔离">
+                        {getFieldDecorator('jjgl'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count5 ? this.state.listBar[idx].count5 : 0,
+                          rules: [{ required: true, message: '请输入人数' }],
+                        })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="密切接触者">
+                        {getFieldDecorator('mqjcz'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count6 ? this.state.listBar[idx].count6 : 0,
+                          rules: [{ required: true, message: '请输入人数' }],
+                        })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="滞留疫区人员">
+                        {getFieldDecorator('zlyqry'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count7 ? this.state.listBar[idx].count7 : 0,
+                          rules: [{ required: true, message: '请输入人数' }],
+                        })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="重点人员线索">
+                        {getFieldDecorator('zdryxs'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count8 ? this.state.listBar[idx].count8 : 0,
+                          rules: [{ required: true, message: '请输入' }],
+                        })(<Input placeholder="请输入" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="封闭管理疫情点">
+                        {getFieldDecorator('fbglyqd'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count9 ? this.state.listBar[idx].count9 : 0,
+                          rules: [{ required: true, message: '请输入' }],
+                        })(<Input placeholder="请输入" /> )}
                       </Form.Item>
                     </Col>
                   </Row>

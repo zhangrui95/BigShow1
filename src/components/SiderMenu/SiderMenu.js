@@ -110,7 +110,7 @@ export default class SiderMenu extends PureComponent {
         <div className={styles.logo} id="logo">
           <Link to="/">
             <img src={require('@/assets/logo.png')} alt="logo" />
-            <h1>平南县肺炎疫情防控管理系统</h1>
+            <h1>平南县公安局肺炎疫情防控管理系统</h1>
           </Link>
         </div>
         <BaseMenu

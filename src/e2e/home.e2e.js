@@ -11,7 +11,7 @@ describe('Homepage', () => {
     const page = await browser.newPage();
     await page.goto(BASE_URL, { waitUntil: 'networkidle2' });
     const text = await page.evaluate(() => document.getElementsByTagName('h1')[0].innerText);
-    expect(text).toContain('平南县肺炎疫情防控管理系统');
+    expect(text).toContain('平南县公安局肺炎疫情防控管理系统');
 
     await page.close();
     browser.close();

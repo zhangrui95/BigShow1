@@ -168,6 +168,7 @@ export default class ChinaMap extends PureComponent {
         //     dataIndex: count,
         // });
         that.props.setAreaCode(arry[count]&&arry[count].code ? arry[count].code : '');
+        that.props.setAreaName(arry[count]&&arry[count].name ? arry[count].name : '');
         count++;
       }
     }, this.props.mapLoopTime * 1000);
@@ -345,7 +346,7 @@ export default class ChinaMap extends PureComponent {
       // tooltip:{},
       tooltip : {
         formatter(params) {
-            return  "来自疫区:" +JSON.stringify(params.data.value1)+'<br/>'+"疑似病例:" +JSON.stringify(params.data.value2)+'<br/>'+"确诊病例:" +JSON.stringify(params.data.value);
+            return  "重点人员:" +JSON.stringify(params.data.value1)+'<br/>'+"疑似病例:" +JSON.stringify(params.data.value2)+'<br/>'+"确诊病例:" +JSON.stringify(params.data.value);
         }
       },
       legend: {

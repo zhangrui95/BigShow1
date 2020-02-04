@@ -21,28 +21,26 @@ export default class PoliceSituationToCaseCount extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      if (this.props.currentDateType !== nextProps.currentDateType|| this.props.org !== nextProps.org) {
-        // this.getPoliceSituationToCaseCount();
+      if (this.props.timeList !== nextProps.timeList) {
+        this.getPoliceSituationToCaseCount(nextProps.timeList);
       }
     }
   }
 
   // 获取行政处罚数量
-  getPoliceSituationToCaseCount = () => {
+  getPoliceSituationToCaseCount = (timeList) => {
     const xData = [];
     const lineData1 = [];
     const lineData2 = [];
-    const dataList = [
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5,time: '2020-02-04' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:4,count3:5,time: '2020-02-05' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5, time: '2020-02-06' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5, time: '2020-02-07' },
-      { count1: Math.floor(Math.random()*(500 - 1) + 1), count2:3,count3:5, time: '2020-02-08' },
-    ];
+    const lineData3 = [];
+    let time = [];
+    let dataList = timeList ? timeList : this.props.timeList;
     let num = 0;
-
     for (let i = 0; i < dataList.length; i++) {
+      time.push(dataList[i].time);
       lineData1.push(dataList[i].count1);
+      lineData2.push(dataList[i].count2);
+      lineData3.push(dataList[i].count3);
       num = num + parseInt(dataList[i].count1) + parseInt(dataList[i].count2);
     }
     myChart.setOption({
@@ -50,22 +48,34 @@ export default class PoliceSituationToCaseCount extends PureComponent {
         type : 'category',
         axisLabel: {
           textStyle: {
-            color: '#fff',
           },
+            color: '#fff',
         },
         boundaryGap : false,
-        data : ['2020-02-04','2020-02-05','2020-02-06','2020-02-07','2020-02-08']
+        data : time
       },
       series: [
         {
-          name:'数量',
+          name:'重点人员',
           type:'line',
-          stack: '总量',
+          stack: '重点人员人数',
           areaStyle: {},
           data:lineData1,
-
         },
-
+        {
+          name:'疑似病例',
+          type:'line',
+          stack: '疑似病例人数',
+          areaStyle: {},
+          data:lineData2,
+        },
+        {
+          name:'确诊病例',
+          type:'line',
+          stack: '确诊病例人数',
+          areaStyle: {},
+          data:lineData3,
+        },
       ],
     });
   };
@@ -108,7 +118,7 @@ export default class PoliceSituationToCaseCount extends PureComponent {
         {
           type : 'category',
           boundaryGap : false,
-          data : ['2020-02-04','2020-02-05','2020-02-08']
+          data : []
         }
       ],
       yAxis : [
@@ -128,10 +138,10 @@ export default class PoliceSituationToCaseCount extends PureComponent {
       ],
       series: [
         {
-          name: '数量',
+          name: '重点人员',
           type: 'line',
-          stack: '总量',
-          symbol: 'none',
+          stack: '重点人员人数',
+          symbol: 'circle',
           areaStyle: {},
           smooth: false, //平滑曲线显示
           itemStyle: {
@@ -149,6 +159,60 @@ export default class PoliceSituationToCaseCount extends PureComponent {
                 {
                   offset: 1,
                   color: '#9798ff', // 100% 处的颜色
+                }
+              ]
+            },
+          }
+        },
+        {
+          name: '疑似病例',
+          type: 'line',
+          stack: '疑似病例人数',
+          symbol: 'circle',
+          areaStyle: {},
+          smooth: false, //平滑曲线显示
+          itemStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 1,
+              y2: 0,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#ff8713', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#ffc254', // 100% 处的颜色
+                }
+              ]
+            },
+          }
+        },
+        {
+          name: '确诊病例',
+          type: 'line',
+          stack: '确诊病例人数',
+          symbol: 'circle',
+          areaStyle: {},
+          smooth: false, //平滑曲线显示
+          itemStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 1,
+              y2: 0,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#ff191f', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#ff5f61', // 100% 处的颜色
                 }
               ]
             },
