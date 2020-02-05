@@ -71,7 +71,11 @@ class SetupShow extends React.PureComponent {
       lzyqNum:0,
       ysblNum:0,
       qzblNum:0,
+      yxglNum:0,
+      jjglNum:0,
       lzyqXzNum:0,
+      yxglXzNum:0,
+      jjglXzNum:0,
       ysblXzNum:0,
       qzblXzNum:0,
       mapData:[],
@@ -102,6 +106,8 @@ class SetupShow extends React.PureComponent {
       lzyqNumOld:0,
       ysblNumOld:0,
       qzblNumOld:0,
+      yxglNumOld:0,
+      jjglNumOld:0,
       qyryNum:0,
       qnryNum:0,
       isNoyesterday:true,
@@ -119,6 +125,8 @@ class SetupShow extends React.PureComponent {
     if(dataList){
       let lzyqNumOld = 0;
       let ysblNumOld = 0;
+      let yxglNumOld = 0;
+      let jjglNumOld = 0;
       let qzblNumOld = 0;
       if(dataList.timeList){
         dataList.timeList.map((item)=>{
@@ -126,15 +134,19 @@ class SetupShow extends React.PureComponent {
             lzyqNumOld = item.count1;
             ysblNumOld = item.count2;
             qzblNumOld = item.count3;
+            yxglNumOld = item.count4;
+            jjglNumOld = item.count5;
             this.setState({
               isNoyesterday:false,
             })
           }
         })
       }
-      let lzyqXzNum = dataList.lzyqNum - lzyqNumOld;
-      let ysblXzNum = dataList.ysblNum - ysblNumOld;
-      let qzblXzNum = dataList.qzblNum - qzblNumOld;
+      let lzyqXzNum = dataList.lzyqNum&&lzyqNumOld ? dataList.lzyqNum - lzyqNumOld : 0;
+      let ysblXzNum = dataList.ysblNum&&ysblNumOld ? dataList.ysblNum - ysblNumOld : 0;
+      let yxglXzNum = dataList.yxglNum&&yxglNumOld ? dataList.yxglNum - yxglNumOld : 0;
+      let jjglXzNum = dataList.jjglNum&&jjglNumOld ? dataList.jjglNum - jjglNumOld : 0;
+      let qzblXzNum = dataList.qzblNum&&qzblNumOld ? dataList.qzblNum - qzblNumOld : 0;
       this.setState({
         dataList:dataList,
         listBar:dataList&&dataList.listBar ? dataList.listBar : [
@@ -165,14 +177,20 @@ class SetupShow extends React.PureComponent {
         qnryNum:dataList&&dataList.qnryNum ? dataList.qnryNum : 0,
         ysblNum:dataList&&dataList.ysblNum ? dataList.ysblNum : 0,
         qzblNum:dataList&&dataList.qzblNum ? dataList.qzblNum : 0,
-        lzyqXzNum,
-        ysblXzNum,
-        qzblXzNum,
+        yxglNum:dataList&&dataList.yxglNum ? dataList.yxglNum : 0,
+        jjglNum:dataList&&dataList.jjglNum ? dataList.jjglNum : 0,
+        lzyqXzNum: lzyqXzNum > 0 ? lzyqXzNum : 0,
+        yxglXzNum: yxglXzNum > 0 ? yxglXzNum : 0,
+        jjglXzNum: jjglXzNum > 0 ? jjglXzNum : 0,
+        ysblXzNum:ysblXzNum > 0 ? ysblXzNum : 0,
+        qzblXzNum:qzblXzNum > 0 ? qzblXzNum : 0,
         mapData:dataList&&dataList.mapData ? dataList.mapData : [],
         timeList:dataList&&dataList.timeList ? dataList.timeList : [{ count1: 0, count2:0,count3:0,time: moment().format('YYYY-MM-DD') }],
         lzyqNumOld,
         ysblNumOld ,
         qzblNumOld,
+        yxglNumOld,
+        jjglNumOld,
       });
     }
   };
@@ -216,14 +234,19 @@ class SetupShow extends React.PureComponent {
         let timeList = [...this.state.timeList];
         let lzyqNum = 0;
         let ysblNum = 0;
+        let yxglNum = 0;
+        let jjglNum = 0;
         let qzblNum = 0;
         let qyryNum = 0;
         let qnryNum = 0;
         let lzyqNumOld = this.state.lzyqNumOld;
         let ysblNumOld = this.state.ysblNumOld;
         let qzblNumOld = this.state.qzblNumOld;
+        let yxglNumOld = this.state.yxglNumOld;
+        let jjglNumOld = this.state.jjglNumOld;
         let mapData = [];
         let isToday = false;
+        let numIndex = timeList.length - 1;
         this.state.listMap.map((item,idx)=>{
           let count = parseInt(values['qyry'+idx]) + parseInt(values['qnry'+idx]);
             listBar.push({name:item.name, count:count,count0: values['qyry'+idx], count1: values['qnry'+idx],
@@ -234,20 +257,23 @@ class SetupShow extends React.PureComponent {
           });
           lzyqNum = lzyqNum + count;
           ysblNum = ysblNum + parseInt(values['ysbl'+idx]);
+          yxglNum = yxglNum + parseInt(values['yxgl'+idx]);
+          jjglNum = jjglNum + parseInt(values['jjgl'+idx]);
           qyryNum = qyryNum + parseInt(values['qyry'+idx]);
           qnryNum = qnryNum + parseInt(values['qnry'+idx]);
           qzblNum = qzblNum + parseInt(values['qzbl'+idx]);
           timeList.map((event,index)=>{
             if(event.time === this.state.dateString){
               isToday = true;
+              numIndex = index;
             }
           });
           mapData.push({ name:item.name,org: item.code, count:parseInt(values['qzbl'+idx]), count1:count, count2:parseInt(values['ysbl'+idx])});
         });
         if(isToday){
-          timeList[timeList.length - 1] = {time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum};
+          timeList[numIndex] = {time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum, count4: yxglNum, count5: jjglNum};
         }else{
-          timeList.push({time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum});
+          timeList.push({time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum, count4: yxglNum, count5: jjglNum});
         }
         timeList.sort(function(a,b){
           return Date.parse(a.time) - Date.parse(b.time);//时间正序
@@ -255,6 +281,8 @@ class SetupShow extends React.PureComponent {
           let lzyqXzNum = lzyqNum - lzyqNumOld;
           let ysblXzNum = ysblNum - ysblNumOld;
           let qzblXzNum = qzblNum - qzblNumOld;
+          let yxglXzNum = yxglNum - yxglNumOld;
+          let jjglXzNum = jjglNum - jjglNumOld;
           // cookie.save('listBar',listBar, {maxAge: 31536000});
           // cookie.save('mapData',mapData, {maxAge: 31536000});
           // cookie.save('timeList',timeList, {maxAge: 31536000});
@@ -269,6 +297,10 @@ class SetupShow extends React.PureComponent {
             listBar,
             lzyqNum,
             ysblNum,
+            yxglNum,
+            jjglNum,
+            yxglXzNum,
+            jjglXzNum,
             qzblNum,
             lzyqXzNum,
             ysblXzNum,
@@ -285,6 +317,10 @@ class SetupShow extends React.PureComponent {
             lzyqNum,
             ysblNum,
             qzblNum,
+            yxglNum,
+            jjglNum,
+            yxglXzNum,
+            jjglXzNum,
             lzyqXzNum,
             ysblXzNum,
             qzblXzNum,
@@ -408,9 +444,16 @@ class SetupShow extends React.PureComponent {
         key: 'name',
       },
       {
-        title: '重点人员',
-        dataIndex: 'count',
-        key: 'count',
+        title: '区外人员',
+        dataIndex: 'count0',
+        key: 'count0',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },{
+        title: '区内人员',
+        dataIndex: 'count1',
+        key: 'count1',
         render: text => {
           return <span>{text ? text : 0}</span>
         }
@@ -505,21 +548,41 @@ class SetupShow extends React.PureComponent {
         <div className={styles.wrap}>
           <div className={styles.wrapLeft}>
             {/*<input type='file' accept='.xlsx, .xls' onChange={this.onImportExcel} />*/}
-            <div className={styles.globalCards} style={{backgroundColor:'#7106c1'}} onClick={this.showOpenDialogHandler.bind(this)}>
-                <div>重点人员</div>
-                <div className={styles.zdry}>区外人员：{this.state.qyryNum}人</div>
-                <div className={styles.zdry}>区内人员：{this.state.qnryNum}人</div>
-               {!this.state.isNoyesterday ? <div className={styles.borderTop}>较上日+{this.state.lzyqXzNum}人</div>:''}
+            <div className={styles.globalCards} onClick={this.showOpenDialogHandler.bind(this)}>
+              <div>确诊病例</div>
+              <div>{this.state.qzblNum}人</div>
+              {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.qzblXzNum}人</div>:''}
             </div>
             <div className={styles.globalCards} style={{backgroundColor:'#ff9800'}} onClick={this.showOpenDialogHandler.bind(this)}>
               <div>疑似病例</div>
               <div>{this.state.ysblNum}人</div>
               {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.ysblXzNum}人</div>:''}
             </div>
-            <div className={styles.globalCards} onClick={this.showOpenDialogHandler.bind(this)}>
-              <div>确诊病例</div>
-              <div>{this.state.qzblNum}人</div>
-              {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.qzblXzNum}人</div>:''}
+            <div className={styles.glBox}>
+              <div className={styles.globalCards1} style={{backgroundColor:'#03A9F4'}} onClick={this.showOpenDialogHandler.bind(this)}>
+                <div>医学隔离</div>
+                <div>{this.state.yxglNum}人</div>
+                {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.yxglXzNum}人</div>:''}
+              </div>
+              <div className={styles.globalCards1} style={{backgroundColor:'#8BC34A'}} onClick={this.showOpenDialogHandler.bind(this)}>
+                <div>居家隔离</div>
+                <div>{this.state.jjglNum}人</div>
+                {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.jjglXzNum}人</div>:''}
+              </div>
+            </div>
+            <div className={styles.glBox}>
+              <div className={styles.globalCards1} style={{backgroundColor:'#7106c1',height:'310px'}} onClick={this.showOpenDialogHandler.bind(this)}>
+                  <div className={styles.zdry}>重点人员</div>
+                <div style={{margin:'20px 0'}}>
+                  <div>区外人员</div>
+                  <div>{this.state.qyryNum}人</div>
+                </div>
+                <div style={{margin:'20px 0'}}>
+                  <div>区内人员</div>
+                  <div>{this.state.qnryNum}人</div>
+                </div>
+                 {!this.state.isNoyesterday ? <div className={styles.borderTop}>较上日+{this.state.lzyqXzNum}人</div>:''}
+              </div>
             </div>
           </div>
           <div className={styles.wrapMiddle}>

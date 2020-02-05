@@ -59,21 +59,21 @@ export default class PoliceSituationToCaseCount extends PureComponent {
           name:'重点人员',
           type:'line',
           stack: '重点人员人数',
-          areaStyle: {},
+          // areaStyle: {},
           data:lineData1,
         },
         {
           name:'疑似病例',
           type:'line',
           stack: '疑似病例人数',
-          areaStyle: {},
+          // areaStyle: {},
           data:lineData2,
         },
         {
           name:'确诊病例',
           type:'line',
           stack: '确诊病例人数',
-          areaStyle: {},
+          // areaStyle: {},
           data:lineData3,
         },
       ],
@@ -142,9 +142,20 @@ export default class PoliceSituationToCaseCount extends PureComponent {
           type: 'line',
           stack: '重点人员人数',
           symbol: 'circle',
-          areaStyle: {},
-          smooth: false, //平滑曲线显示
+          // areaStyle: {},
+          smooth: true, //平滑曲线显示
+          lineStyle:{
+            normal:{
+              width:4,
+            }
+          },
+          symbolSize:10,//拐点大小
           itemStyle: {
+            normal:{
+              color:'#4971ff',
+              borderColor:'#fff',//拐点边框颜色
+              borderWidth:2//拐点边框大小
+            },
             color: {
               type: 'linear',
               x: 0,
@@ -169,9 +180,20 @@ export default class PoliceSituationToCaseCount extends PureComponent {
           type: 'line',
           stack: '疑似病例人数',
           symbol: 'circle',
-          areaStyle: {},
-          smooth: false, //平滑曲线显示
+          // areaStyle: {},
+          smooth: true, //平滑曲线显示
+          lineStyle:{
+            normal:{
+              width:4,
+            }
+          },
+          symbolSize:10,//拐点大小
           itemStyle: {
+            normal:{
+              color:'#ff8713',
+              borderColor:'#fff',//拐点边框颜色
+              borderWidth:2//拐点边框大小
+            },
             color: {
               type: 'linear',
               x: 0,
@@ -196,9 +218,20 @@ export default class PoliceSituationToCaseCount extends PureComponent {
           type: 'line',
           stack: '确诊病例人数',
           symbol: 'circle',
-          areaStyle: {},
-          smooth: false, //平滑曲线显示
+          // areaStyle: {},
+          smooth: true, //平滑曲线显示
+          lineStyle:{
+            normal:{
+              width:4,
+            }
+          },
+          symbolSize:10,//拐点大小
           itemStyle: {
+            normal:{
+              color:'#ff191f',
+              borderColor:'#fff',//拐点边框颜色
+              borderWidth:2//拐点边框大小
+            },
             color: {
               type: 'linear',
               x: 0,

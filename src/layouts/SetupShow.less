@@ -1,11 +1,11 @@
 @wordFont: '../assets/fontFace/lxjt.ttf';
 @numFont: '../assets/fontFace/yjsz.TTF';
 .SCMDataShow {
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  //height: 1080px;
   overflow: hidden;
   background: url('../assets/show/body_bg.png') no-repeat;
-
+  background-size: cover;
   .header {
     height: 80px;
     position: relative;
@@ -13,14 +13,16 @@
     justify-content: center;
     align-items: center;
     padding: 10px 0;
-
+    img{
+      width: 34%;
+    }
     .showTitle {
       margin: 0 20px;
     }
 
     .nowTime {
       position: absolute;
-      left: 190px;
+      left: 90px;
       top: 15px;
       font-size: 16px;
       color: #fff;
@@ -50,8 +52,17 @@
     height: 1000px;
     .wrapAll{
       width: 100%;
-      height: 300px;
+      height: 280px;
       float: left;
+    }
+    .wrapLeft{
+      width: 20%;
+    }
+    .wrapMiddle{
+      width: 37%;
+    }
+    .wrapRight {
+      width: 35%;
     }
     .wrapLeft,
     .wrapMiddle,
@@ -72,30 +83,62 @@
         padding: 15px 30px;
       }
       .globalCards{
-        height: 210px;
-        width: 360px;
+        height: 145px;
+        width: 46%;
         padding: 15px 30px;
         color: #fff;
         text-align: center;
-        font-size: 34px;
+        font-size: 24px;
         background: #fe0032;
         border-radius: 6px;
-        margin: 16px 20px;
+        margin: 10px 2%;
+        float: left;
         cursor: pointer;
         .borderTop{
           border-top: 1px solid #fff;
-          line-height:50px;
-          font-size: 28px;
+          line-height:30px;
+          font-size: 18px;
           margin-top: 8px;
         }
         .zdry{
-          font-size: 24px;
+          border-bottom: 1px solid #fff;
+          line-height:30px;
+          font-size: 18px;
+          margin-bottom: 8px;
         }
       }
-
+      .glBox{
+        width: 50%;
+        float: left;
+      }
+      .globalCards1{
+        height: 145px;
+        width: 96%;
+        padding: 15px 30px;
+        color: #fff;
+        text-align: center;
+        font-size: 24px;
+        background: #fe0032;
+        border-radius: 6px;
+        margin: 10px 2%;
+        float: left;
+        cursor: pointer;
+        .borderTop{
+          border-top: 1px solid #fff;
+          line-height:30px;
+          font-size: 18px;
+          margin-top: 8px;
+        }
+        .zdry{
+          border-bottom: 1px solid #fff;
+          line-height:30px;
+          font-size: 18px;
+          margin-bottom: 8px;
+        }
+      }
       .mapCard,
       .longCard {
-        width: 905px;
+        width: 100%;
       }
 
       .mapCard {
@@ -180,8 +223,10 @@
   .ffbasic();
 }
 .titleName {
+  width: 512px;
+  text-align: center;
   color: #00ffff;
-  font-size: 34px;
+  font-size: 32px;
   margin: 0 8px;
   .ffbasic();
 }
@@ -211,8 +256,8 @@
   user-select: none;
 }
 .globalCardRight{
-  width: 500px;
-  margin-top: 16px;
+  width: 100%;
+  margin-top: 10px;
   :global{
     .ant-table-thead > tr > th,.ant-table-tbody > tr > td{
       background: rgba(0,0,0,0.25);
@@ -228,7 +273,8 @@
   }
 }
  .RowStyle{
-    background: rgba(127, 214, 255, 0.25);
+    background: rgba(0, 255, 255, 0.75);
+   font-weight: 700;
   }
   .showJt {
     width: 50px;
