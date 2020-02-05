@@ -571,7 +571,7 @@ class SetupShow extends React.PureComponent {
               </div>
             </div>
             <div className={styles.glBox}>
-              <div className={styles.globalCards1} style={{backgroundColor:'#7106c1',height:'310px'}} onClick={this.showOpenDialogHandler.bind(this)}>
+              <div className={styles.globalCards1} style={{backgroundColor:'#7106c1',minHeight:'310px'}} onClick={this.showOpenDialogHandler.bind(this)}>
                   <div className={styles.zdry}>重点人员</div>
                 <div style={{margin:'20px 0'}}>
                   <div>区外人员</div>
