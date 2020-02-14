@@ -70,6 +70,8 @@ class SetupShow extends React.PureComponent {
       ],
       lzyqNum:0,
       ysblNum:0,
+      mqjczNum:0,
+      zlyqryNum:0,
       qzblNum:0,
       yxglNum:0,
       jjglNum:0,
@@ -77,6 +79,8 @@ class SetupShow extends React.PureComponent {
       yxglXzNum:0,
       jjglXzNum:0,
       ysblXzNum:0,
+      mqjczXzNum:0,
+      zlyqryXzNum:0,
       qzblXzNum:0,
       mapData:[],
       listMap:[
@@ -105,6 +109,8 @@ class SetupShow extends React.PureComponent {
       timeList:[{ count1: 0, count2:0,count3:0,time: moment().format('YYYY-MM-DD') }],
       lzyqNumOld:0,
       ysblNumOld:0,
+      mqjczNumOld:0,
+      zlyqryNumOld:0,
       qzblNumOld:0,
       yxglNumOld:0,
       jjglNumOld:0,
@@ -125,28 +131,40 @@ class SetupShow extends React.PureComponent {
     if(dataList){
       let lzyqNumOld = 0;
       let ysblNumOld = 0;
+      let mqjczNumOld = 0;
+      let zlyqryNumOld = 0;
       let yxglNumOld = 0;
       let jjglNumOld = 0;
       let qzblNumOld = 0;
       if(dataList.timeList){
         dataList.timeList.map((item)=>{
           if(item.time === yesterday){
-            lzyqNumOld = item.count1;
-            ysblNumOld = item.count2;
-            qzblNumOld = item.count3;
-            yxglNumOld = item.count4;
-            jjglNumOld = item.count5;
+            lzyqNumOld = item.count1 ? item.count1 : 0;
+            ysblNumOld = item.count2 ? item.count2 : 0;
+            qzblNumOld = item.count3 ? item.count3 : 0;
+            yxglNumOld = item.count4 ? item.count4 : 0;
+            jjglNumOld = item.count5 ? item.count5 : 0;
+            mqjczNumOld = item.count6 ? item.count6 : 0;
+            zlyqryNumOld = item.count7 ? item.count7 : 0;
             this.setState({
               isNoyesterday:false,
             })
           }
         })
       }
-      let lzyqXzNum = dataList.lzyqNum&&lzyqNumOld ? dataList.lzyqNum - lzyqNumOld : 0;
-      let ysblXzNum = dataList.ysblNum&&ysblNumOld ? dataList.ysblNum - ysblNumOld : 0;
-      let yxglXzNum = dataList.yxglNum&&yxglNumOld ? dataList.yxglNum - yxglNumOld : 0;
-      let jjglXzNum = dataList.jjglNum&&jjglNumOld ? dataList.jjglNum - jjglNumOld : 0;
-      let qzblXzNum = dataList.qzblNum&&qzblNumOld ? dataList.qzblNum - qzblNumOld : 0;
+      let mqjczNum = 0;
+      let zlyqryNum = 0;
+      dataList.listBar.map((item)=>{
+        mqjczNum = mqjczNum+parseInt(item.count6 ? item.count6 : '0');
+        zlyqryNum = zlyqryNum+parseInt(item.count7 ? item.count7 : '0');
+      })
+      let lzyqXzNum = dataList.lzyqNum&&lzyqNumOld.toString() ? dataList.lzyqNum - lzyqNumOld : 0;
+      let ysblXzNum = dataList.ysblNum&&ysblNumOld.toString() ? dataList.ysblNum - ysblNumOld : 0;
+      let mqjczXzNum = dataList.mqjczNum&&mqjczNumOld.toString() ? dataList.mqjczNum - mqjczNumOld : mqjczNum > 0&&mqjczNumOld.toString() ? mqjczNum- mqjczNumOld :  0;
+      let zlyqryXzNum = dataList.zlyqryNum&&zlyqryNumOld.toString() ? dataList.zlyqryNum - zlyqryNumOld : zlyqryNum > 0&&zlyqryNumOld.toString() ? zlyqryNum - zlyqryNumOld : 0;
+      let yxglXzNum = dataList.yxglNum&&yxglNumOld.toString() ? dataList.yxglNum - yxglNumOld : 0;
+      let jjglXzNum = dataList.jjglNum&&jjglNumOld.toString() ? dataList.jjglNum - jjglNumOld : 0;
+      let qzblXzNum = dataList.qzblNum&&qzblNumOld.toString() ? dataList.qzblNum - qzblNumOld : 0;
       this.setState({
         dataList:dataList,
         listBar:dataList&&dataList.listBar ? dataList.listBar : [
@@ -176,6 +194,8 @@ class SetupShow extends React.PureComponent {
         qyryNum:dataList&&dataList.qyryNum ? dataList.qyryNum : 0,
         qnryNum:dataList&&dataList.qnryNum ? dataList.qnryNum : 0,
         ysblNum:dataList&&dataList.ysblNum ? dataList.ysblNum : 0,
+        mqjczNum:dataList&&dataList.mqjczNum ? dataList.mqjczNum : mqjczNum > 0 ? mqjczNum : 0,
+        zlyqryNum:dataList&&dataList.zlyqryNum ? dataList.zlyqryNum : zlyqryNum > 0 ? zlyqryNum : 0,
         qzblNum:dataList&&dataList.qzblNum ? dataList.qzblNum : 0,
         yxglNum:dataList&&dataList.yxglNum ? dataList.yxglNum : 0,
         jjglNum:dataList&&dataList.jjglNum ? dataList.jjglNum : 0,
@@ -183,11 +203,15 @@ class SetupShow extends React.PureComponent {
         yxglXzNum: yxglXzNum > 0 ? yxglXzNum : 0,
         jjglXzNum: jjglXzNum > 0 ? jjglXzNum : 0,
         ysblXzNum:ysblXzNum > 0 ? ysblXzNum : 0,
+        mqjczXzNum:mqjczXzNum > 0 ? mqjczXzNum : 0,
+        zlyqryXzNum:zlyqryXzNum > 0 ? zlyqryXzNum : 0,
         qzblXzNum:qzblXzNum > 0 ? qzblXzNum : 0,
         mapData:dataList&&dataList.mapData ? dataList.mapData : [],
         timeList:dataList&&dataList.timeList ? dataList.timeList : [{ count1: 0, count2:0,count3:0,time: moment().format('YYYY-MM-DD') }],
         lzyqNumOld,
         ysblNumOld ,
+        mqjczNumOld ,
+        zlyqryNumOld ,
         qzblNumOld,
         yxglNumOld,
         jjglNumOld,
@@ -234,6 +258,8 @@ class SetupShow extends React.PureComponent {
         let timeList = [...this.state.timeList];
         let lzyqNum = 0;
         let ysblNum = 0;
+        let mqjczNum = 0;
+        let zlyqryNum = 0;
         let yxglNum = 0;
         let jjglNum = 0;
         let qzblNum = 0;
@@ -241,6 +267,8 @@ class SetupShow extends React.PureComponent {
         let qnryNum = 0;
         let lzyqNumOld = this.state.lzyqNumOld;
         let ysblNumOld = this.state.ysblNumOld;
+        let mqjczNumOld = this.state.mqjczNumOld;
+        let zlyqryNumOld = this.state.zlyqryNumOld;
         let qzblNumOld = this.state.qzblNumOld;
         let yxglNumOld = this.state.yxglNumOld;
         let jjglNumOld = this.state.jjglNumOld;
@@ -257,6 +285,8 @@ class SetupShow extends React.PureComponent {
           });
           lzyqNum = lzyqNum + count;
           ysblNum = ysblNum + parseInt(values['ysbl'+idx]);
+          mqjczNum = mqjczNum + parseInt(values['mqjcz'+idx]);
+          zlyqryNum = zlyqryNum + parseInt(values['zlyqry'+idx]);
           yxglNum = yxglNum + parseInt(values['yxgl'+idx]);
           jjglNum = jjglNum + parseInt(values['jjgl'+idx]);
           qyryNum = qyryNum + parseInt(values['qyry'+idx]);
@@ -271,15 +301,17 @@ class SetupShow extends React.PureComponent {
           mapData.push({ name:item.name,org: item.code, count:parseInt(values['qzbl'+idx]), count1:count, count2:parseInt(values['ysbl'+idx])});
         });
         if(isToday){
-          timeList[numIndex] = {time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum, count4: yxglNum, count5: jjglNum};
+          timeList[numIndex] = {time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum, count4: yxglNum, count5: jjglNum, count6: mqjczNum, count7: zlyqryNum};
         }else{
-          timeList.push({time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum, count4: yxglNum, count5: jjglNum});
+          timeList.push({time:this.state.dateString, count1: lzyqNum,count2: ysblNum, count3: qzblNum, count4: yxglNum, count5: jjglNum, count6: mqjczNum, count7: zlyqryNum});
         }
         timeList.sort(function(a,b){
           return Date.parse(a.time) - Date.parse(b.time);//时间正序
         });
           let lzyqXzNum = lzyqNum - lzyqNumOld;
           let ysblXzNum = ysblNum - ysblNumOld;
+          let mqjczXzNum = mqjczNum - mqjczNumOld;
+          let zlyqryXzNum = zlyqryNum - zlyqryNumOld;
           let qzblXzNum = qzblNum - qzblNumOld;
           let yxglXzNum = yxglNum - yxglNumOld;
           let jjglXzNum = jjglNum - jjglNumOld;
@@ -297,6 +329,8 @@ class SetupShow extends React.PureComponent {
             listBar,
             lzyqNum,
             ysblNum,
+            mqjczNum,
+            zlyqryNum,
             yxglNum,
             jjglNum,
             yxglXzNum,
@@ -304,6 +338,8 @@ class SetupShow extends React.PureComponent {
             qzblNum,
             lzyqXzNum,
             ysblXzNum,
+            mqjczXzNum,
+            zlyqryXzNum,
             qzblXzNum,
             mapData,
             timeList,
@@ -316,6 +352,8 @@ class SetupShow extends React.PureComponent {
             listBar,
             lzyqNum,
             ysblNum,
+            mqjczNum,
+            zlyqryNum,
             qzblNum,
             yxglNum,
             jjglNum,
@@ -323,6 +361,8 @@ class SetupShow extends React.PureComponent {
             jjglXzNum,
             lzyqXzNum,
             ysblXzNum,
+            mqjczXzNum,
+            zlyqryXzNum,
             qzblXzNum,
             mapData,
             timeList,
@@ -583,6 +623,16 @@ class SetupShow extends React.PureComponent {
                 </div>
                  {!this.state.isNoyesterday ? <div className={styles.borderTop}>较上日+{this.state.lzyqXzNum}人</div>:''}
               </div>
+            </div>
+            <div className={styles.globalCards} style={{backgroundColor:'rgb(183, 113, 15)'}} onClick={this.showOpenDialogHandler.bind(this)}>
+              <div>密切接触者</div>
+              <div>{this.state.mqjczNum}人</div>
+              {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.mqjczXzNum}人</div>:''}
+            </div>
+            <div className={styles.globalCards} style={{backgroundColor:'#00BCD4'}} onClick={this.showOpenDialogHandler.bind(this)}>
+              <div>滞留疫区人员</div>
+              <div>{this.state.zlyqryNum}人</div>
+              {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.zlyqryXzNum}人</div>:''}
             </div>
           </div>
           <div className={styles.wrapMiddle}>
