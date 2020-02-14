@@ -281,7 +281,7 @@ class SetupShow extends React.PureComponent {
             count2: values['ysbl'+idx], count3: values['qzbl'+idx],
             count4: values['yxgl'+idx], count5: values['jjgl'+idx],
             count6: values['mqjcz'+idx], count7: values['zlyqry'+idx],
-            count8: values['zdryxs'+idx], count9: values['fbglyqd'+idx],
+            count8: values['zdryxs'+idx], count9: values['fbglyqd'+idx], count10: values['swjjgl'+idx],
           });
           lzyqNum = lzyqNum + count;
           ysblNum = ysblNum + parseInt(values['ysbl'+idx]);
@@ -523,9 +523,17 @@ class SetupShow extends React.PureComponent {
         }
       },
       {
-        title: '居家隔离',
+        title: '集中隔离',
         dataIndex: 'count5',
         key: 'count5',
+        render: text => {
+          return <span>{text ? text : 0}</span>
+        }
+      },
+      {
+        title: '尚未集中隔离',
+        dataIndex: 'count10',
+        key: 'count10',
         render: text => {
           return <span>{text ? text : 0}</span>
         }
@@ -547,7 +555,7 @@ class SetupShow extends React.PureComponent {
         }
       },
       {
-        title: '重点人员线索',
+        title: '发热病人',
         dataIndex: 'count8',
         key: 'count8',
         render: text => {
@@ -605,7 +613,7 @@ class SetupShow extends React.PureComponent {
                 {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.yxglXzNum}人</div>:''}
               </div>
               <div className={styles.globalCards1} style={{backgroundColor:'#8BC34A'}} onClick={this.showOpenDialogHandler.bind(this)}>
-                <div>居家隔离</div>
+                <div>集中隔离</div>
                 <div>{this.state.jjglNum}人</div>
                 {!this.state.isNoyesterday ?<div className={styles.borderTop}>较上日+{this.state.jjglXzNum}人</div>:''}
               </div>
@@ -737,9 +745,18 @@ class SetupShow extends React.PureComponent {
                     </Col>
                     <Col span={7} style={{textAlign:'right'}}></Col>
                     <Col span={17}>
-                      <Form.Item label="居家隔离">
+                      <Form.Item label="集中隔离">
                         {getFieldDecorator('jjgl'+idx, {
                           initialValue:this.state.listBar[idx] && this.state.listBar[idx].count5 ? this.state.listBar[idx].count5 : 0,
+                          rules: [{ required: true, message: '请输入人数' }],
+                        })(<Input placeholder="请输入人数" /> )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={7} style={{textAlign:'right'}}></Col>
+                    <Col span={17}>
+                      <Form.Item label="尚未集中隔离">
+                        {getFieldDecorator('swjjgl'+idx, {
+                          initialValue:this.state.listBar[idx] && this.state.listBar[idx].count10 ? this.state.listBar[idx].count10 : 0,
                           rules: [{ required: true, message: '请输入人数' }],
                         })(<Input placeholder="请输入人数" /> )}
                       </Form.Item>
@@ -764,7 +781,7 @@ class SetupShow extends React.PureComponent {
                     </Col>
                     <Col span={7} style={{textAlign:'right'}}></Col>
                     <Col span={17}>
-                      <Form.Item label="重点人员线索">
+                      <Form.Item label="发热病人">
                         {getFieldDecorator('zdryxs'+idx, {
                           initialValue:this.state.listBar[idx] && this.state.listBar[idx].count8 ? this.state.listBar[idx].count8 : 0,
                           rules: [{ required: true, message: '请输入' }],
